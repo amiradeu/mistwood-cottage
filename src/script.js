@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import ArrowsVertexShader from './shaders/Arrows/vertex.glsl'
+import ArrowsFragmentShader from './shaders/Arrows/fragment.glsl'
 
 /**
  * Base
@@ -9,6 +11,9 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+// Loaders
+const textureLoader = new THREE.TextureLoader()
 
 /**
  * Sizes
@@ -63,13 +68,54 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(sizes.pixelRatio)
 
 /**
- * Objects
+ * Particles
  */
-const object = new THREE.Mesh(
-    new THREE.BoxGeometry(2, 2, 2),
-    new THREE.MeshBasicMaterial({ color: 0xff3333 })
+const parameters = {}
+parameters.count = 1000
+
+// const particlesGeometry = new THREE.PlaneGeometry(10, 10, 64, 64)
+const particlesGeometry = new THREE.BufferGeometry()
+const count = 64
+const positions = new Float32Array(count * 3)
+// const colors = new Float32Array(count * 3)
+
+for (let i = 0; i < count; i++) {
+    const i3 = i * 3
+
+    positions[i3] = (Math.random() - 0.5) * 10
+    positions[i3 + 1] = (Math.random() - 0.5) * 10
+    positions[i3 + 2] = 0
+    // colors[i] = Math.random()
+}
+
+particlesGeometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(positions, 3)
 )
-scene.add(object)
+
+// particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+const particlesMaterial = new THREE.PointsMaterial({
+    size: 0.4,
+    sizeAttenuation: true,
+    color: '#fa01bc',
+    alphaMap: textureLoader.load('./arrow.png'),
+    transparent: true,
+})
+// const particlesMaterial = new THREE.ShaderMaterial({
+//     vertexShader: ArrowsVertexShader,
+//     fragmentShader: ArrowsFragmentShader,
+//     uniforms: {
+//         uResolution: new THREE.Uniform(
+//             new THREE.Vector2(
+//                 sizes.width * sizes.pixelRatio,
+//                 sizes.height * sizes.pixelRatio
+//             )
+//         ),
+//         uPictureTexture: new THREE.Uniform(textureLoader.load('./glow.png')),
+//     },
+// })
+const particles = new THREE.Points(particlesGeometry, particlesMaterial)
+scene.add(particles)
 
 /**
  * Animate

@@ -1,0 +1,33 @@
+{
+    "name": "threejs.amiradeuraseh.com",
+    "private": true,
+    "version": "1.0.0",
+    "description": "Relearning ThreeJS with a focus on unguided learning method.",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "deploy": "vercel --prod"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/amiradeu/threejs.amiradeuraseh.com.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/amiradeu/threejs.amiradeuraseh.com/issues"
+    },
+    "homepage": "https://github.com/amiradeu/threejs.amiradeuraseh.com#readme",
+    "dependencies": {
+        "lil-gui": "^0.19.2",
+        "three": "^0.164.1",
+        "vercel": "^34.2.0"
+    },
+    "devDependencies": {
+        "vite": "^5.2.11",
+        "vite-plugin-glsl": "^1.3.0",
+        "vite-plugin-restart": "^0.4.0"
+    }
+}

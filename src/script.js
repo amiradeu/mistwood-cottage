@@ -65,7 +65,7 @@ gui.add(ambientLight, 'intensity').min(0).max(10).step(0.1).name('Ambient')
 
 // Directional Light
 const directionalLight = new THREE.DirectionalLight('#ff0000', 1.8)
-directionalLight.position.set(4, 4, 4)
+directionalLight.position.set(1, 1, 1)
 scene.add(directionalLight)
 gui.add(directionalLight, 'intensity')
     .min(0)
@@ -74,7 +74,7 @@ gui.add(directionalLight, 'intensity')
     .name('Directional')
 
 const directionalLight2 = new THREE.DirectionalLight('#000dff', 1.8)
-directionalLight2.position.set(-4, -4, -4)
+directionalLight2.position.set(-1, -1, -1)
 scene.add(directionalLight2)
 gui.add(directionalLight2, 'intensity')
     .min(0)
@@ -106,7 +106,7 @@ const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     antialias: true,
 })
-renderer.setClearColor('#181818')
+renderer.setClearColor('#ffffff')
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(sizes.pixelRatio)
 
@@ -115,40 +115,45 @@ renderer.setPixelRatio(sizes.pixelRatio)
  */
 const parameters = {}
 parameters.balls = 1
-parameters.scale = 0.4
+parameters.scale = 1
 
 const balls = new THREE.Group()
 scene.add(balls)
 
-const ballGeometry = new THREE.SphereGeometry(1, 64, 64)
+const ballGeometry = new THREE.SphereGeometry(1, 256, 256)
+ballGeometry.setAttribute(
+    'uv2',
+    new THREE.BufferAttribute(ballGeometry.attributes.uv.array, 2)
+)
+
 const ballMaterial = new THREE.MeshStandardMaterial({
     color: '#fcfcfc',
-    transparent: true,
+    // transparent: true,
     side: THREE.DoubleSide,
 
-    metalness: 0.7,
-    roughness: 0.8,
+    metalness: 1,
+    roughness: 0.2,
 
     // color map
-    map: textureLoader.load('./metal/basecolor.jpg'),
+    map: textureLoader.load('./metal/02/basecolor.jpg'),
 
     // use the red channel
-    aoMap: textureLoader.load('./metal/ambientOcclusion.jpg'),
+    aoMap: textureLoader.load('./metal/02/ambientOcclusion.jpg'),
     aoMapIntensity: 1,
 
     // affect the vertices of mesh vertices
-    displacementMap: textureLoader.load('./metal/height.jpg'),
+    displacementMap: textureLoader.load('./metal/02/height.jpg'),
     displacementScale: 0.02,
 
-    metalnessMap: textureLoader.load('./metal/metallic.jpg'),
-    roughnessMap: textureLoader.load('./metal/roughness.jpg'),
+    metalnessMap: textureLoader.load('./metal/02/metallic.jpg'),
+    roughnessMap: textureLoader.load('./metal/02/roughness.jpg'),
 
     // change the way color is lit
-    normalMap: textureLoader.load('./metal/normal.jpg'),
+    normalMap: textureLoader.load('./metal/02/normal.jpg'),
     normalScale: new THREE.Vector2(0.5, 0.5),
 
     // grayscale texture: black transparent -> white opaque
-    alphaMap: textureLoader.load('./metal/opacity.jpg'),
+    alphaMap: textureLoader.load('./metal/02/opacity.jpg'),
 })
 
 const ball = new THREE.Mesh(ballGeometry, ballMaterial)
@@ -169,16 +174,15 @@ balls.add(ball)
  * Environment Map
  */
 const pmremGenerator = new THREE.PMREMGenerator(renderer)
-hdriLoader.load('./environment/autumn_field_1k.hdr', (texture) => {
-    console.log('success')
+hdriLoader.load('./environment/01.hdr', (texture) => {
+    // console.log('success')
     const envMap = pmremGenerator.fromEquirectangular(texture).texture
-    console.log(envMap)
+    // console.log(envMap)
     texture.dispose()
-    scene.environment = envMap
-    scene.environmentIntensity = 0.3
-    scene.background = envMap
-    // ball.material.envMap = envMap
-    // ball.material.envMapRotation = 0.2
+    // scene.environment = envMap
+    // scene.environmentIntensity = 0.4
+    // scene.background = envMap
+    ball.material.envMap = envMap
 })
 
 /**

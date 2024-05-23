@@ -92,7 +92,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     100
 )
-camera.position.set(0, 0, 4)
+camera.position.set(1, 2, 4)
 scene.add(camera)
 
 // Controls
@@ -115,12 +115,12 @@ renderer.setPixelRatio(sizes.pixelRatio)
  */
 const parameters = {}
 parameters.balls = 1
-parameters.scale = 1
+parameters.scale = 1.5
 
 const balls = new THREE.Group()
 scene.add(balls)
 
-const ballGeometry = new THREE.SphereGeometry(1, 256, 256)
+const ballGeometry = new THREE.BoxGeometry(1, 1, 1)
 ballGeometry.setAttribute(
     'uv2',
     new THREE.BufferAttribute(ballGeometry.attributes.uv.array, 2)
@@ -130,6 +130,7 @@ const ballMaterial = new THREE.MeshStandardMaterial({
     color: '#fcfcfc',
     // transparent: true,
     side: THREE.DoubleSide,
+    // wireframe: true,
 
     metalness: 1,
     roughness: 0.2,
@@ -143,7 +144,7 @@ const ballMaterial = new THREE.MeshStandardMaterial({
 
     // affect the vertices of mesh vertices
     displacementMap: textureLoader.load('./metal/02/height.jpg'),
-    displacementScale: 0.02,
+    displacementScale: 0.1,
 
     metalnessMap: textureLoader.load('./metal/02/metallic.jpg'),
     roughnessMap: textureLoader.load('./metal/02/roughness.jpg'),

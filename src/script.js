@@ -56,16 +56,30 @@ window.addEventListener('resize', () => {
 })
 
 /**
+ * Cursor
+ */
+const cursor = {
+    x: 0,
+    y: 0,
+}
+
+window.addEventListener('mousemove', (event) => {
+    cursor.x = event.clientX / sizes.width
+    cursor.y = event.clientY / sizes.height
+    // console.log(cursor.x, cursor.y)
+})
+
+/**
  * Lights
  */
 // Ambient Light
-const ambientLight = new THREE.AmbientLight('#ffffff', 2.4)
+const ambientLight = new THREE.AmbientLight('#ffffff', 0.2)
 scene.add(ambientLight)
 gui.add(ambientLight, 'intensity').min(0).max(10).step(0.1).name('Ambient')
 
 // Directional Light
 const directionalLight = new THREE.DirectionalLight('#ff0000', 1.8)
-directionalLight.position.set(1, 1, 1)
+directionalLight.position.set(1, 1, 0)
 scene.add(directionalLight)
 gui.add(directionalLight, 'intensity')
     .min(0)
@@ -74,7 +88,7 @@ gui.add(directionalLight, 'intensity')
     .name('Directional')
 
 const directionalLight2 = new THREE.DirectionalLight('#000dff', 1.8)
-directionalLight2.position.set(-1, -1, -1)
+directionalLight2.position.set(-1, -1, 0)
 scene.add(directionalLight2)
 gui.add(directionalLight2, 'intensity')
     .min(0)
@@ -92,7 +106,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     100
 )
-camera.position.set(1, 2, 4)
+camera.position.set(0, 0, 1)
 scene.add(camera)
 
 // Controls
@@ -106,7 +120,7 @@ const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     antialias: true,
 })
-renderer.setClearColor('#ffffff')
+renderer.setClearColor('#1e1e1e')
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(sizes.pixelRatio)
 
@@ -115,12 +129,9 @@ renderer.setPixelRatio(sizes.pixelRatio)
  */
 const parameters = {}
 parameters.balls = 1
-parameters.scale = 1.5
+parameters.scale = 0.2
 
-const balls = new THREE.Group()
-scene.add(balls)
-
-const ballGeometry = new THREE.BoxGeometry(1, 1, 1)
+const ballGeometry = new THREE.SphereGeometry(1, 64, 64)
 ballGeometry.setAttribute(
     'uv2',
     new THREE.BufferAttribute(ballGeometry.attributes.uv.array, 2)
@@ -135,6 +146,8 @@ const ballMaterial = new THREE.MeshStandardMaterial({
     metalness: 1,
     roughness: 0.2,
 
+    // map: textureLoader.load('./arrow.png'),
+
     // color map
     map: textureLoader.load('./metal/02/basecolor.jpg'),
 
@@ -144,7 +157,7 @@ const ballMaterial = new THREE.MeshStandardMaterial({
 
     // affect the vertices of mesh vertices
     displacementMap: textureLoader.load('./metal/02/height.jpg'),
-    displacementScale: 0.1,
+    displacementScale: 0.02,
 
     metalnessMap: textureLoader.load('./metal/02/metallic.jpg'),
     roughnessMap: textureLoader.load('./metal/02/roughness.jpg'),
@@ -157,9 +170,15 @@ const ballMaterial = new THREE.MeshStandardMaterial({
     alphaMap: textureLoader.load('./metal/02/opacity.jpg'),
 })
 
+// const ball = new THREE.Mesh(ballGeometry, ballMaterial)
+// ball.scale.set(parameters.scale, parameters.scale, parameters.scale)
+// scene.add(ball)
+const balls = []
+
 const ball = new THREE.Mesh(ballGeometry, ballMaterial)
 ball.scale.set(parameters.scale, parameters.scale, parameters.scale)
-balls.add(ball)
+balls.push(ball)
+scene.add(ball)
 
 // for (let i = -parameters.balls; i < parameters.balls; i++) {
 //     for (let j = -parameters.balls; j < parameters.balls; j++) {
@@ -167,7 +186,8 @@ balls.add(ball)
 //         ball.position.x = i
 //         ball.position.y = j
 //         ball.scale.set(parameters.scale, parameters.scale, parameters.scale)
-//         balls.add(ball)
+//         balls.push(ball)
+//         scene.add(ball)
 //     }
 // }
 
@@ -183,13 +203,25 @@ hdriLoader.load('./environment/01.hdr', (texture) => {
     // scene.environment = envMap
     // scene.environmentIntensity = 0.4
     // scene.background = envMap
-    ball.material.envMap = envMap
+    balls.forEach((ball) => {
+        ball.material.envMap = envMap
+    })
 })
 
 /**
  * Animate
  */
+const clock = new THREE.Clock()
+
 const tick = () => {
+    const elapsedTime = clock.getElapsedTime()
+
+    // Rotate object
+    balls.forEach((ball) => {
+        // ball.rotation.x = Math.PI * cursor.y * 1.0
+        // ball.rotation.y = Math.PI * cursor.x * 1.0
+    })
+
     // Update controls
     controls.update()
 

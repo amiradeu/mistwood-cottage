@@ -106,7 +106,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     100
 )
-camera.position.set(0, 0, 1)
+camera.position.set(0, 0, 0.8)
 scene.add(camera)
 
 // Controls
@@ -132,10 +132,49 @@ parameters.balls = 1
 parameters.scale = 0.2
 
 const ballGeometry = new THREE.SphereGeometry(1, 64, 64)
-ballGeometry.setAttribute(
-    'uv2',
-    new THREE.BufferAttribute(ballGeometry.attributes.uv.array, 2)
-)
+
+const colorTexture = textureLoader.load('./metal/02/basecolor.jpg')
+colorTexture.colorSpace = THREE.SRGBColorSpace
+colorTexture.wrapS = THREE.RepeatWrapping
+colorTexture.wrapT = THREE.RepeatWrapping
+colorTexture.repeat.x = 2
+colorTexture.repeat.y = 1
+
+const heightTexture = textureLoader.load('./metal/02/height.jpg')
+heightTexture.wrapS = THREE.RepeatWrapping
+heightTexture.wrapT = THREE.RepeatWrapping
+heightTexture.repeat.x = 2
+heightTexture.repeat.y = 1
+
+const aoTexture = textureLoader.load('./metal/02/ambientOcclusion.jpg')
+aoTexture.wrapS = THREE.RepeatWrapping
+aoTexture.wrapT = THREE.RepeatWrapping
+aoTexture.repeat.x = 2
+aoTexture.repeat.y = 1
+
+const metalnessTexture = textureLoader.load('./metal/02/metallic.jpg')
+metalnessTexture.wrapS = THREE.RepeatWrapping
+metalnessTexture.wrapT = THREE.RepeatWrapping
+metalnessTexture.repeat.x = 2
+metalnessTexture.repeat.y = 1
+
+const roughnessTexture = textureLoader.load('./metal/02/roughness.jpg')
+roughnessTexture.wrapS = THREE.RepeatWrapping
+roughnessTexture.wrapT = THREE.RepeatWrapping
+roughnessTexture.repeat.x = 2
+roughnessTexture.repeat.y = 1
+
+const normalTexture = textureLoader.load('./metal/02/normal.jpg')
+normalTexture.wrapS = THREE.RepeatWrapping
+normalTexture.wrapT = THREE.RepeatWrapping
+normalTexture.repeat.x = 2
+normalTexture.repeat.y = 1
+
+const alphaTexture = textureLoader.load('./metal/02/opacity.jpg')
+alphaTexture.wrapS = THREE.RepeatWrapping
+alphaTexture.wrapT = THREE.RepeatWrapping
+alphaTexture.repeat.x = 2
+alphaTexture.repeat.y = 1
 
 const ballMaterial = new THREE.MeshStandardMaterial({
     color: '#fcfcfc',
@@ -143,31 +182,29 @@ const ballMaterial = new THREE.MeshStandardMaterial({
     side: THREE.DoubleSide,
     // wireframe: true,
 
-    metalness: 1,
-    roughness: 0.2,
-
-    // map: textureLoader.load('./arrow.png'),
+    metalness: 1.0,
+    roughness: 1.0,
 
     // color map
-    map: textureLoader.load('./metal/02/basecolor.jpg'),
+    map: colorTexture,
 
     // use the red channel
-    aoMap: textureLoader.load('./metal/02/ambientOcclusion.jpg'),
+    aoMap: aoTexture,
     aoMapIntensity: 1,
 
     // affect the vertices of mesh vertices
-    displacementMap: textureLoader.load('./metal/02/height.jpg'),
+    displacementMap: heightTexture,
     displacementScale: 0.02,
 
-    metalnessMap: textureLoader.load('./metal/02/metallic.jpg'),
-    roughnessMap: textureLoader.load('./metal/02/roughness.jpg'),
+    metalnessMap: metalnessTexture,
+    roughnessMap: roughnessTexture,
 
     // change the way color is lit
-    normalMap: textureLoader.load('./metal/02/normal.jpg'),
+    normalMap: normalTexture,
     normalScale: new THREE.Vector2(0.5, 0.5),
 
     // grayscale texture: black transparent -> white opaque
-    alphaMap: textureLoader.load('./metal/02/opacity.jpg'),
+    alphaMap: alphaTexture,
 })
 
 // const ball = new THREE.Mesh(ballGeometry, ballMaterial)

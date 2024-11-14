@@ -1,6 +1,6 @@
 # Stylized Cottage
 
-An unfinished work of a stylized cottage. Sometimes, it's best to close up a long time project and move on 😓
+An unfinished work of a stylized cottage 🏡 Sometimes, it's better to close the chapter on a long-time project and move forward 😓 Still, grateful for what I learned along the way!
 
 <img src="demo/cottage.gif" >
 

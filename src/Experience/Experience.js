@@ -7,6 +7,7 @@ import World from './World/World.js'
 import Resources from './Utils/Resources.js'
 import sources from './sources.js'
 import Debug from './Utils/Debug.js'
+import Overlay from './Utils/Overlay.js'
 
 // Singleton
 let instance = null
@@ -32,10 +33,10 @@ export default class Experience {
         this.time = new Time()
         this.scene = new THREE.Scene()
         this.resources = new Resources(sources)
-        // this.camera = new Camera(this) // Method 2: From a parameter
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()
+        this.overlay = new Overlay()
 
         // Adding Listener to events
         // 💡 using arrow function to keep the context

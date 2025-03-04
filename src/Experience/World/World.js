@@ -8,6 +8,7 @@ export default class World {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
+        this.overlay = this.experience.overlay
 
         // Setup World
         this.resources.on('ready', () => {

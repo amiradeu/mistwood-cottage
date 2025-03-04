@@ -2,9 +2,11 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+import { gsap } from 'gsap'
 
 import EventEmitter from './EventEmitter.js'
 
+console.log(gsap)
 export default class Resources extends EventEmitter {
     constructor(sources) {
         super()
@@ -16,6 +18,10 @@ export default class Resources extends EventEmitter {
         this.items = {}
         this.toLoad = this.sources.length
         this.loaded = 0
+
+        // HTML Element
+        this.overlay = document.querySelector('.loading-overlay')
+        this.progressBar = document.querySelector('.loading-progress')
 
         this.setLoaders()
         this.startLoading()
@@ -65,10 +71,18 @@ export default class Resources extends EventEmitter {
         this.items[source.name] = file
 
         this.loaded++
+        this.updateProgress()
 
         if (this.loaded === this.toLoad) {
             // console.log('Resources ready')
             this.trigger('ready')
+
+            this.overlay.style.display = 'none'
         }
+    }
+
+    updateProgress() {
+        var progress = Math.floor((this.loaded / this.toLoad) * 100)
+        this.progressBar.innerHTML = `${progress}%`
     }
 }

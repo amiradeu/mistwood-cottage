@@ -2,12 +2,10 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
-import { gsap } from 'gsap'
 
 import EventEmitter from './EventEmitter.js'
 import Experience from '../Experience.js'
 
-console.log(gsap)
 export default class Resources extends EventEmitter {
     constructor(sources) {
         super()

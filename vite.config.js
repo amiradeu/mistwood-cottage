@@ -20,4 +20,11 @@ export default {
         restart({ restart: ['../static/**'] }), // Restart server on static file change
         glsl(), // Handle shader files
     ],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler',
+            },
+        },
+    },
 }

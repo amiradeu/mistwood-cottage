@@ -1,0 +1,77 @@
+@use 'fonts';
+@use 'reset';
+@use 'variables' as *;
+@use 'base' as *;
+@use 'webgl';
+
+/* OVERLAY */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: $color-background;
+    color: $color-text;
+
+    background-image: url('/textures/noise.png');
+}
+
+.overlay-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.max-width-wrapper {
+    position: relative;
+    max-width: min(100%, calc(1200px + 32px * 2));
+    margin-inline: auto;
+    padding-inline: 32px;
+
+    @include phoneAndSmaller {
+        padding-inline: 16px;
+    }
+}
+
+.title {
+    h1,
+    h2 {
+        text-align: center;
+        font-size: clamp(2.5rem, 4vw + 1rem, 4rem);
+    }
+
+    .intro {
+        margin-block-start: 24px;
+    }
+}
+
+.loader {
+    margin-block: 24px;
+
+    .loading-progress {
+        font-family: $family-sans-serif;
+        text-align: center;
+    }
+
+    .enter-button {
+        display: none;
+
+        &::after {
+            content: ' →';
+        }
+    }
+}
+.ready {
+    .loading-text,
+    .loading-progress {
+        display: none;
+    }
+
+    .enter-button {
+        display: block;
+    }
+}

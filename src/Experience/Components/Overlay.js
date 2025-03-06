@@ -10,6 +10,7 @@ export default class Overlay extends EventEmitter {
 
         this.experience = new Experience()
         this.resources = this.experience.resources
+        this.sizes = this.experience.sizes
 
         // Setup
         this.setInstance()
@@ -19,6 +20,9 @@ export default class Overlay extends EventEmitter {
         this.begin()
         this.resources.on('loading', () => this.update())
         this.resources.on('ready', () => this.ready())
+        this.sizes.on('resize', () => {
+            this.resize()
+        })
     }
 
     setInstance() {
@@ -28,8 +32,12 @@ export default class Overlay extends EventEmitter {
         this.headings = document.querySelector('.headings')
         this.intro = document.querySelector('.intro-split')
 
+        this.loadingText = document.querySelector('.loading-text')
         this.progressBar = document.querySelector('.loading-progress')
         this.enterButton = document.querySelector('.enter-button')
+
+        this.introWrapper = document.querySelector('.intro-wrapper')
+        this.previousContainerWidth = Math.floor(this.introWrapper.clientWidth)
     }
 
     setEventListeners() {
@@ -44,6 +52,13 @@ export default class Overlay extends EventEmitter {
         this.text = this.splitText.chars
 
         this.tlBegin = gsap.timeline()
+
+        // loaders
+        this.tlBegin.from([this.loadingText, this.progressBar], {
+            y: 50,
+            opacity: 0,
+            ease: 'power4.inOut',
+        })
 
         // headings
         this.tlBegin.fromTo(
@@ -62,6 +77,94 @@ export default class Overlay extends EventEmitter {
         )
 
         // intro
+        this.animateIntro()
+    }
+
+    ready() {
+        let tween = gsap.timeline()
+        tween.to([this.loadingText, this.progressBar], {
+            y: 50,
+            opacity: 0,
+            willChange: 'filter, transform',
+            filter: 'blur(12px)',
+            duration: 2,
+            display: 'none',
+            ease: 'power4.inOut',
+        })
+        tween.fromTo(
+            this.enterButton,
+            {
+                willChange: 'filter, transform',
+                filter: 'blur(12px)',
+            },
+            {
+                display: 'revert',
+                opacity: 1,
+                filter: 'blur(0px)',
+                duration: 1.5,
+                ease: 'power4.inOut',
+            }
+        )
+        this.overlay.classList.add('ready')
+    }
+
+    update() {
+        let progress = Math.floor(
+            (this.resources.loaded / this.resources.toLoad) * 100
+        )
+        this.progressBar.innerHTML = `${progress}%`
+    }
+
+    click() {
+        console.log('enter click')
+        this.tlEnd = gsap.timeline()
+
+        if (this.tlBegin && this.tlBegin.isActive()) {
+            this.tlBegin.invalidate().kill()
+            // this.tlBegin.progress(1.0)
+
+            this.tlEnd.to(this.text, {
+                ease: 'sine',
+                opacity: 1,
+                skewX: 0,
+                filter: 'blur(0px)',
+                duration: 3,
+                onComplete: () => {
+                    this.splitText.revert()
+                },
+            })
+        }
+
+        this.tlEnd.to(
+            this.overlay,
+            {
+                // opacity: 0,
+                borderRadius: '100%',
+            },
+            '<'
+        )
+    }
+
+    // re-split text if text container width changes
+    resize() {
+        const width = Math.floor(this.introWrapper.clientWidth)
+
+        if (
+            this.previousContainerWidth &&
+            this.previousContainerWidth !== width &&
+            this.tlBegin.progress() !== 1 // not yet ended
+        ) {
+            this.previousContainerWidth = width
+            console.log('progress', this.tlBegin.progress())
+            console.log('splitting')
+
+            this.splitText.split()
+            this.text = this.splitText.chars
+            this.animateIntro()
+        }
+    }
+
+    animateIntro() {
         this.tlBegin.fromTo(
             this.text,
             {
@@ -83,54 +186,5 @@ export default class Overlay extends EventEmitter {
             },
             '<1'
         )
-    }
-
-    ready() {
-        this.overlay.classList.add('ready')
-    }
-
-    update() {
-        let progress = Math.floor(
-            (this.resources.loaded / this.resources.toLoad) * 100
-        )
-        this.progressBar.innerHTML = `${progress}%`
-    }
-
-    click() {
-        console.log('enter click')
-        this.tlEnd = gsap.timeline()
-
-        if (this.tlBegin && this.tlBegin.isActive()) {
-            this.tlBegin.invalidate().kill()
-
-            this.tlEnd.to(this.text, {
-                ease: 'sine',
-                opacity: 1,
-                skewX: 0,
-                filter: 'blur(0px)',
-                duration: 1,
-                onComplete: () => {
-                    this.splitText.revert()
-                },
-            })
-        }
-
-        this.tlEnd.to(
-            this.overlay,
-            {
-                // opacity: 0,
-                borderRadius: '100%',
-            },
-            '<'
-        )
-    }
-
-    // re-split text if container width changes
-    resize() {
-        console.log('before resize', this.text)
-        this.splitText.split()
-        this.text = this.splitText.chars
-
-        console.log('after resize', this.text)
     }
 }

@@ -105,7 +105,6 @@ export default class Overlay extends EventEmitter {
                 ease: 'power4.inOut',
             }
         )
-        this.overlay.classList.add('ready')
     }
 
     update() {
@@ -119,8 +118,8 @@ export default class Overlay extends EventEmitter {
         console.log('enter click')
         this.tlEnd = gsap.timeline()
 
-        if (this.tlBegin && this.tlBegin.isActive()) {
-            this.tlBegin.invalidate().kill()
+        if (this.introTween && this.introTween.isActive()) {
+            this.introTween.invalidate().kill()
             // this.tlBegin.progress(1.0)
 
             this.tlEnd.to(this.text, {
@@ -152,20 +151,26 @@ export default class Overlay extends EventEmitter {
         if (
             this.previousContainerWidth &&
             this.previousContainerWidth !== width &&
-            this.tlBegin.progress() !== 1 // not yet ended
+            this.introTween.progress() !== 1 // not yet ended
         ) {
             this.previousContainerWidth = width
-            console.log('progress', this.tlBegin.progress())
-            console.log('splitting')
+            // console.log('progress', this.introTween.progress())
+            // console.log('splitting')
 
             this.splitText.split()
             this.text = this.splitText.chars
+
+            this.lastIntroTweenTime = this.introTween.totalTime()
+            // console.log('lastTime', this.lastIntroTweenTime)
+
+            this.introTween.kill()
             this.animateIntro()
         }
     }
 
     animateIntro() {
-        this.tlBegin.fromTo(
+        this.introTween = gsap.timeline()
+        this.introTween.fromTo(
             this.text,
             {
                 opacity: 0,
@@ -186,5 +191,9 @@ export default class Overlay extends EventEmitter {
             },
             '<1'
         )
+        // continue animation at time before resize
+        if (this.lastIntroTweenTime) {
+            this.introTween.totalTime(this.lastIntroTweenTime)
+        }
     }
 }

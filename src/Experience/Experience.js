@@ -7,7 +7,7 @@ import World from './World/World.js'
 import Resources from './Utils/Resources.js'
 import sources from './sources.js'
 import Debug from './Utils/Debug.js'
-import Overlay from './Utils/Overlay.js'
+import Overlay from './Components/Overlay.js'
 
 // Singleton
 let instance = null

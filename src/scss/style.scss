@@ -44,9 +44,38 @@
         font-size: clamp(2.5rem, 4vw + 1rem, 4rem);
     }
 
-    .intro {
-        margin-block-start: 24px;
+    h2 {
+        font-style: oblique 14deg;
+        font-variation-settings: 'slnt' -14;
     }
+
+    .intro-wrapper {
+        margin-block-start: 24px;
+        position: relative;
+
+        .line {
+            pointer-events: none;
+            user-select: none;
+        }
+    }
+}
+
+.visually-hidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+}
+
+.sr-only {
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
 }
 
 .loader {
@@ -59,12 +88,16 @@
 
     .enter-button {
         display: none;
+        font-weight: 700;
+        font-family: $family-sans-serif;
+        line-height: 1;
 
         &::after {
             content: ' →';
         }
     }
 }
+
 .ready {
     .loading-text,
     .loading-progress {

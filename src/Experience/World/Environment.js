@@ -14,7 +14,7 @@ export default class Environment {
         }
 
         // Setup
-        this.setFog()
+        // this.setFog()
         this.setEnvironmentMap()
     }
 

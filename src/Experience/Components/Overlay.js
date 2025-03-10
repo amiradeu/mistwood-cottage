@@ -137,7 +137,7 @@ export default class Overlay extends EventEmitter {
         this.tlEnd.to(
             this.overlay,
             {
-                // opacity: 0,
+                visibility: 'hidden',
                 borderRadius: '100%',
             },
             '<'

@@ -78,6 +78,6 @@ export default class Garden {
             item.material = this.poleLightMaterial
         })
 
-        this.scene.add(this.earthModel)
+        // this.scene.add(this.earthModel)
     }
 }

@@ -34,4 +34,14 @@ export default [
         type: 'rgbeTexture',
         path: 'textures/environmentMap/night.hdr',
     },
+    {
+        name: 'terrainModel',
+        type: 'gltfModel',
+        path: 'models/terrain/terrain.glb',
+    },
+    {
+        name: 'terrainTexture',
+        type: 'texture',
+        path: 'models/terrain/terrain.jpg',
+    },
 ]

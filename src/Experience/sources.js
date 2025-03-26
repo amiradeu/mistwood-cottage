@@ -32,7 +32,7 @@ export default [
     {
         name: 'environmentMapTexture',
         type: 'rgbeTexture',
-        path: 'textures/environmentMap/night.hdr',
+        path: 'textures/environmentMap/table_mountain_2_puresky.hdr',
     },
     {
         name: 'terrainModel',
@@ -42,6 +42,6 @@ export default [
     {
         name: 'terrainTexture',
         type: 'texture',
-        path: 'models/terrain/terrain.jpg',
+        path: 'models/terrain/terrain-sunset.jpg',
     },
 ]

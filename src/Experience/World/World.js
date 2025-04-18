@@ -3,6 +3,7 @@ import Cottage from './Cottage.js'
 import Garden from './Garden.js'
 import Environment from './Environment.js'
 import Terrain from './Terrain.js'
+import Room from './Room.js'
 
 export default class World {
     constructor() {
@@ -16,6 +17,7 @@ export default class World {
             // console.log('Resources Ready')
 
             this.cottage = new Cottage()
+            this.room = new Room()
             // this.garden = new Garden()
             this.environment = new Environment()
             // this.terrain = new Terrain()

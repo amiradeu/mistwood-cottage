@@ -44,11 +44,18 @@ export default class Cottage {
     setModel() {
         this.model = this.resources.items.cottageModel.scene
         this.model.scale.set(0.1, 0.1, 0.1)
+        this.model.position.set(0, -2, 0)
 
         // Apply baked texture
         this.model.traverse((child) => {
             child.material = this.cottageMaterial
         })
+
+        // Hide Left Side
+        this.leftSide = this.model.children.find(
+            (child) => child.name === 'LeftHide'
+        )
+        this.leftSide.visible = false
 
         // Roof Glass
         // this.roofGlass = this.model.children.find(

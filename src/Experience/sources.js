@@ -1,4 +1,5 @@
 export default [
+    // Cottage
     {
         name: 'cottageModel',
         type: 'gltfModel',
@@ -9,6 +10,29 @@ export default [
         type: 'texture',
         path: 'models/Cottage/cottageBaked.jpg',
     },
+    // Room
+    {
+        name: 'roomBigModel',
+        type: 'gltfModel',
+        path: 'models/Room/RoomBig.glb',
+    },
+    {
+        name: 'roomBigTexture',
+        type: 'texture',
+        path: 'models/Room/RoomBigBaked.jpg',
+    },
+    {
+        name: 'roomSmallModel',
+        type: 'gltfModel',
+        path: 'models/Room/RoomSmall.glb',
+    },
+    {
+        name: 'roomSmallTexture',
+        type: 'texture',
+        path: 'models/Room/RoomSmallBaked.jpg',
+    },
+
+    // Terrain
     {
         name: 'earthModel',
         type: 'gltfModel',

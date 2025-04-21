@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../Experience'
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
 
 export default class Cottage {
     constructor() {
@@ -17,6 +18,7 @@ export default class Cottage {
         this.setTextures()
         this.setMaterials()
         this.setModel()
+        // this.addHelpers()
     }
 
     setTextures() {
@@ -63,6 +65,18 @@ export default class Cottage {
         )
         // this.frontSide.visible = false
 
+        this.setEmissionMaterial()
+        this.setMirrorMaterial()
+
+        this.scene.add(this.model)
+
+        this.mirrors.forEach((item) => {
+            item.parent.remove(item)
+            this.scene.remove(item)
+        })
+    }
+
+    setEmissionMaterial() {
         // Window Light Emissions
         this.windows = []
         this.windows.push(
@@ -88,7 +102,65 @@ export default class Cottage {
         this.poleLamps.forEach((item) => {
             item.material = this.poleLightMaterial
         })
+    }
 
-        this.scene.add(this.model)
+    setMirrorMaterial() {
+        // Reflective Mirrors
+        this.mirrors = []
+        this.mirrors.push(
+            this.model.children.find(
+                (child) => child.name === 'windowreflection002'
+            ),
+            this.model.children.find(
+                (child) => child.name === 'windowreflection003'
+            )
+        )
+
+        // 💡 Get correct child position when parent model is scaled
+        const worldPos = new THREE.Vector3()
+
+        // Update meshes to
+        this.mirrors.forEach((item) => {
+            item.getWorldPosition(worldPos)
+            // console.log('position', worldPos)
+
+            // 💡 geometry need a default forward vector (0,0,1) for Reflector to work
+            item.geometry.rotateZ(Math.PI)
+            item.geometry.rotateX(Math.PI * 0.5)
+
+            // Glass
+            const glass = new Reflector(item.geometry, {
+                color: 0xcbcbcb,
+                textureWidth: this.sizes.width * this.sizes.pixelRatio,
+                textureHeight: this.sizes.height * this.sizes.pixelRatio,
+            })
+            glass.rotation.x = Math.PI
+            glass.rotation.z = Math.PI
+            glass.scale.copy(this.model.scale)
+            glass.position.copy(worldPos)
+
+            //💡 Prevent z-fighting from placing at same position
+            const offset = 0.001
+            glass.position.add(
+                glass
+                    .getWorldDirection(new THREE.Vector3())
+                    .multiplyScalar(offset)
+            )
+            this.scene.add(glass)
+        })
+    }
+
+    addHelpers() {
+        // Axes Helper
+        this.axesHelper = new THREE.AxesHelper(10)
+        this.scene.add(this.axesHelper)
+
+        // Test Cube
+        this.cube = new THREE.Mesh(
+            new THREE.BoxGeometry(1, 1, 1),
+            this.poleLightMaterial
+        )
+        this.cube.position.set(0, 0, 2)
+        this.scene.add(this.cube)
     }
 }

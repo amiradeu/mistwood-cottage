@@ -53,7 +53,7 @@ export default class Room {
         this.model.traverse((child) => {
             child.material = this.materials.roomBigMaterial
         })
-        // Emissions
+        // Emissions Room Big
         this.emissions = []
         this.emissions.push(
             this.model.children.find((child) => child.name === 'roomemission')
@@ -69,7 +69,7 @@ export default class Room {
         this.model.traverse((child) => {
             child.material = this.materials.roomSmallMaterial
         })
-        // Emissions
+        // Emissions Room Small
         this.emissions = []
         this.emissions.push(
             this.model.children.find((child) => child.name === 'bulbemission'),
@@ -91,9 +91,7 @@ export default class Room {
             this.model.children.find(
                 (child) => child.name === 'bulbemission006'
             ),
-            this.model.children.find(
-                (child) => child.name === 'bulbemission007'
-            ),
+            this.model.children.find((child) => child.name === 'bedemission'),
             this.model.children.find(
                 (child) => child.name === 'bedsideemission'
             ),

@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import Experience from '../Experience'
-// import { Refractor } from 'three/examples/jsm/objects/Refractor.js'
 
 export default class Cottage {
     constructor() {
@@ -8,6 +7,7 @@ export default class Cottage {
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.debug = this.experience.debug
+        this.sizes = this.experience.sizes
 
         // Debug
         if (this.debug.active) {
@@ -53,44 +53,41 @@ export default class Cottage {
 
         // Hide Left Side
         this.leftSide = this.model.children.find(
-            (child) => child.name === 'LeftHide'
+            (child) => child.name === 'CottageLeftMerged'
         )
         this.leftSide.visible = false
 
-        // Roof Glass
-        // this.roofGlass = this.model.children.find(
-        //     (child) => child.name === 'roofwindowglass'
-        // )
-        // this.glass = new Refractor(this.roofGlass.geometry, {
-        //     color: 0xcbcbcb,
-        // })
-        // this.scene.add(this.roofGlass)
+        // Hide Front Side
+        this.frontSide = this.model.children.find(
+            (child) => child.name === 'CottageFrontMerged'
+        )
+        // this.frontSide.visible = false
 
         // Window Light Emissions
-        // this.windows = []
-        // this.windows.push(
-        //     this.model.children.find(
-        //         (child) => child.name === 'windowemission002'
-        //     ),
-        //     this.model.children.find(
-        //         (child) => child.name === 'windowemission003'
-        //     )
-        // )
-        // this.windows.forEach((item) => {
-        //     item.material = this.windowLightMaterial
-        // })
+        this.windows = []
+        this.windows.push(
+            this.model.children.find(
+                (child) => child.name === 'windowemission002'
+            ),
+            this.model.children.find(
+                (child) => child.name === 'windowemission003'
+            )
+        )
+        this.windows.forEach((item) => {
+            item.material = this.windowLightMaterial
+        })
 
         // Door Light Emissions
-        // this.poleLamps = []
-        // this.poleLamps.push(
-        //     this.model.children.find((child) => child.name === 'dooremission'),
-        //     this.model.children.find(
-        //         (child) => child.name === 'dooremission002'
-        //     )
-        // )
-        // this.poleLamps.forEach((item) => {
-        //     item.material = this.poleLightMaterial
-        // })
+        this.poleLamps = []
+        this.poleLamps.push(
+            this.model.children.find((child) => child.name === 'dooremission'),
+            this.model.children.find(
+                (child) => child.name === 'dooremission001'
+            )
+        )
+        this.poleLamps.forEach((item) => {
+            item.material = this.poleLightMaterial
+        })
 
         this.scene.add(this.model)
     }

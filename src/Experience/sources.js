@@ -68,4 +68,11 @@ export default [
         type: 'texture',
         path: 'models/terrain/terrain-sunset.jpg',
     },
+
+    // Textures
+    {
+        name: 'glassTexture',
+        type: 'texture',
+        path: 'textures/glass/glass_block_normal.jpg',
+    },
 ]

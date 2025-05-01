@@ -49,7 +49,8 @@ export default class Resources extends EventEmitter {
                     },
                     () => {},
                     (error) => {
-                        // console.log('error gltf', error)
+                        console.log('error gltf')
+                        console.log(error)
                     }
                 )
             } else if (source.type === 'texture') {
@@ -61,7 +62,7 @@ export default class Resources extends EventEmitter {
                     },
                     () => {},
                     (error) => {
-                        // console.log('error texture', error)
+                        console.log('error texture', error)
                     }
                 )
             } else if (source.type === 'cubeTexture') {

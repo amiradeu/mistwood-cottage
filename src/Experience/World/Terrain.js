@@ -13,26 +13,29 @@ export default class Terrain {
             this.debugFolder = this.debug.ui.addFolder('Terrain')
         }
 
+        // Setup
         this.setTextures()
         this.setMaterials()
         this.setModel()
     }
 
     setTextures() {
-        this.texture = this.resources.items.terrainTexture
-        this.texture.flipY = false
-        this.texture.colorSpace = THREE.SRGBColorSpace
+        this.texture = {}
+        this.texture.daylight = this.resources.items.landTextureDaylight
+        this.texture.daylight.flipY = false
+        this.texture.daylight.colorSpace = THREE.SRGBColorSpace
     }
 
     setMaterials() {
         this.material = new THREE.MeshBasicMaterial({
-            map: this.texture,
+            map: this.texture.daylight,
         })
     }
 
     setModel() {
-        this.model = this.resources.items.terrainModel.scene
+        this.model = this.resources.items.landModel.scene
         this.model.scale.set(0.1, 0.1, 0.1)
+        this.model.position.set(0, -2, 0)
 
         this.model.traverse((child) => {
             child.material = this.material

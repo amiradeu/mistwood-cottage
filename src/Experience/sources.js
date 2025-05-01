@@ -1,16 +1,4 @@
 export default [
-    // Cottage
-    {
-        name: 'cottageModel',
-        type: 'gltfModel',
-        path: 'models/Cottage/cottage.glb',
-    },
-    {
-        name: 'cottageTexture',
-        type: 'texture',
-        path: 'models/Cottage/cottageBaked.jpg',
-    },
-
     // Room
     {
         name: 'roomBigModel',
@@ -33,41 +21,16 @@ export default [
         path: 'models/Room/RoomSmallBaked.jpg',
     },
 
-    // Terrain
+    // Cottage
     {
-        name: 'earthModel',
+        name: 'cottageModel',
         type: 'gltfModel',
-        path: 'models/Cottage/earth.glb',
+        path: 'models/Cottage/cottage.glb',
     },
     {
-        name: 'earthTexture',
+        name: 'cottageTexture',
         type: 'texture',
-        path: 'models/Cottage/earthBaked.jpg',
-    },
-    {
-        name: 'gardenModel',
-        type: 'gltfModel',
-        path: 'models/Cottage/garden.glb',
-    },
-    {
-        name: 'gardenTexture',
-        type: 'texture',
-        path: 'models/Cottage/gardenBaked.jpg',
-    },
-    {
-        name: 'environmentMapTexture',
-        type: 'rgbeTexture',
-        path: 'textures/environmentMap/table_mountain_2_puresky.hdr',
-    },
-    {
-        name: 'terrainModel',
-        type: 'gltfModel',
-        path: 'models/terrain/terrain.glb',
-    },
-    {
-        name: 'terrainTexture',
-        type: 'texture',
-        path: 'models/terrain/terrain-sunset.jpg',
+        path: 'models/Cottage/cottageBaked.jpg',
     },
 
     // Environment
@@ -82,10 +45,27 @@ export default [
         path: 'models/Environment/EnvironmentBakedDaylight.jpg',
     },
 
+    // Terrain
+    {
+        name: 'landModel',
+        type: 'gltfModel',
+        path: 'models/Terrain/Land.glb',
+    },
+    {
+        name: 'landTextureDaylight',
+        type: 'texture',
+        path: 'models/Terrain/LandBakedDaylight.jpg',
+    },
+
     // Textures
     {
         name: 'glassTexture',
         type: 'texture',
         path: 'textures/glass/glass_block_normal.jpg',
+    },
+    {
+        name: 'environmentMapTexture',
+        type: 'rgbeTexture',
+        path: 'textures/environmentMap/table_mountain_2_puresky.hdr',
     },
 ]

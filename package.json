@@ -13,6 +13,7 @@
         "gsap": "3.12",
         "lil-gui": "^0.19.2",
         "split-type": "^0.3.4",
+        "stats-gl": "^3.6.0",
         "three": "^0.166.1"
     },
     "devDependencies": {

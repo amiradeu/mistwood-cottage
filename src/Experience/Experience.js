@@ -7,6 +7,7 @@ import World from './World/World.js'
 import Resources from './Utils/Resources.js'
 import sources from './sources.js'
 import Debug from './Utils/Debug.js'
+import Statistics from './Utils/Statistics.js'
 import Overlay from './Components/Overlay.js'
 
 // Singleton
@@ -35,6 +36,7 @@ export default class Experience {
         this.resources = new Resources(sources)
         this.camera = new Camera()
         this.renderer = new Renderer()
+        this.stats = new Statistics()
         this.world = new World()
         this.overlay = new Overlay()
 
@@ -60,6 +62,7 @@ export default class Experience {
         this.camera.update()
         this.world.update()
         this.renderer.update()
+        this.stats.update()
     }
 
     destroy() {

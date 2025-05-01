@@ -41,15 +41,29 @@ export default class Resources extends EventEmitter {
         // Loop each source
         for (const source of this.sources) {
             if (source.type === 'gltfModel') {
-                this.loaders.gltfLoader.load(source.path, (file) => {
-                    // console.log(source, file)
-                    this.sourceLoaded(source, file)
-                })
+                this.loaders.gltfLoader.load(
+                    source.path,
+                    (file) => {
+                        // console.log(source, file)
+                        this.sourceLoaded(source, file)
+                    },
+                    () => {},
+                    (error) => {
+                        // console.log('error gltf', error)
+                    }
+                )
             } else if (source.type === 'texture') {
-                this.loaders.textureLoader.load(source.path, (file) => {
-                    // console.log(source, file)
-                    this.sourceLoaded(source, file)
-                })
+                this.loaders.textureLoader.load(
+                    source.path,
+                    (file) => {
+                        // console.log(source, file)
+                        this.sourceLoaded(source, file)
+                    },
+                    () => {},
+                    (error) => {
+                        // console.log('error texture', error)
+                    }
+                )
             } else if (source.type === 'cubeTexture') {
                 this.loaders.cubeTextureLoader.load(source.path, (file) => {
                     // console.log(source, file)

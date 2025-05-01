@@ -16,6 +16,54 @@ export default class Environment {
         // Setup
         // this.setFog()
         this.setEnvironmentMap()
+        this.setTextures()
+        this.setMaterials()
+        this.setModel()
+    }
+
+    setTextures() {
+        this.textures = []
+
+        this.textures.daylight = this.resources.items.environmentTextureDaylight
+        this.textures.daylight.flipY = false
+        this.textures.daylight.colorSpace = THREE.SRGBColorSpace
+    }
+
+    setMaterials() {
+        this.materials = []
+
+        this.materials.daylight = new THREE.MeshBasicMaterial({
+            map: this.textures.daylight,
+        })
+
+        this.materials.wellEmission = new THREE.MeshBasicMaterial({
+            color: '#9110d2',
+        })
+
+        this.materials.streetEmissions = new THREE.MeshBasicMaterial({
+            color: '#f27527',
+        })
+    }
+
+    setModel() {
+        this.model = this.resources.items.environmentModel.scene
+        this.model.scale.set(0.1, 0.1, 0.1)
+        this.model.position.set(0, -2, 0)
+        this.model.traverse((child) => {
+            child.material = this.materials.daylight
+        })
+
+        // Well
+        this.model.children.find(
+            (child) => child.name === 'wellemission'
+        ).material = this.materials.wellEmission
+
+        // Street Lamps - during night
+        // this.model.children.find(
+        //     (child) => child.name === 'streetemissions'
+        // ).material = this.materials.streetEmissions
+
+        this.scene.add(this.model)
     }
 
     setFog() {

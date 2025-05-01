@@ -10,6 +10,7 @@ export default [
         type: 'texture',
         path: 'models/Cottage/cottageBaked.jpg',
     },
+
     // Room
     {
         name: 'roomBigModel',
@@ -67,6 +68,18 @@ export default [
         name: 'terrainTexture',
         type: 'texture',
         path: 'models/terrain/terrain-sunset.jpg',
+    },
+
+    // Environment
+    {
+        name: 'environmentModel',
+        type: 'gltfModel',
+        path: 'models/Environment/Environment.glb',
+    },
+    {
+        name: 'environmentTextureDaylight',
+        type: 'texture',
+        path: 'models/Environment/EnvironmentBakedDaylight.jpg',
     },
 
     // Textures

@@ -56,6 +56,16 @@ export default [
         type: 'texture',
         path: 'models/Terrain/LandBakedDaylight.jpg',
     },
+    {
+        name: 'mountainModel',
+        type: 'gltfModel',
+        path: 'models/Terrain/Mountain.glb',
+    },
+    {
+        name: 'mountainTextureDaylight',
+        type: 'texture',
+        path: 'models/Terrain/MountainBakedDaylight.jpg',
+    },
 
     // Textures
     {

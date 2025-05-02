@@ -115,7 +115,7 @@ export default class Overlay extends EventEmitter {
     }
 
     click() {
-        console.log('enter click')
+        // console.log('enter click')
         this.tlEnd = gsap.timeline()
 
         if (this.introTween && this.introTween.isActive()) {

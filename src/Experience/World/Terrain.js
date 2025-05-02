@@ -21,25 +21,45 @@ export default class Terrain {
 
     setTextures() {
         this.texture = {}
-        this.texture.daylight = this.resources.items.landTextureDaylight
-        this.texture.daylight.flipY = false
-        this.texture.daylight.colorSpace = THREE.SRGBColorSpace
+
+        this.texture.land = this.resources.items.landTextureDaylight
+        this.texture.land.flipY = false
+        this.texture.land.colorSpace = THREE.SRGBColorSpace
+
+        this.texture.mountain = this.resources.items.mountainTextureDaylight
+        this.texture.mountain.flipY = false
+        this.texture.mountain.colorSpace = THREE.SRGBColorSpace
     }
 
     setMaterials() {
-        this.material = new THREE.MeshBasicMaterial({
-            map: this.texture.daylight,
+        this.material = {}
+
+        this.material.land = new THREE.MeshBasicMaterial({
+            map: this.texture.land,
+        })
+
+        this.material.mountain = new THREE.MeshBasicMaterial({
+            map: this.texture.mountain,
         })
     }
 
     setModel() {
-        this.model = this.resources.items.landModel.scene
-        this.model.scale.set(0.1, 0.1, 0.1)
-        this.model.position.set(0, -2, 0)
+        this.land = this.resources.items.landModel.scene
+        this.land.scale.set(0.1, 0.1, 0.1)
+        this.land.position.set(0, -2, 0)
 
-        this.model.traverse((child) => {
-            child.material = this.material
+        this.land.traverse((child) => {
+            child.material = this.material.land
         })
-        this.scene.add(this.model)
+        this.scene.add(this.land)
+
+        this.mountain = this.resources.items.mountainModel.scene
+        this.mountain.scale.set(0.1, 0.1, 0.1)
+        this.mountain.position.set(0, -2, 0)
+
+        this.mountain.traverse((child) => {
+            child.material = this.material.mountain
+        })
+        this.scene.add(this.mountain)
     }
 }

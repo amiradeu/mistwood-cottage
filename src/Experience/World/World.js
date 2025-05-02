@@ -16,7 +16,7 @@ export default class World {
             // console.log('Resources Ready')
 
             this.room = new Room()
-            // this.cottage = new Cottage()
+            this.cottage = new Cottage()
             this.environment = new Environment()
             this.terrain = new Terrain()
         })

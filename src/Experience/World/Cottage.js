@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
 import { Refractor } from 'three/examples/jsm/objects/Refractor.js'
 
 import Experience from '../Experience'
@@ -30,6 +29,10 @@ export default class Cottage {
         this.textures.cottage = this.resources.items.cottageTexture
         this.textures.cottage.flipY = false
         this.textures.cottage.colorSpace = THREE.SRGBColorSpace
+
+        this.textures.glass = this.resources.items.glassTexture
+        this.textures.glass.wrapS = THREE.RepeatWrapping
+        this.textures.glass.wrapT = THREE.RepeatWrapping
     }
 
     setMaterials() {
@@ -37,11 +40,7 @@ export default class Cottage {
             map: this.textures.cottage,
         })
 
-        this.windowLightMaterial = new THREE.MeshBasicMaterial({
-            color: 0xfefee4,
-        })
-
-        this.poleLightMaterial = new THREE.MeshBasicMaterial({
+        this.emissionMaterial = new THREE.MeshBasicMaterial({
             color: 0xfeee89,
         })
     }
@@ -60,173 +59,122 @@ export default class Cottage {
         this.leftSide = this.model.children.find(
             (child) => child.name === 'CottageLeftMerged'
         )
-        this.leftSide.visible = false
+        // this.leftSide.visible = false
 
         // Hide Front Side
         this.frontSide = this.model.children.find(
             (child) => child.name === 'CottageFrontMerged'
         )
-        // this.frontSide.visible = false
+        this.frontSide.visible = false
 
         // Set Custom Materials
         this.setEmissionMaterial()
-        this.setMirrorMaterial()
-        this.setRoofMaterial()
+
+        const roof1 = this.model.children.find(
+            (child) => child.name === 'roofglass'
+        )
+        const window = this.model.children.find(
+            (child) => child.name === 'window'
+        )
+
+        this.setGlassMaterial(roof1)
 
         this.scene.add(this.model)
 
-        this.mirrors.forEach((item) => {
-            item.parent.remove(item)
-            this.scene.remove(item)
-        })
-        this.roof.parent.remove(this.roof)
-        this.scene.remove(this.roof)
+        // Delete Unused Meshes
+        roof1.parent.remove(roof1)
+        window.parent.remove(window)
     }
 
     setEmissionMaterial() {
-        // Window Light Emissions
-        this.windows = []
-        this.windows.push(
-            this.model.children.find(
-                (child) => child.name === 'windowemission002'
-            ),
-            this.model.children.find(
-                (child) => child.name === 'windowemission003'
-            )
-        )
-        this.windows.forEach((item) => {
-            item.material = this.windowLightMaterial
-        })
-
-        // Door Light Emissions
-        this.poleLamps = []
-        this.poleLamps.push(
-            this.model.children.find((child) => child.name === 'dooremission'),
-            this.model.children.find(
-                (child) => child.name === 'dooremission001'
-            )
-        )
-        this.poleLamps.forEach((item) => {
-            item.material = this.poleLightMaterial
-        })
+        // Emissions
+        this.model.children.find(
+            (child) => child.name === 'cottageemissions'
+        ).material = this.emissionMaterial
     }
 
-    setMirrorMaterial() {
-        // Reflective Mirrors
-        this.mirrors = []
-        this.mirrors.push(
-            this.model.children.find(
-                (child) => child.name === 'windowreflection002'
-            ),
-            this.model.children.find(
-                (child) => child.name === 'windowreflection003'
-            )
-        )
-
-        // 💡 Get correct child position when parent model is scaled
-        const worldPos = new THREE.Vector3()
-
-        // Update meshes to
-        this.mirrors.forEach((item) => {
-            item.getWorldPosition(worldPos)
-            // console.log('position', worldPos)
-
-            // 💡 geometry need a default forward vector (0,0,1) for Reflector to work
-            item.geometry.rotateZ(Math.PI)
-            item.geometry.rotateX(Math.PI * 0.5)
-
-            // Glass
-            const glass = new Reflector(item.geometry, {
-                color: 0xcbcbcb,
-                textureWidth: this.sizes.width * this.sizes.pixelRatio,
-                textureHeight: this.sizes.height * this.sizes.pixelRatio,
-            })
-            glass.rotation.x = Math.PI
-            glass.rotation.z = Math.PI
-            glass.scale.copy(this.model.scale)
-            glass.position.copy(worldPos)
-
-            //💡 Prevent z-fighting from placing at same position
-            const offset = 0.001
-            glass.position.add(
-                glass
-                    .getWorldDirection(new THREE.Vector3())
-                    .multiplyScalar(offset)
-            )
-            this.scene.add(glass)
-        })
-    }
-
-    setRoofMaterial() {
-        this.textures.glass = this.resources.items.glassTexture
-        this.textures.glass.wrapS = THREE.RepeatWrapping
-        this.textures.glass.wrapT = THREE.RepeatWrapping
+    setGlassMaterial(mesh) {
+        const uniforms = {
+            color: { value: null },
+            time: { value: 0 },
+            tDiffuse: { value: null },
+            tDudv: { value: this.textures.glass },
+            textureMatrix: { value: null },
+            strength: { value: 0.5 },
+            repeatScale: { value: 2 },
+        }
 
         const glassShader = new THREE.ShaderMaterial({
             vertexShader: glassRefractionVertexShader,
             fragmentShader: glassRefractionFragmentShader,
-            uniforms: {
-                color: { value: null },
-                time: { value: 0 },
-                tDiffuse: { value: null },
-                tDudv: { value: null },
-                textureMatrix: { value: null },
-                strength: { value: 0.5 },
-                repeatScale: { value: 8 },
-            },
+            uniforms: uniforms,
         })
 
-        this.roof = this.model.children.find(
-            (child) => child.name === 'roofwindowglass002'
-        )
-
-        // 💡 Get correct child position when parent model is scaled
+        // Extract world transform
+        // 💡 correct child position when parent model is scaled
         const worldPos = new THREE.Vector3()
-        this.roof.getWorldPosition(worldPos)
-        // console.log('position', worldPos)
         const worldQuat = new THREE.Quaternion()
-        this.roof.getWorldQuaternion(worldQuat)
         const worldScale = new THREE.Vector3()
-        this.roof.getWorldScale(worldScale)
+        mesh.getWorldPosition(worldPos)
+        mesh.getWorldQuaternion(worldQuat)
+        mesh.getWorldScale(worldScale)
 
         // 💡 geometry need a default forward vector (0,0,1) for Reflector to work
-        this.roof.geometry.rotateX(Math.PI * 0.5)
+        mesh.geometry.rotateX(Math.PI * 0.5)
 
-        // Glass
-        const glass = new Refractor(this.roof.geometry, {
-            color: '#d6ebfd',
-            textureWidth: this.sizes.width * this.sizes.pixelRatio,
-            textureHeight: this.sizes.height * this.sizes.pixelRatio,
-            shader: glassShader,
-        })
-
-        glass.material.uniforms.tDudv.value = this.textures.glass
-
-        glass.quaternion.copy(worldQuat)
-        const extraZ = new THREE.Quaternion()
-        extraZ.setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2) // 90 degrees in radians
-        glass.quaternion.multiply(extraZ)
-        glass.scale.copy(worldScale)
-        glass.position.copy(worldPos)
-
-        //💡 Prevent z-fighting from placing at same position
         const offset = 0.001
-        glass.position.add(
-            glass.getWorldDirection(new THREE.Vector3()).multiplyScalar(offset)
-        )
 
-        this.scene.add(glass)
+        const createGlass = (isBack = false) => {
+            const refractor = new Refractor(mesh.geometry, {
+                color: '#d6ebfd',
+                textureWidth: this.sizes.width * this.sizes.pixelRatio,
+                textureHeight: this.sizes.height * this.sizes.pixelRatio,
+                shader: glassShader,
+            })
+
+            // Apply transform
+            const finalQuat = worldQuat.clone()
+            finalQuat.multiply(
+                new THREE.Quaternion().setFromAxisAngle(
+                    new THREE.Vector3(1, 0, 0),
+                    -Math.PI / 2
+                )
+            )
+            if (isBack) {
+                finalQuat.multiply(
+                    new THREE.Quaternion().setFromAxisAngle(
+                        new THREE.Vector3(0, 1, 0),
+                        Math.PI
+                    )
+                )
+            }
+
+            refractor.quaternion.copy(finalQuat)
+            refractor.scale.copy(worldScale)
+            refractor.position.copy(worldPos)
+            refractor.position.add(
+                refractor
+                    .getWorldDirection(new THREE.Vector3())
+                    .multiplyScalar(offset)
+            )
+
+            this.scene.add(refractor)
+            return refractor
+        }
+
+        const glassFront = createGlass(false)
+        const glassBack = createGlass(true)
 
         if (this.debug.active) {
             this.debugFolder
-                .add(glass.material.uniforms.strength, 'value')
+                .add(uniforms.strength, 'value')
                 .min(0)
                 .max(10)
                 .step(0.01)
                 .name('waveStrength')
 
             this.debugFolder
-                .add(glass.material.uniforms.repeatScale, 'value')
+                .add(uniforms.repeatScale, 'value')
                 .min(0)
                 .max(10)
                 .step(1)
@@ -242,7 +190,7 @@ export default class Cottage {
         // Test Cube
         this.cube = new THREE.Mesh(
             new THREE.BoxGeometry(1, 1, 1),
-            this.poleLightMaterial
+            this.emissionMaterial
         )
         this.cube.position.set(0, 0, 2)
         this.scene.add(this.cube)

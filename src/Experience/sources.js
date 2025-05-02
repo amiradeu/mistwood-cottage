@@ -25,12 +25,12 @@ export default [
     {
         name: 'cottageModel',
         type: 'gltfModel',
-        path: 'models/Cottage/cottage.glb',
+        path: 'models/Cottage/MoonlitCottage.glb',
     },
     {
         name: 'cottageTexture',
         type: 'texture',
-        path: 'models/Cottage/cottageBaked.jpg',
+        path: 'models/Cottage/MoonlitCottageBaked.jpg',
     },
 
     // Environment

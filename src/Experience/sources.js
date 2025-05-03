@@ -8,7 +8,7 @@ export default [
     {
         name: 'roomBigTextureDaylight',
         type: 'texture',
-        path: 'models/Room/RoomBigBaked-Daylight.jpg',
+        path: 'models/Room/RoomBig-daylight.jpg',
     },
     {
         name: 'roomSmallModel',
@@ -18,7 +18,7 @@ export default [
     {
         name: 'roomSmallTextureDaylight',
         type: 'texture',
-        path: 'models/Room/RoomSmallBaked-Daylight.jpg',
+        path: 'models/Room/RoomSmall-daylight.jpg',
     },
 
     // Cottage
@@ -42,7 +42,7 @@ export default [
     {
         name: 'environmentTextureDaylight',
         type: 'texture',
-        path: 'models/Environment/EnvironmentBakedDaylight.jpg',
+        path: 'models/Environment/Environment-daylight.jpg',
     },
 
     // Terrain
@@ -54,7 +54,7 @@ export default [
     {
         name: 'landTextureDaylight',
         type: 'texture',
-        path: 'models/Terrain/LandBakedDaylight.jpg',
+        path: 'models/Terrain/Land-daylight.jpg',
     },
     {
         name: 'mountainModel',
@@ -64,7 +64,7 @@ export default [
     {
         name: 'mountainTextureDaylight',
         type: 'texture',
-        path: 'models/Terrain/MountainBakedDaylight.jpg',
+        path: 'models/Terrain/Mountain-daylight.jpg',
     },
 
     // Textures

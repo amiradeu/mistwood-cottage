@@ -19,26 +19,28 @@ export default class Room {
     }
 
     setTextures() {
-        this.textures = []
+        this.textures = {}
 
-        this.textures.roomBigTexture = this.resources.items.roomBigTexture
-        this.textures.roomBigTexture.flipY = false
-        this.textures.roomBigTexture.colorSpace = THREE.SRGBColorSpace
+        this.textures.bigDaylightTexture =
+            this.resources.items.roomBigTextureDaylight
+        this.textures.bigDaylightTexture.flipY = false
+        this.textures.bigDaylightTexture.colorSpace = THREE.SRGBColorSpace
 
-        this.textures.roomSmallTexture = this.resources.items.roomSmallTexture
-        this.textures.roomSmallTexture.flipY = false
-        this.textures.roomSmallTexture.colorSpace = THREE.SRGBColorSpace
+        this.textures.smallDaylightTexture =
+            this.resources.items.roomSmallTextureDaylight
+        this.textures.smallDaylightTexture.flipY = false
+        this.textures.smallDaylightTexture.colorSpace = THREE.SRGBColorSpace
     }
 
     setMaterials() {
-        this.materials = []
+        this.materials = {}
 
         this.materials.roomBigMaterial = new THREE.MeshBasicMaterial({
-            map: this.textures.roomBigTexture,
+            map: this.textures.bigDaylightTexture,
         })
 
         this.materials.roomSmallMaterial = new THREE.MeshBasicMaterial({
-            map: this.textures.roomSmallTexture,
+            map: this.textures.smallDaylightTexture,
         })
 
         this.materials.emissionMaterial = new THREE.MeshBasicMaterial({
@@ -53,14 +55,6 @@ export default class Room {
         this.model.traverse((child) => {
             child.material = this.materials.roomBigMaterial
         })
-        // Emissions Room Big
-        this.emissions = []
-        this.emissions.push(
-            this.model.children.find((child) => child.name === 'roomemission')
-        )
-        this.emissions.forEach((item) => {
-            item.material = this.materials.emissionMaterial
-        })
         this.scene.add(this.model)
 
         this.model = this.resources.items.roomSmallModel.scene
@@ -69,40 +63,11 @@ export default class Room {
         this.model.traverse((child) => {
             child.material = this.materials.roomSmallMaterial
         })
+
         // Emissions Room Small
-        this.emissions = []
-        this.emissions.push(
-            this.model.children.find((child) => child.name === 'bulbemission'),
-            this.model.children.find(
-                (child) => child.name === 'bulbemission001'
-            ),
-            this.model.children.find(
-                (child) => child.name === 'bulbemission002'
-            ),
-            this.model.children.find(
-                (child) => child.name === 'bulbemission003'
-            ),
-            this.model.children.find(
-                (child) => child.name === 'bulbemission004'
-            ),
-            this.model.children.find(
-                (child) => child.name === 'bulbemission005'
-            ),
-            this.model.children.find(
-                (child) => child.name === 'bulbemission006'
-            ),
-            this.model.children.find((child) => child.name === 'bedemission'),
-            this.model.children.find(
-                (child) => child.name === 'bedsideemission'
-            ),
-            this.model.children.find((child) => child.name === 'deskemission'),
-            this.model.children.find(
-                (child) => child.name === 'kitchenemission'
-            )
-        )
-        this.emissions.forEach((item) => {
-            item.material = this.materials.emissionMaterial
-        })
+        this.model.children.find(
+            (child) => child.name === 'bulbemissions'
+        ).material = this.materials.emissionMaterial
         this.scene.add(this.model)
     }
 }

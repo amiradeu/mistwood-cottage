@@ -6,9 +6,9 @@ export default [
         path: 'models/Room/RoomBig.glb',
     },
     {
-        name: 'roomBigTexture',
+        name: 'roomBigTextureDaylight',
         type: 'texture',
-        path: 'models/Room/RoomBigBaked.jpg',
+        path: 'models/Room/RoomBigBaked-Daylight.jpg',
     },
     {
         name: 'roomSmallModel',
@@ -16,9 +16,9 @@ export default [
         path: 'models/Room/RoomSmall.glb',
     },
     {
-        name: 'roomSmallTexture',
+        name: 'roomSmallTextureDaylight',
         type: 'texture',
-        path: 'models/Room/RoomSmallBaked.jpg',
+        path: 'models/Room/RoomSmallBaked-Daylight.jpg',
     },
 
     // Cottage

@@ -56,15 +56,15 @@ export default class Cottage {
         })
 
         // Hide Left Side
-        this.leftSide = this.model.children.find(
-            (child) => child.name === 'CottageLeftMerged'
-        )
-        this.leftSide.visible = false
+        // this.leftSide = this.model.children.find(
+        //     (child) => child.name === 'CottageLeftMerged'
+        // )
+        // this.leftSide.visible = false
 
         // Hide Front Side
-        this.frontSide = this.model.children.find(
-            (child) => child.name === 'CottageFrontMerged'
-        )
+        // this.frontSide = this.model.children.find(
+        //     (child) => child.name === 'CottageFrontMerged'
+        // )
         // this.frontSide.visible = false
 
         // Set Custom Materials
@@ -88,9 +88,9 @@ export default class Cottage {
 
     setEmissionMaterial() {
         // Emissions
-        this.model.children.find(
-            (child) => child.name === 'cottageemissions'
-        ).material = this.emissionMaterial
+        // this.model.children.find(
+        //     (child) => child.name === 'cottageemissions'
+        // ).material = this.emissionMaterial
     }
 
     setGlassMaterial(mesh) {

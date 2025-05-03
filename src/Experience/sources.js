@@ -30,7 +30,7 @@ export default [
     {
         name: 'cottageTexture',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottageBaked.jpg',
+        path: 'models/Cottage/MoonlitCottage-daylight.jpg',
     },
 
     // Environment

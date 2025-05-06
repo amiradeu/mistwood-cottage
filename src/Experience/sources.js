@@ -47,9 +47,9 @@ export default [
 
     // Terrain
     {
-        name: 'landModel',
+        name: 'terrainModel',
         type: 'gltfModel',
-        path: 'models/Terrain/Land.glb',
+        path: 'models/Terrain/Terrain.glb',
     },
     {
         name: 'landTextureDaylight',
@@ -57,9 +57,9 @@ export default [
         path: 'models/Terrain/Land-sunrise.jpg',
     },
     {
-        name: 'mountainModel',
-        type: 'gltfModel',
-        path: 'models/Terrain/Mountain.glb',
+        name: 'baseTextureDaylight',
+        type: 'texture',
+        path: 'models/Terrain/Base-sunrise.jpg',
     },
     {
         name: 'mountainTextureDaylight',

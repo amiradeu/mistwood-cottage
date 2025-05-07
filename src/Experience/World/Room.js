@@ -5,6 +5,7 @@ export default class Room {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
+        this.sceneCycle = this.experience.sceneCycle
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
@@ -16,31 +17,36 @@ export default class Room {
         this.setTextures()
         this.setMaterials()
         this.setModel()
+
+        this.sceneCycle.on('cycleChanged', () => {
+            // console.log('Land Cycle Changed')
+            this.updateTextures()
+        })
     }
 
     setTextures() {
-        this.textures = {}
+        this.texture = {}
 
-        this.textures.bigDaylightTexture =
-            this.resources.items.roomBigTextureDaylight
-        this.textures.bigDaylightTexture.flipY = false
-        this.textures.bigDaylightTexture.colorSpace = THREE.SRGBColorSpace
+        this.texture.roomBig =
+            this.resources.items[this.sceneCycle.textures.roomBig]
+        this.texture.roomBig.flipY = false
+        this.texture.roomBig.colorSpace = THREE.SRGBColorSpace
 
-        this.textures.smallDaylightTexture =
-            this.resources.items.roomSmallTextureDaylight
-        this.textures.smallDaylightTexture.flipY = false
-        this.textures.smallDaylightTexture.colorSpace = THREE.SRGBColorSpace
+        this.texture.roomSmall =
+            this.resources.items[this.sceneCycle.textures.roomSmall]
+        this.texture.roomSmall.flipY = false
+        this.texture.roomSmall.colorSpace = THREE.SRGBColorSpace
     }
 
     setMaterials() {
         this.materials = {}
 
         this.materials.roomBigMaterial = new THREE.MeshBasicMaterial({
-            map: this.textures.bigDaylightTexture,
+            map: this.texture.roomBig,
         })
 
         this.materials.roomSmallMaterial = new THREE.MeshBasicMaterial({
-            map: this.textures.smallDaylightTexture,
+            map: this.texture.roomSmall,
         })
 
         this.materials.emissionMaterial = new THREE.MeshBasicMaterial({
@@ -49,19 +55,17 @@ export default class Room {
     }
 
     setModel() {
-        this.model = this.resources.items.roomBigModel.scene
+        this.model = this.resources.items.roomModel.scene
         this.model.scale.set(0.1, 0.1, 0.1)
         this.model.position.set(0, -2, 0)
-        this.model.traverse((child) => {
-            child.material = this.materials.roomBigMaterial
-        })
         this.scene.add(this.model)
 
-        this.model = this.resources.items.roomSmallModel.scene
-        this.model.scale.set(0.1, 0.1, 0.1)
-        this.model.position.set(0, -2, 0)
         this.model.traverse((child) => {
-            child.material = this.materials.roomSmallMaterial
+            if (child.name === 'RoomSmallMerged') {
+                child.material = this.materials.roomSmallMaterial
+            } else if (child.name === 'RoomBigMerged') {
+                child.material = this.materials.roomBigMaterial
+            }
         })
 
         // Emissions Room Small
@@ -69,5 +73,20 @@ export default class Room {
             (child) => child.name === 'bulbemissions'
         ).material = this.materials.emissionMaterial
         this.scene.add(this.model)
+    }
+
+    updateTextures() {
+        this.setTextures()
+
+        // Traverse the model and update materials dynamically
+        this.model.traverse((child) => {
+            if (child.name === 'RoomSmallMerged') {
+                child.material.map = this.texture.roomSmall
+                child.material.needsUpdate = true
+            } else if (child.name === 'RoomBigMerged') {
+                child.material.map = this.texture.roomBig
+                child.material.needsUpdate = true
+            }
+        })
     }
 }

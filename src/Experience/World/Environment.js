@@ -5,6 +5,7 @@ export default class Environment {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
+        this.sceneCycle = this.experience.sceneCycle
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
@@ -19,21 +20,25 @@ export default class Environment {
         this.setTextures()
         this.setMaterials()
         this.setModel()
+
+        this.sceneCycle.on('cycleChanged', () => {
+            // console.log('Land Cycle Changed')
+            this.updateTextures()
+        })
     }
 
     setTextures() {
-        this.textures = []
-
-        this.textures.daylight = this.resources.items.environmentTextureDaylight
-        this.textures.daylight.flipY = false
-        this.textures.daylight.colorSpace = THREE.SRGBColorSpace
+        this.texture =
+            this.resources.items[this.sceneCycle.textures.environment]
+        this.texture.flipY = false
+        this.texture.colorSpace = THREE.SRGBColorSpace
     }
 
     setMaterials() {
         this.materials = []
 
-        this.materials.daylight = new THREE.MeshBasicMaterial({
-            map: this.textures.daylight,
+        this.materials.environment = new THREE.MeshBasicMaterial({
+            map: this.texture,
         })
 
         this.materials.wellEmission = new THREE.MeshBasicMaterial({
@@ -49,8 +54,9 @@ export default class Environment {
         this.model = this.resources.items.environmentModel.scene
         this.model.scale.set(0.1, 0.1, 0.1)
         this.model.position.set(0, -2, 0)
+
         this.model.traverse((child) => {
-            child.material = this.materials.daylight
+            child.material = this.materials.environment
         })
 
         // Well
@@ -79,5 +85,14 @@ export default class Environment {
 
         this.scene.environment = this.environmentMap.texture
         this.scene.background = this.environmentMap.texture
+    }
+
+    updateTextures() {
+        this.setTextures()
+
+        this.model.traverse((child) => {
+            child.material.map = this.texture
+            child.material.needsUpdate = true
+        })
     }
 }

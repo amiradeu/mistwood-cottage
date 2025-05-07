@@ -14,7 +14,6 @@ export default class World {
         // Setup World
         this.resources.on('ready', () => {
             // console.log('Resources Ready')
-
             this.room = new Room()
             this.cottage = new Cottage()
             this.environment = new Environment()

@@ -9,6 +9,7 @@ import sources from './sources.js'
 import Debug from './Utils/Debug.js'
 import Statistics from './Utils/Statistics.js'
 import Overlay from './Components/Overlay.js'
+import SceneCycles from './Utils/SceneCycles.js'
 
 // Singleton
 let instance = null
@@ -37,6 +38,7 @@ export default class Experience {
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.stats = new Statistics()
+        this.sceneCycle = new SceneCycles()
         this.world = new World()
         this.overlay = new Overlay()
 

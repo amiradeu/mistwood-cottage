@@ -5,6 +5,7 @@ export default class Terrain {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
+        this.sceneCycle = this.experience.sceneCycle
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
@@ -17,20 +18,27 @@ export default class Terrain {
         this.setTextures()
         this.setMaterials()
         this.setModel()
+
+        // Update cycle
+        this.sceneCycle.on('cycleChanged', () => {
+            // console.log('Land Cycle Changed')
+            this.updateTextures()
+        })
     }
 
     setTextures() {
         this.texture = {}
 
-        this.texture.land = this.resources.items.landTextureDaylight
+        this.texture.land = this.resources.items[this.sceneCycle.textures.land]
         this.texture.land.flipY = false
         this.texture.land.colorSpace = THREE.SRGBColorSpace
 
-        this.texture.mountain = this.resources.items.mountainTextureDaylight
+        this.texture.mountain =
+            this.resources.items[this.sceneCycle.textures.mountain]
         this.texture.mountain.flipY = false
         this.texture.mountain.colorSpace = THREE.SRGBColorSpace
 
-        this.texture.base = this.resources.items.baseTextureDaylight
+        this.texture.base = this.resources.items[this.sceneCycle.textures.base]
         this.texture.base.flipY = false
         this.texture.base.colorSpace = THREE.SRGBColorSpace
     }
@@ -52,22 +60,40 @@ export default class Terrain {
     }
 
     setModel() {
-        this.terrain = this.resources.items.terrainModel.scene
-        this.terrain.scale.set(0.1, 0.1, 0.1)
-        this.terrain.position.set(0, -2, 0)
-        this.scene.add(this.terrain)
+        this.model = this.resources.items.terrainModel.scene
+        this.model.scale.set(0.1, 0.1, 0.1)
+        this.model.position.set(0, -2, 0)
+        this.scene.add(this.model)
 
-        this.land = this.terrain.children.find((child) => child.name == 'Land')
+        this.land = this.model.children.find((child) => child.name == 'Land')
         this.land.material = this.material.land
 
-        this.mountain = this.terrain.children.find(
+        this.mountain = this.model.children.find(
             (child) => child.name == 'Mountain'
         )
         this.mountain.material = this.material.mountain
 
-        this.base = this.terrain.children.find(
+        this.base = this.model.children.find(
             (child) => child.name == 'LandBase'
         )
         this.base.material = this.material.base
+    }
+
+    updateTextures() {
+        this.setTextures()
+
+        // Traverse the model and update materials dynamically
+        this.model.traverse((child) => {
+            if (child.name === 'Land') {
+                child.material.map = this.texture.land
+                child.material.needsUpdate = true
+            } else if (child.name === 'Mountain') {
+                child.material.map = this.texture.mountain
+                child.material.needsUpdate = true
+            } else if (child.name === 'LandBase') {
+                child.material.map = this.texture.base
+                child.material.needsUpdate = true
+            }
+        })
     }
 }

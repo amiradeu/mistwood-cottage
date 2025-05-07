@@ -8,6 +8,7 @@ export default class Cottage {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
+        this.sceneCycle = this.experience.sceneCycle
         this.resources = this.experience.resources
         this.debug = this.experience.debug
         this.sizes = this.experience.sizes
@@ -21,12 +22,19 @@ export default class Cottage {
         this.setMaterials()
         this.setModel()
         // this.addHelpers()
+
+        // Update cycle
+        this.sceneCycle.on('cycleChanged', () => {
+            // console.log('Land Cycle Changed')
+            this.updateTextures()
+        })
     }
 
     setTextures() {
         this.textures = {}
 
-        this.textures.cottage = this.resources.items.cottageTexture
+        this.textures.cottage =
+            this.resources.items[this.sceneCycle.textures.cottage]
         this.textures.cottage.flipY = false
         this.textures.cottage.colorSpace = THREE.SRGBColorSpace
 
@@ -194,5 +202,18 @@ export default class Cottage {
         )
         this.cube.position.set(0, 0, 2)
         this.scene.add(this.cube)
+    }
+
+    updateTextures() {
+        this.textures.cottage =
+            this.resources.items[this.sceneCycle.textures.cottage]
+        this.textures.cottage.flipY = false
+        this.textures.cottage.colorSpace = THREE.SRGBColorSpace
+
+        // Traverse the model and update materials dynamically
+        this.model.traverse((child) => {
+            child.material.map = this.textures.cottage
+            child.material.needsUpdate = true
+        })
     }
 }

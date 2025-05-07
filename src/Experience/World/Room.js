@@ -1,15 +1,16 @@
 import * as THREE from 'three'
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
 
-import Experience from '../Experience'
+import Experience from '../Experience.js'
+import { CycleEmissions } from '../Constants.js'
 
 export default class Room {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.sceneCycle = this.experience.sceneCycle
-        this.sizes = this.experience.sizes
         this.resources = this.experience.resources
+        this.sizes = this.experience.sizes
         this.debug = this.experience.debug
 
         // Debug
@@ -22,37 +23,34 @@ export default class Room {
         this.setModel()
 
         this.sceneCycle.on('cycleChanged', () => {
-            // console.log('Land Cycle Changed')
-            this.updateTextures()
+            this.changeCycle()
         })
+
+        this.removeUnusedMeshes()
     }
 
     setTextures() {
-        this.texture = {}
-
-        this.texture.roomBig =
+        this.roomBigTexture =
             this.resources.items[this.sceneCycle.textures.roomBig]
-        this.texture.roomBig.flipY = false
-        this.texture.roomBig.colorSpace = THREE.SRGBColorSpace
+        this.roomBigTexture.flipY = false
+        this.roomBigTexture.colorSpace = THREE.SRGBColorSpace
 
-        this.texture.roomSmall =
+        this.roomSmallTexture =
             this.resources.items[this.sceneCycle.textures.roomSmall]
-        this.texture.roomSmall.flipY = false
-        this.texture.roomSmall.colorSpace = THREE.SRGBColorSpace
+        this.roomSmallTexture.flipY = false
+        this.roomSmallTexture.colorSpace = THREE.SRGBColorSpace
     }
 
     setMaterials() {
-        this.materials = {}
-
-        this.materials.roomBigMaterial = new THREE.MeshBasicMaterial({
-            map: this.texture.roomBig,
+        this.roomBigMaterial = new THREE.MeshBasicMaterial({
+            map: this.roomBigTexture,
         })
 
-        this.materials.roomSmallMaterial = new THREE.MeshBasicMaterial({
-            map: this.texture.roomSmall,
+        this.roomSmallMaterial = new THREE.MeshBasicMaterial({
+            map: this.roomSmallTexture,
         })
 
-        this.materials.emissionMaterial = new THREE.MeshBasicMaterial({
+        this.emissionMaterial = new THREE.MeshBasicMaterial({
             color: '#fef3e4',
         })
     }
@@ -69,62 +67,146 @@ export default class Room {
 
         mesh.geometry.rotateX(Math.PI * 0.5)
 
-        this.mirror = new Reflector(mesh.geometry, {
+        const mirror = new Reflector(mesh.geometry, {
             color: 0xcbcbcb,
             textureWidth: this.sizes.width * this.sizes.pixelRatio,
             textureHeight: this.sizes.height * this.sizes.pixelRatio,
         })
-        this.mirror.quaternion.copy(worldQuat)
-        this.mirror.rotateX(Math.PI * -0.5)
+        mirror.quaternion.copy(worldQuat)
+        mirror.rotateX(Math.PI * -0.5)
 
-        this.mirror.scale.copy(worldScale)
-        this.mirror.position.copy(worldPos)
-        this.mirror.position.add(
-            this.mirror
-                .getWorldDirection(new THREE.Vector3())
-                .multiplyScalar(offset)
+        mirror.scale.copy(worldScale)
+        mirror.position.copy(worldPos)
+        mirror.position.add(
+            mirror.getWorldDirection(new THREE.Vector3()).multiplyScalar(offset)
         )
-        this.scene.add(this.mirror)
+        this.scene.add(mirror)
+    }
+
+    setImages() {
+        const imagePlane = this.model.children.find(
+            (child) => child.name === 'pictureframecontent'
+        )
+        console.log('Image Plane:', imagePlane)
+        // const planeAspect =
+        //     imagePlane.geometry.parameters.width /
+        //     imagePlane.geometry.parameters.height
+        // console.log('Plane Aspect Ratio:', planeAspect)
+
+        // const image0Aspect =
+        //     this.resources.items.roomImage0.image.width /
+        //     this.resources.items.roomImage0.image.height
+        // console.log('Image Aspect Ratio:', image0Aspect)
+
+        // if (planeAspect < image0Aspect) {
+        //     this.texture.image0.matrix.setUvTransform(
+        //         0,
+        //         0,
+        //         planeAspect / image0Aspect,
+        //         1,
+        //         0,
+        //         0.5,
+        //         0.5
+        //     )
+        // } else {
+        //     this.texture.image0.matrix.setUvTransform(
+        //         0,
+        //         0,
+        //         1,
+        //         image0Aspect / planeAspect,
+        //         0,
+        //         0.5,
+        //         0.5
+        //     )
+        // }
+
+        // this.model.traverse((child) => {
+        //     if (child.name === 'pictureframecontent') {
+        //         child.material = this.materials.imageMaterial
+        //     } else if (child.name === 'pictureframecontent001') {
+        //         this.materials.imageMaterial.map =
+        //             this.resources.items.roomImage1
+        //         child.material = this.materials.imageMaterial
+        //     }
+        // })
     }
 
     setModel() {
         this.model = this.resources.items.roomModel.scene
+
         this.model.scale.set(0.1, 0.1, 0.1)
         this.model.position.set(0, -2, 0)
+
         this.scene.add(this.model)
 
         this.model.traverse((child) => {
-            if (child.name === 'RoomSmallMerged') {
-                child.material = this.materials.roomSmallMaterial
-            } else if (child.name === 'RoomBigMerged') {
-                child.material = this.materials.roomBigMaterial
+            if (
+                child.name === 'RoomBigMerged' ||
+                child.name === 'roomemission'
+            ) {
+                child.material = this.roomBigMaterial
+            } else if (
+                child.name === 'RoomSmallMerged' ||
+                child.name === 'deskemission' ||
+                child.name === 'kitchenemission' ||
+                child.name === 'bedsideemission' ||
+                child.name === 'bedemission'
+            ) {
+                child.material = this.roomSmallMaterial
             }
         })
 
-        // Emissions Room Small
-        this.model.children.find(
-            (child) => child.name === 'bulbemissions'
-        ).material = this.materials.emissionMaterial
+        this.setEmissions()
 
-        const mirror = this.model.children.find(
+        this.mirror = this.model.children.find(
             (child) => child.name === 'wallmirror'
         )
-        this.setMirrorMaterial(mirror)
-        mirror.parent.remove(mirror)
+        this.setMirrorMaterial(this.mirror)
+
+        this.setImages()
     }
 
-    updateTextures() {
+    setEmissions() {
+        this.emissionState = CycleEmissions[this.sceneCycle.currentCycle].room
+
+        this.model.children.find(
+            (child) => child.name === 'bulbemissions'
+        ).material = this.emissionMaterial
+
+        if (this.emissionState.kitchen) {
+            this.model.children.find(
+                (child) => child.name === 'kitchenemission'
+            ).material = this.emissionMaterial
+        }
+    }
+
+    changeCycle() {
         this.setTextures()
 
-        // Traverse the model and update materials dynamically
+        this.roomSmallMaterial.map = this.roomSmallTexture
+        this.roomSmallMaterial.needsUpdate = true
+        this.roomBigMaterial.map = this.roomBigTexture
+        this.roomBigMaterial.needsUpdate = true
+
         this.model.traverse((child) => {
-            if (child.name === 'RoomSmallMerged') {
-                child.material.map = this.texture.roomSmall
-                child.material.needsUpdate = true
-            } else if (child.name === 'RoomBigMerged') {
-                child.material.map = this.texture.roomBig
-                child.material.needsUpdate = true
+            if (
+                child.name === 'RoomBigMerged' ||
+                child.name === 'roomemission'
+            ) {
+                child.material = this.roomBigMaterial
+            } else if (
+                child.name === 'RoomSmallMerged' ||
+                child.name === 'deskemission' ||
+                child.name === 'kitchenemission' ||
+                child.name === 'bedsideemission' ||
+                child.name === 'bedemission'
+            ) {
+                child.material = this.roomSmallMaterial
             }
         })
+    }
+
+    removeUnusedMeshes() {
+        this.mirror.parent.remove(this.mirror)
     }
 }

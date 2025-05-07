@@ -1,5 +1,7 @@
 import * as THREE from 'three'
+
 import Experience from '../Experience.js'
+import { CycleEmissions } from '../Constants.js'
 
 export default class Environment {
     constructor() {
@@ -23,7 +25,7 @@ export default class Environment {
 
         this.sceneCycle.on('cycleChanged', () => {
             // console.log('Land Cycle Changed')
-            this.updateTextures()
+            this.changeCycle()
         })
     }
 
@@ -37,39 +39,32 @@ export default class Environment {
     setMaterials() {
         this.materials = []
 
-        this.materials.environment = new THREE.MeshBasicMaterial({
+        this.environmentMaterial = new THREE.MeshBasicMaterial({
             map: this.texture,
         })
 
-        this.materials.wellEmission = new THREE.MeshBasicMaterial({
+        this.wellEmissionMaterial = new THREE.MeshBasicMaterial({
             color: '#9110d2',
         })
 
-        this.materials.streetEmissions = new THREE.MeshBasicMaterial({
+        this.streetEmissionMaterial = new THREE.MeshBasicMaterial({
             color: '#f27527',
         })
     }
 
     setModel() {
         this.model = this.resources.items.environmentModel.scene
+
         this.model.scale.set(0.1, 0.1, 0.1)
         this.model.position.set(0, -2, 0)
 
+        this.scene.add(this.model)
+
         this.model.traverse((child) => {
-            child.material = this.materials.environment
+            child.material = this.environmentMaterial
         })
 
-        // Well
-        this.model.children.find(
-            (child) => child.name === 'wellemission'
-        ).material = this.materials.wellEmission
-
-        // Street Lamps - during night
-        // this.model.children.find(
-        //     (child) => child.name === 'streetemissions'
-        // ).material = this.materials.streetEmissions
-
-        this.scene.add(this.model)
+        this.setEmission()
     }
 
     setFog() {
@@ -87,12 +82,31 @@ export default class Environment {
         this.scene.background = this.environmentMap.texture
     }
 
-    updateTextures() {
+    changeCycle() {
         this.setTextures()
 
+        this.environmentMaterial.map = this.texture
+        this.environmentMaterial.needsUpdate = true
+
         this.model.traverse((child) => {
-            child.material.map = this.texture
-            child.material.needsUpdate = true
+            child.material = this.environmentMaterial
         })
+
+        this.setEmission()
+    }
+
+    setEmission() {
+        this.emissionState =
+            CycleEmissions[this.sceneCycle.currentCycle].environment
+
+        this.model.children.find(
+            (child) => child.name === 'wellemission'
+        ).material = this.wellEmissionMaterial
+
+        if (this.emissionState.streets) {
+            this.model.children.find(
+                (child) => child.name === 'streetemissions'
+            ).material = this.streetEmissionMaterial
+        }
     }
 }

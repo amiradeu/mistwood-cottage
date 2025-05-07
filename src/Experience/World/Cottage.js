@@ -1,17 +1,20 @@
 import * as THREE from 'three'
 import { Refractor } from 'three/examples/jsm/objects/Refractor.js'
 
-import Experience from '../Experience'
+import Experience from '../Experience.js'
+import { CycleEmissions } from '../Constants.js'
+
 import glassRefractionVertexShader from '../Shaders/GlassRefraction/vertex.glsl'
 import glassRefractionFragmentShader from '../Shaders/GlassRefraction/fragment.glsl'
+
 export default class Cottage {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.sceneCycle = this.experience.sceneCycle
         this.resources = this.experience.resources
-        this.debug = this.experience.debug
         this.sizes = this.experience.sizes
+        this.debug = this.experience.debug
 
         // Debug
         if (this.debug.active) {
@@ -21,31 +24,29 @@ export default class Cottage {
         this.setTextures()
         this.setMaterials()
         this.setModel()
-        // this.addHelpers()
 
-        // Update cycle
+        // Update day cycle
         this.sceneCycle.on('cycleChanged', () => {
-            // console.log('Land Cycle Changed')
-            this.updateTextures()
+            this.changeCycle()
         })
+
+        this.removeUnusedMeshes()
     }
 
     setTextures() {
-        this.textures = {}
-
-        this.textures.cottage =
+        this.cottageTexture =
             this.resources.items[this.sceneCycle.textures.cottage]
-        this.textures.cottage.flipY = false
-        this.textures.cottage.colorSpace = THREE.SRGBColorSpace
+        this.cottageTexture.flipY = false
+        this.cottageTexture.colorSpace = THREE.SRGBColorSpace
 
-        this.textures.glass = this.resources.items.glassTexture
-        this.textures.glass.wrapS = THREE.RepeatWrapping
-        this.textures.glass.wrapT = THREE.RepeatWrapping
+        this.glassTexture = this.resources.items.glassTexture
+        this.glassTexture.wrapS = THREE.RepeatWrapping
+        this.glassTexture.wrapT = THREE.RepeatWrapping
     }
 
     setMaterials() {
         this.cottageMaterial = new THREE.MeshBasicMaterial({
-            map: this.textures.cottage,
+            map: this.cottageTexture,
         })
 
         this.emissionMaterial = new THREE.MeshBasicMaterial({
@@ -55,8 +56,16 @@ export default class Cottage {
 
     setModel() {
         this.model = this.resources.items.cottageModel.scene
+        this.roof = this.model.children.find(
+            (child) => child.name === 'roofglass'
+        )
+        this.window = this.model.children.find(
+            (child) => child.name === 'window'
+        )
+
         this.model.scale.set(0.1, 0.1, 0.1)
         this.model.position.set(0, -2, 0)
+        this.scene.add(this.model)
 
         // Apply baked texture
         this.model.traverse((child) => {
@@ -67,46 +76,40 @@ export default class Cottage {
         this.leftSide = this.model.children.find(
             (child) => child.name === 'CottageLeftMerged'
         )
-        this.leftSide.visible = false
+        this.debugFolder.add(this.leftSide, 'visible').name('left side')
 
         // Hide Front Side
         this.frontSide = this.model.children.find(
             (child) => child.name === 'CottageFrontMerged'
         )
-        this.frontSide.visible = false
+        this.debugFolder.add(this.frontSide, 'visible').name('front side')
 
-        // Set Custom Materials
-        this.setEmissionMaterial()
-
-        const roof1 = this.model.children.find(
-            (child) => child.name === 'roofglass'
-        )
-        const window = this.model.children.find(
-            (child) => child.name === 'window'
-        )
-
-        this.setGlassMaterial(roof1)
-
-        this.scene.add(this.model)
-
-        // Delete Unused Meshes
-        roof1.parent.remove(roof1)
-        window.parent.remove(window)
+        this.setGlass(this.roof)
+        this.setEmissions()
     }
 
-    setEmissionMaterial() {
-        // Emissions
-        // this.model.children.find(
-        //     (child) => child.name === 'cottageemissions'
-        // ).material = this.emissionMaterial
+    setEmissions() {
+        this.emissionState =
+            CycleEmissions[this.sceneCycle.currentCycle].cottage
+
+        if (this.emissionState.front) {
+            this.model.children.find(
+                (child) => child.name === 'dooremissionfront'
+            ).material = this.emissionMaterial
+        }
+        if (this.emissionState.back) {
+            this.model.children.find(
+                (child) => child.name === 'dooremissionback'
+            ).material = this.emissionMaterial
+        }
     }
 
-    setGlassMaterial(mesh) {
+    setGlass(mesh) {
         const uniforms = {
             color: { value: null },
             time: { value: 0 },
             tDiffuse: { value: null },
-            tDudv: { value: this.textures.glass },
+            tDudv: { value: this.glassTexture },
             textureMatrix: { value: null },
             strength: { value: 0.5 },
             repeatScale: { value: 2 },
@@ -190,30 +193,25 @@ export default class Cottage {
         }
     }
 
-    addHelpers() {
-        // Axes Helper
-        this.axesHelper = new THREE.AxesHelper(10)
-        this.scene.add(this.axesHelper)
+    changeCycle() {
+        this.cottageTexture =
+            this.resources.items[this.sceneCycle.textures.cottage]
+        this.cottageTexture.flipY = false
+        this.cottageTexture.colorSpace = THREE.SRGBColorSpace
 
-        // Test Cube
-        this.cube = new THREE.Mesh(
-            new THREE.BoxGeometry(1, 1, 1),
-            this.emissionMaterial
-        )
-        this.cube.position.set(0, 0, 2)
-        this.scene.add(this.cube)
+        this.cottageMaterial.map = this.cottageTexture
+        this.cottageMaterial.needsUpdate = true
+
+        this.model.traverse((child) => {
+            child.material = this.cottageMaterial
+        })
+
+        this.setEmissions()
     }
 
-    updateTextures() {
-        this.textures.cottage =
-            this.resources.items[this.sceneCycle.textures.cottage]
-        this.textures.cottage.flipY = false
-        this.textures.cottage.colorSpace = THREE.SRGBColorSpace
-
-        // Traverse the model and update materials dynamically
-        this.model.traverse((child) => {
-            child.material.map = this.textures.cottage
-            child.material.needsUpdate = true
-        })
+    removeUnusedMeshes() {
+        // Delete Unused Meshes
+        this.roof.parent.remove(this.roof)
+        this.window.parent.remove(this.window)
     }
 }

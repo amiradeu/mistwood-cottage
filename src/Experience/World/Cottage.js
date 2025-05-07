@@ -67,13 +67,13 @@ export default class Cottage {
         this.leftSide = this.model.children.find(
             (child) => child.name === 'CottageLeftMerged'
         )
-        // this.leftSide.visible = false
+        this.leftSide.visible = false
 
         // Hide Front Side
         this.frontSide = this.model.children.find(
             (child) => child.name === 'CottageFrontMerged'
         )
-        // this.frontSide.visible = false
+        this.frontSide.visible = false
 
         // Set Custom Materials
         this.setEmissionMaterial()

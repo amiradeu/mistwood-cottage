@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
+
 import Experience from '../Experience'
 
 export default class Room {
@@ -6,6 +8,7 @@ export default class Room {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.sceneCycle = this.experience.sceneCycle
+        this.sizes = this.experience.sizes
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
@@ -54,6 +57,36 @@ export default class Room {
         })
     }
 
+    setMirrorMaterial(mesh) {
+        const offset = 0.001
+
+        const worldPos = new THREE.Vector3()
+        const worldQuat = new THREE.Quaternion()
+        const worldScale = new THREE.Vector3()
+        mesh.getWorldPosition(worldPos)
+        mesh.getWorldQuaternion(worldQuat)
+        mesh.getWorldScale(worldScale)
+
+        mesh.geometry.rotateX(Math.PI * 0.5)
+
+        this.mirror = new Reflector(mesh.geometry, {
+            color: 0xcbcbcb,
+            textureWidth: this.sizes.width * this.sizes.pixelRatio,
+            textureHeight: this.sizes.height * this.sizes.pixelRatio,
+        })
+        this.mirror.quaternion.copy(worldQuat)
+        this.mirror.rotateX(Math.PI * -0.5)
+
+        this.mirror.scale.copy(worldScale)
+        this.mirror.position.copy(worldPos)
+        this.mirror.position.add(
+            this.mirror
+                .getWorldDirection(new THREE.Vector3())
+                .multiplyScalar(offset)
+        )
+        this.scene.add(this.mirror)
+    }
+
     setModel() {
         this.model = this.resources.items.roomModel.scene
         this.model.scale.set(0.1, 0.1, 0.1)
@@ -72,7 +105,12 @@ export default class Room {
         this.model.children.find(
             (child) => child.name === 'bulbemissions'
         ).material = this.materials.emissionMaterial
-        this.scene.add(this.model)
+
+        const mirror = this.model.children.find(
+            (child) => child.name === 'wallmirror'
+        )
+        this.setMirrorMaterial(mirror)
+        mirror.parent.remove(mirror)
     }
 
     updateTextures() {

@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js'
 
 import EventEmitter from './EventEmitter.js'
 import Experience from '../Experience.js'
@@ -35,6 +36,7 @@ export default class Resources extends EventEmitter {
         this.loaders.textureLoader = new THREE.TextureLoader()
         this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader()
         this.loaders.rgbeLoader = new RGBELoader()
+        this.loaders.exrLoader = new EXRLoader()
     }
 
     startLoading() {
@@ -73,6 +75,11 @@ export default class Resources extends EventEmitter {
                 })
             } else if (source.type === 'rgbeTexture') {
                 this.loaders.rgbeLoader.load(source.path, (file) => {
+                    // console.log(source, file)
+                    this.sourceLoaded(source, file)
+                })
+            } else if (source.type === 'exrTexture') {
+                this.loaders.exrLoader.load(source.path, (file) => {
                     // console.log(source, file)
                     this.sourceLoaded(source, file)
                 })

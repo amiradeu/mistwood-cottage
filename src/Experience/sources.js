@@ -101,12 +101,12 @@ export default [
     {
         name: 'glassTexture',
         type: 'texture',
-        path: 'textures/glass/glass_block_normal.jpg',
+        path: 'textures/Glass/glass_block_normal.jpg',
     },
     {
         name: 'environmentMapTexture',
-        type: 'rgbeTexture',
-        path: 'textures/environmentMap/table_mountain_2_puresky.hdr',
+        type: 'exrTexture',
+        path: 'textures/EnvironmentMap/aerial-canadian-mountain-sunset_1K.exr',
     },
 
     // Images to fill Room Wall Frames

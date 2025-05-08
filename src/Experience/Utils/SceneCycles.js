@@ -14,7 +14,7 @@ export default class SceneCycles extends EventEmitter {
 
         // Debug
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('Scene Cycles')
+            this.debugFolder = this.debug.ui.addFolder('🌞 Day Cycles')
             this.debugFolder
                 .add(this, 'currentCycle')
                 .options(CycleNames)

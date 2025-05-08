@@ -11,7 +11,7 @@ export default class Terrain {
 
         // Debug
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('Terrain')
+            this.debugFolder = this.debug.ui.addFolder('⛰️ Terrain')
         }
 
         // Setup

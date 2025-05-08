@@ -13,6 +13,10 @@ export default class Cottage {
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
 
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder('🏡 Cottage')
+        }
+
         this.setTextures()
         this.setMaterials()
         this.setModel()
@@ -22,7 +26,6 @@ export default class Cottage {
             this.changeCycle()
         })
 
-        this.addDebug()
         this.removeUnusedMeshes()
     }
 
@@ -64,6 +67,11 @@ export default class Cottage {
         this.frontSide = this.model.children.find(
             (child) => child.name === 'CottageFrontMerged'
         )
+
+        if (this.debug.active) {
+            this.debugFolder.add(this.leftSide, 'visible').name('left side')
+            this.debugFolder.add(this.frontSide, 'visible').name('front side')
+        }
 
         this.roof = this.model.children.find(
             (child) => child.name === 'roofglass'
@@ -107,15 +115,5 @@ export default class Cottage {
     removeUnusedMeshes() {
         // Delete Unused Meshes
         this.window.parent.remove(this.window)
-    }
-
-    addDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('Cottage')
-
-            this.debugFolder.add(this.leftSide, 'visible').name('left side')
-
-            this.debugFolder.add(this.frontSide, 'visible').name('front side')
-        }
     }
 }

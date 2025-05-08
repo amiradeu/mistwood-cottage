@@ -14,12 +14,9 @@ export default class Environment {
 
         // Debug
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('environment')
+            this.debugFolder = this.debug.ui.addFolder('🌳 Environment')
         }
 
-        // Setup
-        // this.setFog()
-        this.setEnvironmentMap()
         this.setTextures()
         this.setMaterials()
         this.setModel()
@@ -62,21 +59,6 @@ export default class Environment {
         })
 
         this.setEmission()
-    }
-
-    setFog() {
-        this.fog = new THREE.Fog(0x262837, 1, 100)
-        this.scene.fog = this.fog
-    }
-
-    setEnvironmentMap() {
-        this.environmentMap = {}
-        this.environmentMap.texture = this.resources.items.environmentMapTexture
-        this.environmentMap.texture.mapping =
-            THREE.EquirectangularReflectionMapping
-
-        this.scene.environment = this.environmentMap.texture
-        this.scene.background = this.environmentMap.texture
     }
 
     changeCycle() {

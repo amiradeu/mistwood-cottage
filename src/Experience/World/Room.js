@@ -7,7 +7,7 @@ import { CycleEmissions } from '../Constants.js'
 export default class Room {
     constructor() {
         this.experience = new Experience()
-        this.scene = this.experience.scene
+        this.sceneGroup = this.experience.world.sceneGroup
         this.sceneCycle = this.experience.sceneCycle
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes
@@ -80,14 +80,14 @@ export default class Room {
         mirror.position.add(
             mirror.getWorldDirection(new THREE.Vector3()).multiplyScalar(offset)
         )
-        this.scene.add(mirror)
+        this.sceneGroup.add(mirror)
     }
 
     setImages() {
         const imagePlane = this.model.children.find(
             (child) => child.name === 'pictureframecontent'
         )
-        console.log('Image Plane:', imagePlane)
+        // console.log('Image Plane:', imagePlane)
         // const planeAspect =
         //     imagePlane.geometry.parameters.width /
         //     imagePlane.geometry.parameters.height
@@ -133,11 +133,7 @@ export default class Room {
 
     setModel() {
         this.model = this.resources.items.roomModel.scene
-
-        this.model.scale.set(0.1, 0.1, 0.1)
-        this.model.position.set(0, -2, 0)
-
-        this.scene.add(this.model)
+        this.sceneGroup.add(this.model)
 
         this.model.traverse((child) => {
             if (

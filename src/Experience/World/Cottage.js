@@ -7,7 +7,7 @@ import Glass from './Glass.js'
 export default class Cottage {
     constructor() {
         this.experience = new Experience()
-        this.scene = this.experience.scene
+        this.sceneGroup = this.experience.world.sceneGroup
         this.sceneCycle = this.experience.sceneCycle
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes
@@ -44,14 +44,11 @@ export default class Cottage {
 
     setModel() {
         this.model = this.resources.items.cottageModel.scene
+        this.sceneGroup.add(this.model)
 
         this.window = this.model.children.find(
             (child) => child.name === 'window'
         )
-
-        this.model.scale.set(0.1, 0.1, 0.1)
-        this.model.position.set(0, -2, 0)
-        this.scene.add(this.model)
 
         // Apply baked texture
         this.model.traverse((child) => {

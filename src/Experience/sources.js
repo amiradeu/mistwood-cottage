@@ -79,7 +79,7 @@ export default [
     {
         name: 'baseTextureDaylight',
         type: 'texture',
-        path: 'models/Terrain/Base-sunrise.jpg',
+        path: 'models/Terrain/Base-daylight.jpg',
     },
     {
         name: 'baseTextureSunrise',

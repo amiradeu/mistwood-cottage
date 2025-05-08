@@ -54,7 +54,7 @@ export const CycleEmissions = {
             back: true,
         },
         environment: {
-            streets: true,
+            streets: false,
         },
     },
     daylight: {

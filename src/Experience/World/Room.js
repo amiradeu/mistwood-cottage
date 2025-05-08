@@ -1,7 +1,7 @@
 import * as THREE from 'three'
-import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
 
 import Experience from '../Experience.js'
+import Mirror from './Mirror.js'
 import { CycleEmissions } from '../Constants.js'
 
 export default class Room {
@@ -25,8 +25,6 @@ export default class Room {
         this.sceneCycle.on('cycleChanged', () => {
             this.changeCycle()
         })
-
-        this.removeUnusedMeshes()
     }
 
     setTextures() {
@@ -53,34 +51,6 @@ export default class Room {
         this.emissionMaterial = new THREE.MeshBasicMaterial({
             color: '#fef3e4',
         })
-    }
-
-    setMirrorMaterial(mesh) {
-        const offset = 0.001
-
-        const worldPos = new THREE.Vector3()
-        const worldQuat = new THREE.Quaternion()
-        const worldScale = new THREE.Vector3()
-        mesh.getWorldPosition(worldPos)
-        mesh.getWorldQuaternion(worldQuat)
-        mesh.getWorldScale(worldScale)
-
-        mesh.geometry.rotateX(Math.PI * 0.5)
-
-        const mirror = new Reflector(mesh.geometry, {
-            color: 0xcbcbcb,
-            textureWidth: this.sizes.width * this.sizes.pixelRatio,
-            textureHeight: this.sizes.height * this.sizes.pixelRatio,
-        })
-        mirror.quaternion.copy(worldQuat)
-        mirror.rotateX(Math.PI * -0.5)
-
-        mirror.scale.copy(worldScale)
-        mirror.position.copy(worldPos)
-        mirror.position.add(
-            mirror.getWorldDirection(new THREE.Vector3()).multiplyScalar(offset)
-        )
-        this.sceneGroup.add(mirror)
     }
 
     setImages() {
@@ -154,10 +124,10 @@ export default class Room {
 
         this.setEmissions()
 
-        this.mirror = this.model.children.find(
+        const mirror = this.model.children.find(
             (child) => child.name === 'wallmirror'
         )
-        this.setMirrorMaterial(this.mirror)
+        this.mirror = new Mirror(mirror)
 
         this.setImages()
     }
@@ -200,9 +170,5 @@ export default class Room {
                 child.material = this.roomSmallMaterial
             }
         })
-    }
-
-    removeUnusedMeshes() {
-        this.mirror.parent.remove(this.mirror)
     }
 }

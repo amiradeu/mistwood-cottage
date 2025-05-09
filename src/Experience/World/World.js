@@ -4,7 +4,8 @@ import Room from './Room.js'
 import Cottage from './Cottage.js'
 import Environment from './Environment.js'
 import Terrain from './Terrain.js'
-import Ambiance from './Ambiance.js'
+import Background from './Background.js'
+import Fog from './Fog.js'
 
 export default class World {
     constructor() {
@@ -18,11 +19,13 @@ export default class World {
 
             this.sceneGroup = new SceneGroup()
 
+            this.fog = new Fog()
+            this.background = new Background()
+
             this.room = new Room()
             this.cottage = new Cottage()
             this.environment = new Environment()
             this.terrain = new Terrain()
-            this.ambiance = new Ambiance()
         })
     }
 

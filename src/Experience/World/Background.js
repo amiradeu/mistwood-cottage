@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 import Experience from '../Experience.js'
 
-export default class Ambiance {
+export default class Background {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
@@ -13,9 +13,25 @@ export default class Ambiance {
             this.debugFolder = this.debug.ui.addFolder('☁️ Ambiance')
         }
 
-        this.setTextures()
-        this.setFog()
-        this.setEnvironmentMap()
+        this.setBackground()
+        // this.setEnvironmentMap()
+    }
+
+    setBackground() {
+        this.options = {
+            color: '#dfe9f3',
+        }
+
+        this.scene.background = new THREE.Color(this.options.color)
+
+        if (this.debug.active) {
+            this.debugFolder
+                .addColor(this.options, 'color')
+                .onChange(() => {
+                    this.scene.background.set(this.options.color)
+                })
+                .name('background')
+        }
     }
 
     setTextures() {
@@ -24,29 +40,9 @@ export default class Ambiance {
             THREE.EquirectangularReflectionMapping
     }
 
-    setFog() {
-        this.options = {
-            color: '#1E222F',
-            near: 1,
-            far: 50,
-        }
-        this.fog = new THREE.Fog(
-            this.options.color,
-            this.options.near,
-            this.options.far
-        )
-        this.scene.fog = this.fog
-
-        if (this.debug.active) {
-            this.debugFolder.addColor(this.options, 'color').onChange(() => {
-                this.fog.color.set(this.options.color)
-            })
-            this.debugFolder.add(this.fog, 'near', -20, 1, 1)
-            this.debugFolder.add(this.fog, 'far', 2, 100, 1)
-        }
-    }
-
     setEnvironmentMap() {
+        this.setTextures()
+
         this.scene.environment = this.environmentMapTexture
         this.scene.background = this.environmentMapTexture
         this.scene.backgroundRotation.y = 3.12

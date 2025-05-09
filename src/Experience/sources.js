@@ -6,14 +6,29 @@ export default [
         path: 'models/Room/Room.glb',
     },
     {
+        name: 'roomSmallTextureSunrise',
+        type: 'texture',
+        path: 'models/Room/RoomSmall-sunrise.jpg',
+    },
+    {
         name: 'roomSmallTextureDaylight',
         type: 'texture',
         path: 'models/Room/RoomSmall-daylight.jpg',
     },
     {
-        name: 'roomSmallTextureSunrise',
+        name: 'roomSmallTextureSunset',
         type: 'texture',
-        path: 'models/Room/RoomSmall-sunrise.jpg',
+        path: 'models/Room/RoomSmall-sunset.jpg',
+    },
+    {
+        name: 'roomSmallTextureNight',
+        type: 'texture',
+        path: 'models/Room/RoomSmall-night.jpg',
+    },
+    {
+        name: 'roomBigTextureSunrise',
+        type: 'texture',
+        path: 'models/Room/RoomBig-sunrise.jpg',
     },
     {
         name: 'roomBigTextureDaylight',
@@ -21,9 +36,14 @@ export default [
         path: 'models/Room/RoomBig-daylight.jpg',
     },
     {
-        name: 'roomBigTextureSunrise',
+        name: 'roomBigTextureSunset',
         type: 'texture',
-        path: 'models/Room/RoomBig-sunrise.jpg',
+        path: 'models/Room/RoomBig-sunset.jpg',
+    },
+    {
+        name: 'roomBigTextureNight',
+        type: 'texture',
+        path: 'models/Room/RoomBig-night.jpg',
     },
 
     // Cottage
@@ -33,14 +53,24 @@ export default [
         path: 'models/Cottage/MoonlitCottage.glb',
     },
     {
+        name: 'cottageTextureSunrise',
+        type: 'texture',
+        path: 'models/Cottage/MoonlitCottage-sunrise.jpg',
+    },
+    {
         name: 'cottageTextureDaylight',
         type: 'texture',
         path: 'models/Cottage/MoonlitCottage-daylight.jpg',
     },
     {
-        name: 'cottageTextureSunrise',
+        name: 'cottageTextureSunset',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottage-sunrise.jpg',
+        path: 'models/Cottage/MoonlitCottage-sunset.jpg',
+    },
+    {
+        name: 'cottageTextureNight',
+        type: 'texture',
+        path: 'models/Cottage/MoonlitCottage-night.jpg',
     },
 
     // Environment
@@ -50,14 +80,24 @@ export default [
         path: 'models/Environment/Environment.glb',
     },
     {
+        name: 'environmentTextureSunrise',
+        type: 'texture',
+        path: 'models/Environment/Environment-sunrise.jpg',
+    },
+    {
         name: 'environmentTextureDaylight',
         type: 'texture',
         path: 'models/Environment/Environment-daylight.jpg',
     },
     {
-        name: 'environmentTextureSunrise',
+        name: 'environmentTextureSunset',
         type: 'texture',
-        path: 'models/Environment/Environment-sunrise.jpg',
+        path: 'models/Environment/Environment-sunset.jpg',
+    },
+    {
+        name: 'environmentTextureNight',
+        type: 'texture',
+        path: 'models/Environment/Environment-night.jpg',
     },
 
     // Terrain
@@ -67,19 +107,24 @@ export default [
         path: 'models/Terrain/Terrain.glb',
     },
     {
-        name: 'landTextureDaylight',
-        type: 'texture',
-        path: 'models/Terrain/Land-daylight.jpg',
-    },
-    {
         name: 'landTextureSunrise',
         type: 'texture',
         path: 'models/Terrain/Land-sunrise.jpg',
     },
     {
-        name: 'baseTextureDaylight',
+        name: 'landTextureDaylight',
         type: 'texture',
-        path: 'models/Terrain/Base-daylight.jpg',
+        path: 'models/Terrain/Land-daylight.jpg',
+    },
+    {
+        name: 'landTextureSunset',
+        type: 'texture',
+        path: 'models/Terrain/Land-sunset.jpg',
+    },
+    {
+        name: 'landTextureNight',
+        type: 'texture',
+        path: 'models/Terrain/Land-night.jpg',
     },
     {
         name: 'baseTextureSunrise',
@@ -87,14 +132,39 @@ export default [
         path: 'models/Terrain/Base-sunrise.jpg',
     },
     {
-        name: 'mountainTextureDaylight',
+        name: 'baseTextureDaylight',
         type: 'texture',
-        path: 'models/Terrain/Mountain-daylight.jpg',
+        path: 'models/Terrain/Base-daylight.jpg',
+    },
+    {
+        name: 'baseTextureSunset',
+        type: 'texture',
+        path: 'models/Terrain/Base-sunset.jpg',
+    },
+    {
+        name: 'baseTextureNight',
+        type: 'texture',
+        path: 'models/Terrain/Base-night.jpg',
     },
     {
         name: 'mountainTextureSunrise',
         type: 'texture',
         path: 'models/Terrain/Mountain-sunrise.jpg',
+    },
+    {
+        name: 'mountainTextureDaylight',
+        type: 'texture',
+        path: 'models/Terrain/Mountain-daylight.jpg',
+    },
+    {
+        name: 'mountainTextureSunset',
+        type: 'texture',
+        path: 'models/Terrain/Mountain-sunset.jpg',
+    },
+    {
+        name: 'mountainTextureNight',
+        type: 'texture',
+        path: 'models/Terrain/Mountain-night.jpg',
     },
 
     // Other Textures

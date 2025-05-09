@@ -6,15 +6,6 @@ export const CycleNames = {
 }
 
 export const CycleTextures = {
-    daylight: {
-        roomBig: 'roomBigTextureDaylight',
-        roomSmall: 'roomSmallTextureDaylight',
-        cottage: 'cottageTextureDaylight',
-        environment: 'environmentTextureDaylight',
-        base: 'baseTextureDaylight',
-        land: 'landTextureDaylight',
-        mountain: 'mountainTextureDaylight',
-    },
     sunrise: {
         roomBig: 'roomBigTextureSunrise',
         roomSmall: 'roomSmallTextureSunrise',
@@ -23,6 +14,15 @@ export const CycleTextures = {
         base: 'baseTextureSunrise',
         land: 'landTextureSunrise',
         mountain: 'mountainTextureSunrise',
+    },
+    daylight: {
+        roomBig: 'roomBigTextureDaylight',
+        roomSmall: 'roomSmallTextureDaylight',
+        cottage: 'cottageTextureDaylight',
+        environment: 'environmentTextureDaylight',
+        base: 'baseTextureDaylight',
+        land: 'landTextureDaylight',
+        mountain: 'mountainTextureDaylight',
     },
     sunset: {
         roomBig: 'roomBigTextureSunset',
@@ -58,6 +58,18 @@ export const CycleEmissions = {
         },
     },
     daylight: {
+        room: {
+            kitchen: false,
+        },
+        cottage: {
+            front: false,
+            back: false,
+        },
+        environment: {
+            streets: false,
+        },
+    },
+    sunset: {
         room: {
             kitchen: false,
         },

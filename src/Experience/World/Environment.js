@@ -6,6 +6,7 @@ import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
+import Emissive from './Emissive.js'
 
 export default class Environment {
     constructor() {
@@ -15,6 +16,12 @@ export default class Environment {
         this.sceneCycle = this.experience.sceneCycle
         this.resources = this.experience.resources
         this.debug = this.experience.debug
+
+        this.emissions = new Emissive({
+            name: '💡 Environment Emissive',
+            colorA: '#db4824',
+            colorB: '#671919',
+        })
 
         // Debug
         if (this.debug.active) {
@@ -44,10 +51,6 @@ export default class Environment {
 
         this.wellEmissionMaterial = new THREE.MeshBasicMaterial({
             color: '#9110d2',
-        })
-
-        this.streetEmissionMaterial = new THREE.MeshBasicMaterial({
-            color: '#f27527',
         })
     }
 
@@ -88,9 +91,10 @@ export default class Environment {
         ).material = this.wellEmissionMaterial
 
         if (this.emissionState.streets) {
-            this.model.children.find(
+            const emissions = this.model.children.find(
                 (child) => child.name === 'streetemissions'
-            ).material = this.streetEmissionMaterial
+            )
+            this.emissions.registerEmissive(emissions)
         }
     }
 }

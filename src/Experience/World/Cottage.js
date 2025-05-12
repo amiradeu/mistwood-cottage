@@ -18,7 +18,9 @@ export default class Cottage {
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
 
-        this.emissions = new Emissive('💡 Cottage Emissive')
+        this.emissions = new Emissive({
+            name: '💡 Cottage Emissive',
+        })
 
         if (this.debug.active) {
             this.debugFolder = this.debug.ui.addFolder('🏡 Cottage')

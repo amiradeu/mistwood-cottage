@@ -5,14 +5,19 @@ import emissiveGradientVertexShader from '../Shaders/EmissiveGradient/vertex.gls
 import emissiveGradientFragmentShader from '../Shaders/EmissiveGradient/fragment.glsl'
 
 export default class Emissive {
-    constructor(name = '💡 Emissive') {
+    constructor(options = {}) {
         this.experience = new Experience()
         this.debug = this.experience.debug
 
-        this.options = {
-            name: name,
-            colorA: '#e2910b',
+        const defaultOptions = {
+            name: '💡 Emissive',
+            colorA: '#b89151',
             colorB: '#e72b00',
+        }
+
+        this.options = {
+            ...defaultOptions,
+            ...options,
         }
 
         this.setMaterial()

@@ -42,9 +42,9 @@ export function addTextureTransition(
     return uniforms
 }
 
-export function animateTextureChange(uniforms) {
+export function animateTextureChange(progress) {
     gsap.fromTo(
-        uniforms.uMixProgress,
+        progress,
         { value: 0 },
         {
             value: 1.0,

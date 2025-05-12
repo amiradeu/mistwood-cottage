@@ -176,7 +176,7 @@ export default class Room {
             }
         })
 
-        animateTextureChange(this.uniformsBig)
-        animateTextureChange(this.uniformsSmall)
+        animateTextureChange(this.uniformsBig.uMixProgress)
+        animateTextureChange(this.uniformsSmall.uMixProgress)
     }
 }

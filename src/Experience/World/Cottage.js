@@ -111,7 +111,7 @@ export default class Cottage {
 
         this.setEmissions()
 
-        animateTextureChange(this.uniforms)
+        animateTextureChange(this.uniforms.uMixProgress)
     }
 
     removeUnusedMeshes() {

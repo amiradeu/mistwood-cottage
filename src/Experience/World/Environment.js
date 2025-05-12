@@ -76,7 +76,7 @@ export default class Environment {
 
         this.setEmission()
 
-        animateTextureChange(this.uniforms)
+        animateTextureChange(this.uniforms.uMixProgress)
     }
 
     setEmission() {

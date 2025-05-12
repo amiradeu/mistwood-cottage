@@ -55,6 +55,6 @@ export default class Terrain {
             if (child.name !== 'Water') child.material.map = this.texture
         })
 
-        animateTextureChange(this.uniforms)
+        animateTextureChange(this.uniforms.uMixProgress)
     }
 }

@@ -19,8 +19,10 @@ export default class Environment {
 
         this.emissions = new Emissive({
             name: '💡 Environment Emissive',
-            colorA: '#db4824',
-            colorB: '#671919',
+            colorA: '#c94a09',
+            colorB: '#ae783e',
+            radius: 0.9,
+            power: 1.2,
         })
 
         // Debug

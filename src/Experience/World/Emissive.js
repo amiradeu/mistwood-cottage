@@ -11,8 +11,10 @@ export default class Emissive {
 
         const defaultOptions = {
             name: '💡 Emissive',
-            colorA: '#b89151',
-            colorB: '#e72b00',
+            colorA: '#ddc55f',
+            colorB: '#cc5b0f',
+            radius: 0.6,
+            power: 0.6,
         }
 
         this.options = {
@@ -33,6 +35,8 @@ export default class Emissive {
                 uColorA: { value: new THREE.Color(this.options.colorA) },
                 uColorB: { value: new THREE.Color(this.options.colorB) },
                 uTime: { value: 0 },
+                uRadius: { value: this.options.radius },
+                uPower: { value: this.options.power },
             },
         })
     }
@@ -48,6 +52,20 @@ export default class Emissive {
             this.debugFolder.addColor(this.options, 'colorB').onChange(() => {
                 this.material.uniforms.uColorB.value.set(this.options.colorB)
             })
+
+            this.debugFolder
+                .add(this.material.uniforms.uRadius, 'value')
+                .min(0)
+                .max(1)
+                .step(0.01)
+                .name('radius')
+
+            this.debugFolder
+                .add(this.material.uniforms.uPower, 'value')
+                .min(0)
+                .max(2)
+                .step(0.01)
+                .name('power')
         }
     }
 

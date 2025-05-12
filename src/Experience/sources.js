@@ -107,64 +107,24 @@ export default [
         path: 'models/Terrain/Terrain.glb',
     },
     {
-        name: 'landTextureSunrise',
+        name: 'terrainTextureSunrise',
         type: 'texture',
-        path: 'models/Terrain/Land-sunrise.jpg',
+        path: 'models/Terrain/Terrain-sunrise.jpg',
     },
     {
-        name: 'landTextureDaylight',
+        name: 'terrainTextureDaylight',
         type: 'texture',
-        path: 'models/Terrain/Land-daylight.jpg',
+        path: 'models/Terrain/Terrain-daylight.jpg',
     },
     {
-        name: 'landTextureSunset',
+        name: 'terrainTextureNight',
         type: 'texture',
-        path: 'models/Terrain/Land-sunset.jpg',
+        path: 'models/Terrain/Terrain-night.jpg',
     },
     {
-        name: 'landTextureNight',
+        name: 'terrainTextureSunset',
         type: 'texture',
-        path: 'models/Terrain/Land-night.jpg',
-    },
-    {
-        name: 'baseTextureSunrise',
-        type: 'texture',
-        path: 'models/Terrain/Base-sunrise.jpg',
-    },
-    {
-        name: 'baseTextureDaylight',
-        type: 'texture',
-        path: 'models/Terrain/Base-daylight.jpg',
-    },
-    {
-        name: 'baseTextureSunset',
-        type: 'texture',
-        path: 'models/Terrain/Base-sunset.jpg',
-    },
-    {
-        name: 'baseTextureNight',
-        type: 'texture',
-        path: 'models/Terrain/Base-night.jpg',
-    },
-    {
-        name: 'mountainTextureSunrise',
-        type: 'texture',
-        path: 'models/Terrain/Mountain-sunrise.jpg',
-    },
-    {
-        name: 'mountainTextureDaylight',
-        type: 'texture',
-        path: 'models/Terrain/Mountain-daylight.jpg',
-    },
-    {
-        name: 'mountainTextureSunset',
-        type: 'texture',
-        path: 'models/Terrain/Mountain-sunset.jpg',
-    },
-    {
-        name: 'mountainTextureNight',
-        type: 'texture',
-        path: 'models/Terrain/Mountain-night.jpg',
+        path: 'models/Terrain/Terrain-sunset.jpg',
     },
 
     // Other Textures

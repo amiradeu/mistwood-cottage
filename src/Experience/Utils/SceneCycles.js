@@ -31,9 +31,7 @@ export default class SceneCycles extends EventEmitter {
             roomSmall: CycleTextures[this.currentCycle].roomSmall,
             cottage: CycleTextures[this.currentCycle].cottage,
             environment: CycleTextures[this.currentCycle].environment,
-            base: CycleTextures[this.currentCycle].base,
-            land: CycleTextures[this.currentCycle].land,
-            mountain: CycleTextures[this.currentCycle].mountain,
+            terrain: CycleTextures[this.currentCycle].terrain,
         }
     }
 

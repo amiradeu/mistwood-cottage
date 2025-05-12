@@ -7,6 +7,7 @@ import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
+import Emissive from './Emissive.js'
 
 export default class Cottage {
     constructor() {
@@ -16,6 +17,8 @@ export default class Cottage {
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
+
+        this.emissions = new Emissive('💡 Cottage Emissive')
 
         if (this.debug.active) {
             this.debugFolder = this.debug.ui.addFolder('🏡 Cottage')
@@ -39,10 +42,6 @@ export default class Cottage {
             map: this.texture,
         })
         this.uniforms = addTextureTransition(this.cottageMaterial)
-
-        this.emissionMaterial = new THREE.MeshBasicMaterial({
-            color: 0xfeee89,
-        })
     }
 
     setModel() {
@@ -86,14 +85,17 @@ export default class Cottage {
             CycleEmissions[this.sceneCycle.currentCycle].cottage
 
         if (this.emissionState.front) {
-            this.model.children.find(
+            const emissionFront = this.model.children.find(
                 (child) => child.name === 'dooremissionfront'
-            ).material = this.emissionMaterial
+            )
+
+            this.emissions.registerEmissive(emissionFront)
         }
         if (this.emissionState.back) {
-            this.model.children.find(
+            const emissionBack = this.model.children.find(
                 (child) => child.name === 'dooremissionback'
-            ).material = this.emissionMaterial
+            )
+            this.emissions.registerEmissive(emissionBack)
         }
     }
 

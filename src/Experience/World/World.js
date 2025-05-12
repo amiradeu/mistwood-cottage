@@ -23,10 +23,10 @@ export default class World {
             this.fog = new Fog()
             this.background = new Background()
 
-            this.room = new Room()
+            // this.room = new Room()
             this.cottage = new Cottage()
-            this.environment = new Environment()
-            this.terrain = new Terrain()
+            // this.environment = new Environment()
+            // this.terrain = new Terrain()
         })
 
         this.sceneCycle.on('cycleChanged', () => {

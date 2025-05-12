@@ -11,6 +11,7 @@ export default class World {
     constructor() {
         this.experience = new Experience()
         this.resources = this.experience.resources
+        this.sceneCycle = this.experience.sceneCycle
         this.overlay = this.experience.overlay
 
         // Setup World
@@ -27,7 +28,20 @@ export default class World {
             this.environment = new Environment()
             this.terrain = new Terrain()
         })
+
+        this.sceneCycle.on('cycleChanged', () => {
+            this.changeWorldCycle()
+        })
     }
 
+    // Update based on tick time
     update() {}
+
+    // Update based on day cycle
+    changeWorldCycle() {
+        if (this.room) this.room.updateTextures()
+        if (this.cottage) this.cottage.updateTextures()
+        if (this.environment) this.environment.updateTextures()
+        if (this.terrain) this.terrain.updateTextures()
+    }
 }

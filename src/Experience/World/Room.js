@@ -3,6 +3,10 @@ import * as THREE from 'three'
 import Experience from '../Experience.js'
 import Mirror from './Mirror.js'
 import { CycleEmissions } from '../Constants.js'
+import {
+    addTextureTransition,
+    animateTextureChange,
+} from '../Shaders/addTextureTransition.js'
 
 export default class Room {
     constructor() {
@@ -21,10 +25,6 @@ export default class Room {
         this.setTextures()
         this.setMaterials()
         this.setModel()
-
-        this.sceneCycle.on('cycleChanged', () => {
-            this.changeCycle()
-        })
     }
 
     setTextures() {
@@ -43,10 +43,12 @@ export default class Room {
         this.roomBigMaterial = new THREE.MeshBasicMaterial({
             map: this.roomBigTexture,
         })
+        this.uniformsBig = addTextureTransition(this.roomBigMaterial)
 
         this.roomSmallMaterial = new THREE.MeshBasicMaterial({
             map: this.roomSmallTexture,
         })
+        this.uniformsSmall = addTextureTransition(this.roomSmallMaterial)
 
         this.emissionMaterial = new THREE.MeshBasicMaterial({
             color: '#fef3e4',
@@ -146,7 +148,10 @@ export default class Room {
         }
     }
 
-    changeCycle() {
+    updateTextures() {
+        this.uniformsBig.uMap0.value = this.roomBigTexture
+        this.uniformsSmall.uMap0.value = this.roomSmallTexture
+
         this.setTextures()
 
         this.roomSmallMaterial.map = this.roomSmallTexture
@@ -170,5 +175,8 @@ export default class Room {
                 child.material = this.roomSmallMaterial
             }
         })
+
+        animateTextureChange(this.uniformsBig)
+        animateTextureChange(this.uniformsSmall)
     }
 }

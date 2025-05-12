@@ -2,6 +2,10 @@ import * as THREE from 'three'
 
 import Experience from '../Experience.js'
 import { CycleEmissions } from '../Constants.js'
+import {
+    addTextureTransition,
+    animateTextureChange,
+} from '../Shaders/addTextureTransition.js'
 
 export default class Environment {
     constructor() {
@@ -20,11 +24,6 @@ export default class Environment {
         this.setTextures()
         this.setMaterials()
         this.setModel()
-
-        this.sceneCycle.on('cycleChanged', () => {
-            // console.log('Land Cycle Changed')
-            this.changeCycle()
-        })
     }
 
     setTextures() {
@@ -40,6 +39,8 @@ export default class Environment {
         this.environmentMaterial = new THREE.MeshBasicMaterial({
             map: this.texture,
         })
+
+        this.uniforms = addTextureTransition(this.environmentMaterial)
 
         this.wellEmissionMaterial = new THREE.MeshBasicMaterial({
             color: '#9110d2',
@@ -61,7 +62,9 @@ export default class Environment {
         this.setEmission()
     }
 
-    changeCycle() {
+    updateTextures() {
+        this.uniforms.uMap0.value = this.texture
+
         this.setTextures()
 
         this.environmentMaterial.map = this.texture
@@ -72,6 +75,8 @@ export default class Environment {
         })
 
         this.setEmission()
+
+        animateTextureChange(this.uniforms)
     }
 
     setEmission() {

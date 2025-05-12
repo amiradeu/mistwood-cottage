@@ -1,6 +1,10 @@
 import * as THREE from 'three'
 
 import Experience from '../Experience'
+import {
+    addTextureTransition,
+    animateTextureChange,
+} from '../Shaders/addTextureTransition'
 
 export default class Terrain {
     constructor() {
@@ -19,12 +23,6 @@ export default class Terrain {
         this.setTextures()
         this.setMaterials()
         this.setModel()
-
-        // Update cycle
-        this.sceneCycle.on('cycleChanged', () => {
-            // console.log('Land Cycle Changed')
-            this.updateTextures()
-        })
     }
 
     setTextures() {
@@ -37,6 +35,7 @@ export default class Terrain {
         this.material = new THREE.MeshBasicMaterial({
             map: this.texture,
         })
+        this.uniforms = addTextureTransition(this.material)
     }
 
     setModel() {
@@ -49,9 +48,13 @@ export default class Terrain {
     }
 
     updateTextures() {
+        this.uniforms.uMap0.value = this.texture
+
         this.setTextures()
         this.model.traverse((child) => {
             if (child.name !== 'Water') child.material.map = this.texture
         })
+
+        animateTextureChange(this.uniforms)
     }
 }

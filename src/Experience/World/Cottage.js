@@ -3,6 +3,10 @@ import * as THREE from 'three'
 import Experience from '../Experience.js'
 import { CycleEmissions } from '../Constants.js'
 import Glass from './Glass.js'
+import {
+    addTextureTransition,
+    animateTextureChange,
+} from '../Shaders/addTextureTransition.js'
 
 export default class Cottage {
     constructor() {
@@ -21,11 +25,6 @@ export default class Cottage {
         this.setMaterials()
         this.setModel()
 
-        // Update day cycle
-        this.sceneCycle.on('cycleChanged', () => {
-            this.changeCycle()
-        })
-
         this.removeUnusedMeshes()
     }
 
@@ -39,6 +38,7 @@ export default class Cottage {
         this.cottageMaterial = new THREE.MeshBasicMaterial({
             map: this.texture,
         })
+        this.uniforms = addTextureTransition(this.cottageMaterial)
 
         this.emissionMaterial = new THREE.MeshBasicMaterial({
             color: 0xfeee89,
@@ -97,10 +97,10 @@ export default class Cottage {
         }
     }
 
-    changeCycle() {
-        this.texture = this.resources.items[this.sceneCycle.textures.cottage]
-        this.texture.flipY = false
-        this.texture.colorSpace = THREE.SRGBColorSpace
+    updateTextures() {
+        this.uniforms.uMap0.value = this.texture
+
+        this.setTextures()
 
         this.cottageMaterial.map = this.texture
         this.cottageMaterial.needsUpdate = true
@@ -110,6 +110,8 @@ export default class Cottage {
         })
 
         this.setEmissions()
+
+        animateTextureChange(this.uniforms)
     }
 
     removeUnusedMeshes() {

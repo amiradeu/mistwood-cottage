@@ -2,13 +2,13 @@ import { CycleNames, CycleTextures } from '../Constants.js'
 import Experience from '../Experience.js'
 import EventEmitter from './EventEmitter.js'
 
-export default class SceneCycles extends EventEmitter {
+export default class Cycles extends EventEmitter {
     constructor() {
         super()
 
         this.experience = new Experience()
         this.debug = this.experience.debug
-        this.currentCycle = CycleNames.NIGHT
+        this.currentCycle = CycleNames.SUNSET
 
         this.setTextures()
 

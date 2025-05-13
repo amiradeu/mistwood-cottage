@@ -12,7 +12,7 @@ export default class Room {
     constructor() {
         this.experience = new Experience()
         this.sceneGroup = this.experience.world.sceneGroup
-        this.sceneCycle = this.experience.sceneCycle
+        this.sceneCycle = this.experience.cycles
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug

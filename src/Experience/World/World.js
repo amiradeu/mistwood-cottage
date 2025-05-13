@@ -11,7 +11,7 @@ export default class World {
     constructor() {
         this.experience = new Experience()
         this.resources = this.experience.resources
-        this.sceneCycle = this.experience.sceneCycle
+        this.sceneCycle = this.experience.cycles
         this.overlay = this.experience.overlay
 
         // Setup World

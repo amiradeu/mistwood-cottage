@@ -10,7 +10,7 @@ export default class Terrain {
     constructor() {
         this.experience = new Experience()
         this.sceneGroup = this.experience.world.sceneGroup
-        this.sceneCycle = this.experience.sceneCycle
+        this.sceneCycle = this.experience.cycles
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 

@@ -39,19 +39,27 @@ export const CycleTextures = {
 export const CycleEmissions = {
     sunrise: {
         room: {
+            bed: false,
+            bedside: false,
+            desk: false,
             kitchen: true,
+            room: false,
         },
         cottage: {
             front: false,
             back: true,
         },
         environment: {
-            streets: false,
+            streets: true,
         },
     },
     daylight: {
         room: {
+            bed: false,
+            bedside: false,
+            desk: false,
             kitchen: false,
+            room: false,
         },
         cottage: {
             front: false,
@@ -63,19 +71,27 @@ export const CycleEmissions = {
     },
     sunset: {
         room: {
+            bed: true,
+            bedside: false,
+            desk: false,
             kitchen: false,
+            room: false,
         },
         cottage: {
-            front: false,
-            back: false,
+            front: true,
+            back: true,
         },
         environment: {
-            streets: false,
+            streets: true,
         },
     },
     night: {
         room: {
-            kitchen: true,
+            bed: true,
+            bedside: true,
+            desk: true,
+            kitchen: false,
+            room: true,
         },
         cottage: {
             front: true,

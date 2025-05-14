@@ -27,8 +27,8 @@ export default class Cycles extends EventEmitter {
 
     setTextures() {
         this.textures = {
-            roomBig: CycleTextures[this.currentCycle].roomBig,
-            roomSmall: CycleTextures[this.currentCycle].roomSmall,
+            roomPattern: CycleTextures[this.currentCycle].roomPattern,
+            roomPlain: CycleTextures[this.currentCycle].roomPlain,
             cottage: CycleTextures[this.currentCycle].cottage,
             environment: CycleTextures[this.currentCycle].environment,
             terrain: CycleTextures[this.currentCycle].terrain,

@@ -47,7 +47,7 @@ export default class Terrain {
         })
     }
 
-    updateTextures() {
+    updateCycle() {
         this.uniforms.uMap0.value = this.texture
 
         this.setTextures()

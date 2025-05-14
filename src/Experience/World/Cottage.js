@@ -20,6 +20,10 @@ export default class Cottage {
 
         this.emissions = new Emissive({
             name: '💡 Cottage Emissive',
+            colorA: '#d8d284',
+            colorB: '#be731c',
+            radius: 0.8,
+            power: 0.8,
         })
 
         if (this.debug.active) {
@@ -101,7 +105,7 @@ export default class Cottage {
         }
     }
 
-    updateTextures() {
+    updateCycle() {
         this.uniforms.uMap0.value = this.texture
 
         this.setTextures()

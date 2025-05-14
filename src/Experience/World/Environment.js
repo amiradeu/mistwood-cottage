@@ -19,9 +19,9 @@ export default class Environment {
 
         this.emissions = new Emissive({
             name: '💡 Environment Emissive',
-            colorA: '#c94a09',
-            colorB: '#ae783e',
-            radius: 0.9,
+            colorA: '#ffaf3c',
+            colorB: '#dd3c00',
+            radius: 0.8,
             power: 1.2,
         })
 
@@ -67,7 +67,7 @@ export default class Environment {
         this.setEmission()
     }
 
-    updateTextures() {
+    updateCycle() {
         this.uniforms.uMap0.value = this.texture
 
         this.setTextures()
@@ -96,6 +96,8 @@ export default class Environment {
             const emissions = this.model.children.find(
                 (child) => child.name === 'streetemissions'
             )
+            emissions.layers.enable(1)
+            // console.log(emissions.isMesh)
             this.emissions.registerEmissive(emissions)
         }
     }

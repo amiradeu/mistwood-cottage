@@ -39,9 +39,9 @@ export default class World {
 
     // Update based on day cycle
     changeWorldCycle() {
-        if (this.room) this.room.updateTextures()
-        if (this.cottage) this.cottage.updateTextures()
-        if (this.environment) this.environment.updateTextures()
-        if (this.terrain) this.terrain.updateTextures()
+        if (this.room) this.room.updateCycle()
+        if (this.cottage) this.cottage.updateCycle()
+        if (this.environment) this.environment.updateCycle()
+        if (this.terrain) this.terrain.updateCycle()
     }
 }

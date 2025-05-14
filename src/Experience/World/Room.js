@@ -7,12 +7,13 @@ import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
+import Emissive from './Emissive.js'
 
 export default class Room {
     constructor() {
         this.experience = new Experience()
         this.sceneGroup = this.experience.world.sceneGroup
-        this.sceneCycle = this.experience.cycles
+        this.cycles = this.experience.cycles
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
@@ -28,155 +29,119 @@ export default class Room {
     }
 
     setTextures() {
-        this.roomBigTexture =
-            this.resources.items[this.sceneCycle.textures.roomBig]
-        this.roomBigTexture.flipY = false
-        this.roomBigTexture.colorSpace = THREE.SRGBColorSpace
+        this.roomPatternTexture =
+            this.resources.items[this.cycles.textures.roomPattern]
+        this.roomPatternTexture.flipY = false
+        this.roomPatternTexture.colorSpace = THREE.SRGBColorSpace
 
-        this.roomSmallTexture =
-            this.resources.items[this.sceneCycle.textures.roomSmall]
-        this.roomSmallTexture.flipY = false
-        this.roomSmallTexture.colorSpace = THREE.SRGBColorSpace
+        this.roomPlainTexture =
+            this.resources.items[this.cycles.textures.roomPlain]
+        this.roomPlainTexture.flipY = false
+        this.roomPlainTexture.colorSpace = THREE.SRGBColorSpace
     }
 
     setMaterials() {
-        this.roomBigMaterial = new THREE.MeshBasicMaterial({
-            map: this.roomBigTexture,
+        this.roomPatternMaterial = new THREE.MeshBasicMaterial({
+            map: this.roomPatternTexture,
         })
-        this.uniformsBig = addTextureTransition(this.roomBigMaterial)
+        this.uniformsPattern = addTextureTransition(this.roomPatternMaterial)
 
-        this.roomSmallMaterial = new THREE.MeshBasicMaterial({
-            map: this.roomSmallTexture,
+        this.roomPlainMaterial = new THREE.MeshBasicMaterial({
+            map: this.roomPlainTexture,
         })
-        this.uniformsSmall = addTextureTransition(this.roomSmallMaterial)
+        this.uniformsPlain = addTextureTransition(this.roomPlainMaterial)
 
         this.emissionMaterial = new THREE.MeshBasicMaterial({
             color: '#fef3e4',
         })
-    }
 
-    setImages() {
-        const imagePlane = this.model.children.find(
-            (child) => child.name === 'pictureframecontent'
-        )
-        // console.log('Image Plane:', imagePlane)
-        // const planeAspect =
-        //     imagePlane.geometry.parameters.width /
-        //     imagePlane.geometry.parameters.height
-        // console.log('Plane Aspect Ratio:', planeAspect)
+        this.whiteEmission = new Emissive({
+            name: '💡 Room White Bulbs',
+            colorA: '#ffeab6',
+            colorB: '#fccf5b',
+        })
 
-        // const image0Aspect =
-        //     this.resources.items.roomImage0.image.width /
-        //     this.resources.items.roomImage0.image.height
-        // console.log('Image Aspect Ratio:', image0Aspect)
-
-        // if (planeAspect < image0Aspect) {
-        //     this.texture.image0.matrix.setUvTransform(
-        //         0,
-        //         0,
-        //         planeAspect / image0Aspect,
-        //         1,
-        //         0,
-        //         0.5,
-        //         0.5
-        //     )
-        // } else {
-        //     this.texture.image0.matrix.setUvTransform(
-        //         0,
-        //         0,
-        //         1,
-        //         image0Aspect / planeAspect,
-        //         0,
-        //         0.5,
-        //         0.5
-        //     )
-        // }
-
-        // this.model.traverse((child) => {
-        //     if (child.name === 'pictureframecontent') {
-        //         child.material = this.materials.imageMaterial
-        //     } else if (child.name === 'pictureframecontent001') {
-        //         this.materials.imageMaterial.map =
-        //             this.resources.items.roomImage1
-        //         child.material = this.materials.imageMaterial
-        //     }
-        // })
+        this.orangeEmission = new Emissive({
+            name: '💡 Room Orange Bulbs',
+            colorA: '##de3000',
+            colorB: '##db5d11',
+        })
     }
 
     setModel() {
+        this.items = {}
+
         this.model = this.resources.items.roomModel.scene
         this.sceneGroup.add(this.model)
 
         this.model.traverse((child) => {
-            if (
-                child.name === 'RoomBigMerged' ||
-                child.name === 'roomemission'
-            ) {
-                child.material = this.roomBigMaterial
-            } else if (
-                child.name === 'RoomSmallMerged' ||
-                child.name === 'deskemission' ||
-                child.name === 'kitchenemission' ||
-                child.name === 'bedsideemission' ||
-                child.name === 'bedemission'
-            ) {
-                child.material = this.roomSmallMaterial
-            }
+            this.items[child.name] = child
         })
 
+        this.mirror = new Mirror(this.items.wallmirror)
+        this.setBaked()
         this.setEmissions()
+    }
 
-        const mirror = this.model.children.find(
-            (child) => child.name === 'wallmirror'
-        )
-        this.mirror = new Mirror(mirror)
-
-        this.setImages()
+    setBaked() {
+        this.items.RoomPatternMerged.material = this.roomPatternMaterial
+        this.items.RoomPlainMerged.material = this.roomPlainMaterial
+        this.items.bedemission.material = this.roomPlainMaterial
+        this.items.bedsideemission.material = this.roomPlainMaterial
+        this.items.deskemission.material = this.roomPlainMaterial
+        this.items.kitchenemission.material = this.roomPlainMaterial
+        this.items.roomemission.material = this.roomPlainMaterial
     }
 
     setEmissions() {
-        this.emissionState = CycleEmissions[this.sceneCycle.currentCycle].room
+        this.emissionState = CycleEmissions[this.cycles.currentCycle].room
 
-        this.model.children.find(
-            (child) => child.name === 'bulbemissions'
-        ).material = this.emissionMaterial
+        this.items.bulbemissions.material = this.orangeEmission
+        this.orangeEmission.registerEmissive(this.items.bulbemissions)
+
+        if (this.emissionState.room) {
+            this.items.roomemission.material = this.whiteEmission
+            this.whiteEmission.registerEmissive(this.items.roomemission)
+        }
+
+        if (this.emissionState.bed) {
+            this.items.bedemission.material = this.whiteEmission
+            this.whiteEmission.registerEmissive(this.items.bedemission)
+        }
+
+        if (this.emissionState.bedside) {
+            this.items.bedsideemission.material = this.whiteEmission
+            this.whiteEmission.registerEmissive(this.items.bedsideemission)
+        }
+
+        if (this.emissionState.desk) {
+            this.items.deskemission.material = this.orangeEmission
+            this.orangeEmission.registerEmissive(this.items.deskemission)
+        }
 
         if (this.emissionState.kitchen) {
-            this.model.children.find(
-                (child) => child.name === 'kitchenemission'
-            ).material = this.emissionMaterial
+            this.items.kitchenemission.material = this.whiteEmission
+            this.whiteEmission.registerEmissive(this.items.kitchenemission)
         }
     }
 
-    updateTextures() {
-        this.uniformsBig.uMap0.value = this.roomBigTexture
-        this.uniformsSmall.uMap0.value = this.roomSmallTexture
+    updateMaterials() {
+        this.roomPlainMaterial.map = this.roomPlainTexture
+        this.roomPlainMaterial.needsUpdate = true
+        this.roomPatternMaterial.map = this.roomPatternTexture
+        this.roomPatternMaterial.needsUpdate = true
+    }
+
+    updateCycle() {
+        this.uniformsPattern.uMap0.value = this.roomPatternTexture
+        this.uniformsPlain.uMap0.value = this.roomPlainTexture
 
         this.setTextures()
+        this.updateMaterials()
+        this.setBaked()
+        this.setEmissions()
 
-        this.roomSmallMaterial.map = this.roomSmallTexture
-        this.roomSmallMaterial.needsUpdate = true
-        this.roomBigMaterial.map = this.roomBigTexture
-        this.roomBigMaterial.needsUpdate = true
-
-        this.model.traverse((child) => {
-            if (
-                child.name === 'RoomBigMerged' ||
-                child.name === 'roomemission'
-            ) {
-                child.material = this.roomBigMaterial
-            } else if (
-                child.name === 'RoomSmallMerged' ||
-                child.name === 'deskemission' ||
-                child.name === 'kitchenemission' ||
-                child.name === 'bedsideemission' ||
-                child.name === 'bedemission'
-            ) {
-                child.material = this.roomSmallMaterial
-            }
-        })
-
-        animateTextureChange(this.uniformsBig.uMixProgress)
-        animateTextureChange(this.uniformsSmall.uMixProgress)
+        animateTextureChange(this.uniformsPattern.uMixProgress)
+        animateTextureChange(this.uniformsPlain.uMixProgress)
     }
 }

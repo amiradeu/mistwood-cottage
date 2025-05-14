@@ -51,10 +51,6 @@ export default class Room {
         })
         this.uniformsPlain = addTextureTransition(this.roomPlainMaterial)
 
-        this.emissionMaterial = new THREE.MeshBasicMaterial({
-            color: '#fef3e4',
-        })
-
         this.whiteEmission = new Emissive({
             name: '💡 Room White Bulbs',
             colorA: '#ffeab6',
@@ -63,8 +59,8 @@ export default class Room {
 
         this.orangeEmission = new Emissive({
             name: '💡 Room Orange Bulbs',
-            colorA: '##de3000',
-            colorB: '##db5d11',
+            colorA: '#de3000',
+            colorB: '#db5d11',
         })
     }
 

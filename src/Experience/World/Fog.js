@@ -20,7 +20,7 @@ export default class Fog {
             color: '#dfe9f3',
             near: 1,
             far: 50,
-            density: 0.04,
+            density: 0.015,
         }
         this.fog = new THREE.FogExp2(
             this.fogOptions.color,

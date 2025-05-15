@@ -10,6 +10,7 @@ import Debug from './Utils/Debug.js'
 import Statistics from './Utils/Statistics.js'
 import Overlay from './Components/Overlay.js'
 import Cycles from './Utils/Cycles.js'
+import PostProcessing from './PostProcessing.js'
 
 // Singleton
 let instance = null
@@ -37,6 +38,7 @@ export default class Experience {
         this.resources = new Resources(sources)
         this.camera = new Camera()
         this.renderer = new Renderer()
+        this.effectComposer = new PostProcessing()
         this.stats = new Statistics()
 
         this.cycles = new Cycles()
@@ -59,12 +61,14 @@ export default class Experience {
     resize() {
         this.camera.resize()
         this.renderer.resize()
+        this.effectComposer.resize()
     }
 
     update() {
         this.camera.update()
         this.world.update()
-        this.renderer.update()
+        // this.renderer.update()
+        this.effectComposer.update()
         this.stats.update()
     }
 

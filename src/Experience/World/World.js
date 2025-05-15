@@ -6,6 +6,7 @@ import Environment from './Environment.js'
 import Terrain from './Terrain.js'
 import Background from './Background.js'
 import Fog from './Fog.js'
+import Bloom from './Bloom.js'
 
 export default class World {
     constructor() {
@@ -19,6 +20,7 @@ export default class World {
             // console.log('Resources Ready')
 
             this.sceneGroup = new SceneGroup()
+            this.bloom = new Bloom()
 
             this.fog = new Fog()
             this.background = new Background()

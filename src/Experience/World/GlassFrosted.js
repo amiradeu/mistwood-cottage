@@ -3,13 +3,13 @@ import * as THREE from 'three'
 import Experience from '../Experience'
 
 export default class GlassFrosted {
-    constructor(mesh) {
+    constructor(meshes = []) {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
-        this.mesh = mesh
+        this.meshes = meshes
 
         this.options = {
             scale: 1.0,
@@ -51,11 +51,9 @@ export default class GlassFrosted {
     }
 
     setModel() {
-        this.mesh.geometry.setAttribute(
-            'uv2',
-            new THREE.BufferAttribute(this.mesh.geometry.attributes.uv.array, 2)
-        )
-        this.mesh.material = this.material
+        this.meshes.forEach((mesh) => {
+            mesh.material = this.material
+        })
     }
 
     setDebug() {

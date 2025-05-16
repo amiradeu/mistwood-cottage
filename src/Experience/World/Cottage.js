@@ -9,15 +9,19 @@ import {
 } from '../Shaders/addTextureTransition.js'
 import Emissive from './Emissive.js'
 import GlassFrosted from './GlassFrosted.js'
+import EventEmitter from '../Utils/EventEmitter.js'
 
-export default class Cottage {
+export default class Cottage extends EventEmitter {
     constructor() {
+        super()
+
         this.experience = new Experience()
         this.sceneGroup = this.experience.world.sceneGroup
         this.sceneCycle = this.experience.cycles
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
+        this.states = this.experience.states.instance
 
         this.emissions = new Emissive({
             name: '💡 Cottage Emissive',
@@ -69,7 +73,11 @@ export default class Cottage {
 
     setCustom() {
         new Glass(this.items.roofglass)
-        new GlassFrosted(this.items.windows)
+        new GlassFrosted([
+            this.items.windows,
+            this.items.leftwindow,
+            this.items.frontwindows,
+        ])
     }
 
     setEmissions() {
@@ -99,16 +107,20 @@ export default class Cottage {
         animateTextureChange(this.uniforms.uMixProgress)
     }
 
+    toggleLeft() {
+        this.items.CottageLeftMerged.visible = this.states.leftVisibility
+        this.items.leftwindow.visible = this.states.leftVisibility
+    }
+
+    toggleFront() {
+        this.items.CottageFrontMerged.visible = this.states.frontVisibility
+        this.items.frontwindows.visible = this.states.frontVisibility
+        this.items.dooremissionfront.visible = this.states.frontVisibility
+    }
+
     setDebug() {
         if (this.debug.active) {
             this.debugFolder = this.debug.ui.addFolder('🏡 Cottage')
-
-            this.debugFolder
-                .add(this.items.CottageLeftMerged, 'visible')
-                .name('left side')
-            this.debugFolder
-                .add(this.items.CottageFrontMerged, 'visible')
-                .name('front side')
         }
     }
 }

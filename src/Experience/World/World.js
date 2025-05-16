@@ -14,6 +14,7 @@ export default class World {
         this.resources = this.experience.resources
         this.sceneCycle = this.experience.cycles
         this.overlay = this.experience.overlay
+        this.states = this.experience.states
 
         // Setup World
         this.resources.on('ready', () => {
@@ -34,6 +35,14 @@ export default class World {
         this.sceneCycle.on('cycleChanged', () => {
             this.changeWorldCycle()
         })
+
+        this.states.on('toggleLeft', () => {
+            this.toggleLeft()
+        })
+
+        this.states.on('toggleFront', () => {
+            this.toggleFront()
+        })
     }
 
     // Update based on tick time
@@ -45,5 +54,15 @@ export default class World {
         if (this.cottage) this.cottage.updateCycle()
         if (this.environment) this.environment.updateCycle()
         if (this.terrain) this.terrain.updateCycle()
+    }
+
+    // Show or Hide Sides of Cottage
+    toggleLeft() {
+        if (this.cottage) this.cottage.toggleLeft()
+    }
+
+    toggleFront() {
+        if (this.room) this.room.toggleFront()
+        if (this.cottage) this.cottage.toggleFront()
     }
 }

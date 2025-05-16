@@ -87,6 +87,7 @@ export default class Room {
         this.items.deskemission.material = this.roomPlainMaterial
         this.items.kitchenemission.material = this.roomPlainMaterial
         this.items.roomemission.material = this.roomPlainMaterial
+        this.items.pictureframes.material = this.roomPlainMaterial
     }
 
     setEmissions() {
@@ -126,6 +127,14 @@ export default class Room {
         this.roomPlainMaterial.needsUpdate = true
         this.roomPatternMaterial.map = this.roomPatternTexture
         this.roomPatternMaterial.needsUpdate = true
+    }
+
+    toggleFront() {
+        this.model.traverse((child) => {
+            if (child.name.includes('pictureframecontent'))
+                child.visible = false
+        })
+        this.items.pictureframes.visible = false
     }
 
     updateCycle() {

@@ -11,6 +11,7 @@ import Statistics from './Utils/Statistics.js'
 import Overlay from './Components/Overlay.js'
 import Cycles from './Utils/Cycles.js'
 import PostProcessing from './PostProcessing.js'
+import States from './Utils/States.js'
 
 // Singleton
 let instance = null
@@ -42,6 +43,7 @@ export default class Experience {
         this.stats = new Statistics()
 
         this.cycles = new Cycles()
+        this.states = new States()
         this.world = new World()
         this.overlay = new Overlay()
 

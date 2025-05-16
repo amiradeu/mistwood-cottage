@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
 import Experience from '../Experience.js'
-import Mirror from './Mirror.js'
+import Mirror from '../Materials/Mirror.js'
 import { CycleEmissions } from '../Constants.js'
 import {
     addTextureTransition,

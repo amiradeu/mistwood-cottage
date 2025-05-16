@@ -2,13 +2,13 @@ import * as THREE from 'three'
 
 import Experience from '../Experience.js'
 import { CycleEmissions } from '../Constants.js'
-import Glass from './Glass.js'
+import Glass from '../Materials/Glass.js'
 import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
 import Emissive from './Emissive.js'
-import GlassFrosted from './GlassFrosted.js'
+import GlassFrosted from '../Materials/GlassFrosted.js'
 import EventEmitter from '../Utils/EventEmitter.js'
 
 export default class Cottage extends EventEmitter {

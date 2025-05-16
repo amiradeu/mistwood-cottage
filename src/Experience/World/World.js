@@ -1,5 +1,5 @@
 import Experience from '../Experience.js'
-import SceneGroup from './SceneGroup.js'
+import SceneGroup from '../Utils/SceneGroup.js'
 import Room from './Room.js'
 import Cottage from './Cottage.js'
 import Environment from './Environment.js'

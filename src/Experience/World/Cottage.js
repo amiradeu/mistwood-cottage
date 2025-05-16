@@ -27,13 +27,10 @@ export default class Cottage {
             power: 0.8,
         })
 
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🏡 Cottage')
-        }
-
         this.setTextures()
         this.setMaterials()
         this.setModel()
+        this.setDebug()
     }
 
     setTextures() {
@@ -43,47 +40,36 @@ export default class Cottage {
     }
 
     setMaterials() {
-        this.cottageMaterial = new THREE.MeshBasicMaterial({
+        this.material = new THREE.MeshBasicMaterial({
             map: this.texture,
         })
-        this.uniforms = addTextureTransition(this.cottageMaterial)
+        this.uniforms = addTextureTransition(this.material)
     }
 
     setModel() {
+        this.items = {}
+
         this.model = this.resources.items.cottageModel.scene
         this.sceneGroup.add(this.model)
 
-        // Apply baked texture
         this.model.traverse((child) => {
-            child.material = this.cottageMaterial
+            this.items[child.name] = child
         })
 
-        this.windows = this.model.children.find(
-            (child) => child.name === 'windows'
-        )
-        this.windows = new GlassFrosted(this.windows)
-
-        // Hide Left Side
-        this.leftSide = this.model.children.find(
-            (child) => child.name === 'CottageLeftMerged'
-        )
-
-        // Hide Front Side
-        this.frontSide = this.model.children.find(
-            (child) => child.name === 'CottageFrontMerged'
-        )
-
-        if (this.debug.active) {
-            this.debugFolder.add(this.leftSide, 'visible').name('left side')
-            this.debugFolder.add(this.frontSide, 'visible').name('front side')
-        }
-
-        this.roof = this.model.children.find(
-            (child) => child.name === 'roofglass'
-        )
-        this.glass = new Glass(this.roof)
-
+        this.setBaked()
+        this.setCustom()
         this.setEmissions()
+    }
+
+    setBaked() {
+        this.items.CottageMainMerged.material = this.material
+        this.items.CottageLeftMerged.material = this.material
+        this.items.CottageFrontMerged.material = this.material
+    }
+
+    setCustom() {
+        new Glass(this.items.roofglass)
+        new GlassFrosted(this.items.windows)
     }
 
     setEmissions() {
@@ -91,17 +77,11 @@ export default class Cottage {
             CycleEmissions[this.sceneCycle.currentCycle].cottage
 
         if (this.emissionState.front) {
-            const emissionFront = this.model.children.find(
-                (child) => child.name === 'dooremissionfront'
-            )
-
-            this.emissions.registerEmissive(emissionFront)
+            this.emissions.registerEmissive(this.items.dooremissionfront)
         }
+
         if (this.emissionState.back) {
-            const emissionBack = this.model.children.find(
-                (child) => child.name === 'dooremissionback'
-            )
-            this.emissions.registerEmissive(emissionBack)
+            this.emissions.registerEmissive(this.items.dooremissionback)
         }
     }
 
@@ -110,16 +90,25 @@ export default class Cottage {
 
         this.setTextures()
 
-        this.cottageMaterial.map = this.texture
-        this.cottageMaterial.needsUpdate = true
+        this.material.map = this.texture
+        this.material.needsUpdate = true
 
-        this.model.traverse((child) => {
-            child.material = this.cottageMaterial
-            if (child.name === 'windows') child.material = this.windows.material
-        })
-
+        this.setBaked()
         this.setEmissions()
 
         animateTextureChange(this.uniforms.uMixProgress)
+    }
+
+    setDebug() {
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder('🏡 Cottage')
+
+            this.debugFolder
+                .add(this.items.CottageLeftMerged, 'visible')
+                .name('left side')
+            this.debugFolder
+                .add(this.items.CottageFrontMerged, 'visible')
+                .name('front side')
+        }
     }
 }

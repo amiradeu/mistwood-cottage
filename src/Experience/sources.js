@@ -134,6 +134,16 @@ export default [
         path: 'textures/Glass/glass_block_normal.jpg',
     },
     {
+        name: 'glassFrostedBaseTexture',
+        type: 'texture',
+        path: 'textures/GlassFrosted/Surface_Imperfection_001_basecolor.jpg',
+    },
+    {
+        name: 'glassFrostedNormalTexture',
+        type: 'texture',
+        path: 'textures/GlassFrosted/Surface_Imperfection_001_normal.jpg',
+    },
+    {
         name: 'environmentMapTexture',
         type: 'exrTexture',
         path: 'textures/EnvironmentMap/aerial-canadian-mountain-sunset_1K.exr',

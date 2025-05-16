@@ -8,6 +8,7 @@ import {
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
 import Emissive from './Emissive.js'
+import GlassFrosted from './GlassFrosted.js'
 
 export default class Cottage {
     constructor() {
@@ -33,8 +34,6 @@ export default class Cottage {
         this.setTextures()
         this.setMaterials()
         this.setModel()
-
-        this.removeUnusedMeshes()
     }
 
     setTextures() {
@@ -54,14 +53,15 @@ export default class Cottage {
         this.model = this.resources.items.cottageModel.scene
         this.sceneGroup.add(this.model)
 
-        this.window = this.model.children.find(
-            (child) => child.name === 'window'
-        )
-
         // Apply baked texture
         this.model.traverse((child) => {
             child.material = this.cottageMaterial
         })
+
+        this.windows = this.model.children.find(
+            (child) => child.name === 'windows'
+        )
+        this.windows = new GlassFrosted(this.windows)
 
         // Hide Left Side
         this.leftSide = this.model.children.find(
@@ -115,15 +115,11 @@ export default class Cottage {
 
         this.model.traverse((child) => {
             child.material = this.cottageMaterial
+            if (child.name === 'windows') child.material = this.windows.material
         })
 
         this.setEmissions()
 
         animateTextureChange(this.uniforms.uMixProgress)
-    }
-
-    removeUnusedMeshes() {
-        // Delete Unused Meshes
-        this.window.parent.remove(this.window)
     }
 }

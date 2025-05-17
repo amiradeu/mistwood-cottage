@@ -8,42 +8,42 @@ export default [
     {
         name: 'roomPlainTextureSunrise',
         type: 'texture',
-        path: 'models/Room/RoomSmall-sunrise.jpg',
+        path: 'models/Room/RoomPlain-sunrise.jpg',
     },
     {
         name: 'roomPlainTextureDaylight',
         type: 'texture',
-        path: 'models/Room/RoomSmall-daylight.jpg',
+        path: 'models/Room/RoomPlain-daylight.jpg',
     },
     {
         name: 'roomPlainTextureSunset',
         type: 'texture',
-        path: 'models/Room/RoomSmall-sunset.jpg',
+        path: 'models/Room/RoomPlain-sunset.jpg',
     },
     {
         name: 'roomPlainTextureNight',
         type: 'texture',
-        path: 'models/Room/RoomSmall-night.jpg',
+        path: 'models/Room/RoomPlain-night.jpg',
     },
     {
         name: 'roomPatternTextureSunrise',
         type: 'texture',
-        path: 'models/Room/RoomBig-sunrise.jpg',
+        path: 'models/Room/RoomPattern-sunrise.jpg',
     },
     {
         name: 'roomPatternTextureDaylight',
         type: 'texture',
-        path: 'models/Room/RoomBig-daylight.jpg',
+        path: 'models/Room/RoomPattern-daylight.jpg',
     },
     {
         name: 'roomPatternTextureSunset',
         type: 'texture',
-        path: 'models/Room/RoomBig-sunset.jpg',
+        path: 'models/Room/RoomPattern-sunset.jpg',
     },
     {
         name: 'roomPatternTextureNight',
         type: 'texture',
-        path: 'models/Room/RoomBig-night.jpg',
+        path: 'models/Room/RoomPattern-night.jpg',
     },
 
     // Cottage

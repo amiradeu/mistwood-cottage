@@ -151,32 +151,32 @@ export default [
 
     // Images to fill Room Wall Frames
     {
-        name: 'roomImage0',
+        name: 'artImage0',
         type: 'texture',
         path: 'textures/Arts/0.jpg',
     },
     {
-        name: 'roomImage1',
+        name: 'artImage1',
         type: 'texture',
         path: 'textures/Arts/1.jpg',
     },
     {
-        name: 'roomImage2',
+        name: 'artImage2',
         type: 'texture',
         path: 'textures/Arts/2.jpg',
     },
     {
-        name: 'roomImage3',
+        name: 'artImage3',
         type: 'texture',
         path: 'textures/Arts/3.jpg',
     },
     {
-        name: 'roomImage4',
+        name: 'artImage4',
         type: 'texture',
         path: 'textures/Arts/4.jpg',
     },
     {
-        name: 'roomImage5',
+        name: 'artImage5',
         type: 'texture',
         path: 'textures/Arts/5.jpg',
     },

@@ -40,6 +40,31 @@ export default class Room {
             this.resources.items[this.cycles.textures.roomPlain]
         this.roomPlainTexture.flipY = false
         this.roomPlainTexture.colorSpace = THREE.SRGBColorSpace
+
+        // Art Images
+        this.art0Texture = this.resources.items.artImage0
+        this.art0Texture.flipY = false
+        this.art0Texture.colorSpace = THREE.SRGBColorSpace
+
+        this.art1Texture = this.resources.items.artImage1
+        this.art1Texture.flipY = false
+        this.art1Texture.colorSpace = THREE.SRGBColorSpace
+
+        this.art2Texture = this.resources.items.artImage2
+        this.art2Texture.flipY = false
+        this.art2Texture.colorSpace = THREE.SRGBColorSpace
+
+        this.art3Texture = this.resources.items.artImage3
+        this.art3Texture.flipY = false
+        this.art3Texture.colorSpace = THREE.SRGBColorSpace
+
+        this.art4Texture = this.resources.items.artImage4
+        this.art4Texture.flipY = false
+        this.art4Texture.colorSpace = THREE.SRGBColorSpace
+
+        this.art5Texture = this.resources.items.artImage5
+        this.art5Texture.flipY = false
+        this.art5Texture.colorSpace = THREE.SRGBColorSpace
     }
 
     setMaterials() {
@@ -76,6 +101,36 @@ export default class Room {
             transparent: true,
             opacity: 0.5,
         })
+
+        this.art0Material = new THREE.MeshBasicMaterial({
+            map: this.art0Texture,
+            transparent: true,
+        })
+
+        this.art1Material = new THREE.MeshBasicMaterial({
+            map: this.art1Texture,
+            transparent: true,
+        })
+
+        this.art2Material = new THREE.MeshBasicMaterial({
+            map: this.art2Texture,
+            transparent: true,
+        })
+
+        this.art3Material = new THREE.MeshBasicMaterial({
+            map: this.art3Texture,
+            transparent: true,
+        })
+
+        this.art4Material = new THREE.MeshBasicMaterial({
+            map: this.art4Texture,
+            transparent: true,
+        })
+
+        this.art5Material = new THREE.MeshBasicMaterial({
+            map: this.art5Texture,
+            transparent: true,
+        })
     }
 
     setModel() {
@@ -107,6 +162,12 @@ export default class Room {
     setCustom() {
         this.mirror = new Mirror(this.items.wallmirror)
         this.items.recordcover.material = this.recordMaterial
+        this.items.bigart.material = this.art0Material
+        this.items.smallart.material = this.art1Material
+        this.items.smallart001.material = this.art2Material
+        this.items.smallart002.material = this.art3Material
+        this.items.smallart003.material = this.art4Material
+        this.items.smallart004.material = this.art5Material
     }
 
     setEmissions() {

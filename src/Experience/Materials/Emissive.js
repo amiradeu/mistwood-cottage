@@ -1,9 +1,15 @@
 import * as THREE from 'three'
 
 import Experience from '../Experience'
-import emissiveGradientVertexShader from '../Shaders/EmissiveGradient/vertex.glsl'
-import emissiveGradientFragmentShader from '../Shaders/EmissiveGradient/fragment.glsl'
+import emissiveRadialGradientVertexShader from '../Shaders/EmissiveRadialGradient/vertex.glsl'
+import emissiveRadialGradientFragmentShader from '../Shaders/EmissiveRadialGradient/fragment.glsl'
+import emissiveLinearGradientVertexShader from '../Shaders/EmissiveLinearGradient/vertex.glsl'
+import emissiveLinearGradientFragmentShader from '../Shaders/EmissiveLinearGradient/fragment.glsl'
 
+export const EMISSIVE_TYPE = {
+    RADIAL: 'radial',
+    LINEAR: 'linear',
+}
 export default class Emissive {
     constructor(options = {}) {
         this.experience = new Experience()
@@ -15,6 +21,7 @@ export default class Emissive {
             colorB: '#cc5b0f',
             radius: 0.6,
             power: 0.6,
+            type: EMISSIVE_TYPE.RADIAL,
         }
 
         this.options = {
@@ -27,18 +34,35 @@ export default class Emissive {
     }
 
     setMaterial() {
-        this.material = new THREE.ShaderMaterial({
-            vertexShader: emissiveGradientVertexShader,
-            fragmentShader: emissiveGradientFragmentShader,
-            side: THREE.DoubleSide,
-            uniforms: {
-                uColorA: { value: new THREE.Color(this.options.colorA) },
-                uColorB: { value: new THREE.Color(this.options.colorB) },
-                uTime: { value: 0 },
-                uRadius: { value: this.options.radius },
-                uPower: { value: this.options.power },
-            },
-        })
+        if (this.options.type === EMISSIVE_TYPE.RADIAL) {
+            this.material = new THREE.ShaderMaterial({
+                vertexShader: emissiveRadialGradientVertexShader,
+                fragmentShader: emissiveRadialGradientFragmentShader,
+                side: THREE.DoubleSide,
+                uniforms: {
+                    uColorA: { value: new THREE.Color(this.options.colorA) },
+                    uColorB: { value: new THREE.Color(this.options.colorB) },
+                    uTime: { value: 0 },
+                    uRadius: { value: this.options.radius },
+                    uPower: { value: this.options.power },
+                },
+            })
+        }
+
+        if (this.options.type === EMISSIVE_TYPE.LINEAR) {
+            this.material = new THREE.ShaderMaterial({
+                vertexShader: emissiveLinearGradientVertexShader,
+                fragmentShader: emissiveLinearGradientFragmentShader,
+                side: THREE.DoubleSide,
+                uniforms: {
+                    uColorA: { value: new THREE.Color(this.options.colorA) },
+                    uColorB: { value: new THREE.Color(this.options.colorB) },
+                    uTime: { value: 0 },
+                    uRadius: { value: this.options.radius },
+                    uPower: { value: this.options.power },
+                },
+            })
+        }
     }
 
     setDebug() {

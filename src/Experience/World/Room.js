@@ -7,7 +7,7 @@ import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
-import Emissive from '../Materials/Emissive.js'
+import Emissive, { EMISSIVE_TYPE } from '../Materials/Emissive.js'
 import { toggleFade } from '../Utils/Animation.js'
 
 export default class Room {
@@ -92,8 +92,10 @@ export default class Room {
 
         this.orangeEmission = new Emissive({
             name: '💡 Room Orange Bulbs',
-            colorA: '#de3000',
-            colorB: '#db5d11',
+            colorA: '#d86d1a', // '#e67830'
+            colorB: '#de3000',
+            power: 0.8,
+            type: EMISSIVE_TYPE.LINEAR,
         })
 
         this.recordMaterial = new THREE.MeshBasicMaterial({

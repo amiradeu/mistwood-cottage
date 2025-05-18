@@ -7,7 +7,8 @@ import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
-import Emissive from './Emissive.js'
+import Emissive from '../Materials/Emissive.js'
+import { toggleFade } from '../Utils/Animation.js'
 
 export default class Room {
     constructor() {
@@ -17,6 +18,7 @@ export default class Room {
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
+        this.states = this.experience.states.instance
 
         // Debug
         if (this.debug.active) {
@@ -48,8 +50,14 @@ export default class Room {
 
         this.roomPlainMaterial = new THREE.MeshBasicMaterial({
             map: this.roomPlainTexture,
+            transparent: true,
         })
         this.uniformsPlain = addTextureTransition(this.roomPlainMaterial)
+
+        this.pictureframesMaterial = this.roomPlainMaterial.clone()
+        this.uniformsPictureframes = addTextureTransition(
+            this.pictureframesMaterial
+        )
 
         this.whiteEmission = new Emissive({
             name: '💡 Room White Bulbs',
@@ -61,6 +69,12 @@ export default class Room {
             name: '💡 Room Orange Bulbs',
             colorA: '#de3000',
             colorB: '#db5d11',
+        })
+
+        this.recordMaterial = new THREE.MeshBasicMaterial({
+            color: '#31d0f7',
+            transparent: true,
+            opacity: 0.5,
         })
     }
 
@@ -74,7 +88,7 @@ export default class Room {
             this.items[child.name] = child
         })
 
-        this.mirror = new Mirror(this.items.wallmirror)
+        this.setCustom()
         this.setBaked()
         this.setEmissions()
     }
@@ -87,7 +101,12 @@ export default class Room {
         this.items.deskemission.material = this.roomPlainMaterial
         this.items.kitchenemission.material = this.roomPlainMaterial
         this.items.roomemission.material = this.roomPlainMaterial
-        this.items.pictureframes.material = this.roomPlainMaterial
+        this.items.pictureframes.material = this.pictureframesMaterial
+    }
+
+    setCustom() {
+        this.mirror = new Mirror(this.items.wallmirror)
+        this.items.recordcover.material = this.recordMaterial
     }
 
     setEmissions() {
@@ -123,23 +142,30 @@ export default class Room {
     }
 
     updateMaterials() {
-        this.roomPlainMaterial.map = this.roomPlainTexture
-        this.roomPlainMaterial.needsUpdate = true
         this.roomPatternMaterial.map = this.roomPatternTexture
         this.roomPatternMaterial.needsUpdate = true
+        this.roomPlainMaterial.map = this.roomPlainTexture
+        this.roomPlainMaterial.needsUpdate = true
+        this.pictureframesMaterial.map = this.roomPlainTexture
+        this.pictureframesMaterial.needsUpdate = true
     }
 
     toggleFront() {
         this.model.traverse((child) => {
-            if (child.name.includes('pictureframecontent'))
-                child.visible = false
+            if (child.name.includes('smallart')) {
+                toggleFade(child.material, this.states.frontVisibility)
+            }
         })
-        this.items.pictureframes.visible = false
+        toggleFade(
+            this.items.pictureframes.material,
+            this.states.frontVisibility
+        )
     }
 
     updateCycle() {
         this.uniformsPattern.uMap0.value = this.roomPatternTexture
         this.uniformsPlain.uMap0.value = this.roomPlainTexture
+        this.uniformsPictureframes.uMap0.value = this.roomPlainTexture
 
         this.setTextures()
         this.updateMaterials()
@@ -148,5 +174,6 @@ export default class Room {
 
         animateTextureChange(this.uniformsPattern.uMixProgress)
         animateTextureChange(this.uniformsPlain.uMixProgress)
+        animateTextureChange(this.uniformsPictureframes.uMixProgress)
     }
 }

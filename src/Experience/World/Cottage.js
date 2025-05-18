@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 
+import EventEmitter from '../Utils/EventEmitter.js'
 import Experience from '../Experience.js'
 import { CycleEmissions } from '../Constants.js'
 import Glass from '../Materials/Glass.js'
@@ -7,9 +8,9 @@ import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
-import Emissive from './Emissive.js'
+import Emissive from '../Materials/Emissive.js'
 import GlassFrosted from '../Materials/GlassFrosted.js'
-import EventEmitter from '../Utils/EventEmitter.js'
+import { toggleFade } from '../Utils/Animation.js'
 
 export default class Cottage extends EventEmitter {
     constructor() {
@@ -22,14 +23,6 @@ export default class Cottage extends EventEmitter {
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
         this.states = this.experience.states.instance
-
-        this.emissions = new Emissive({
-            name: '💡 Cottage Emissive',
-            colorA: '#d8d284',
-            colorB: '#be731c',
-            radius: 0.8,
-            power: 0.8,
-        })
 
         this.setTextures()
         this.setMaterials()
@@ -46,8 +39,22 @@ export default class Cottage extends EventEmitter {
     setMaterials() {
         this.material = new THREE.MeshBasicMaterial({
             map: this.texture,
+            transparent: true,
         })
+        this.materialLeft = this.material.clone()
+        this.materialFront = this.material.clone()
+
         this.uniforms = addTextureTransition(this.material)
+        this.uniformsLeft = addTextureTransition(this.materialLeft)
+        this.uniformsFront = addTextureTransition(this.materialFront)
+
+        this.emissions = new Emissive({
+            name: '💡 Cottage Emissive',
+            colorA: '#d8d284',
+            colorB: '#be731c',
+            radius: 0.8,
+            power: 0.8,
+        })
     }
 
     setModel() {
@@ -67,17 +74,23 @@ export default class Cottage extends EventEmitter {
 
     setBaked() {
         this.items.CottageMainMerged.material = this.material
-        this.items.CottageLeftMerged.material = this.material
-        this.items.CottageFrontMerged.material = this.material
+        this.items.CottageLeftMerged.material = this.materialLeft
+        this.items.CottageFrontMerged.material = this.materialFront
+        this.items.dooremissionfront.material = this.materialFront
+        this.items.dooremissionback.material = this.material
     }
 
     setCustom() {
-        new Glass(this.items.roofglass)
-        new GlassFrosted([
-            this.items.windows,
-            this.items.leftwindow,
-            this.items.frontwindows,
-        ])
+        this.roofGlass = new Glass(this.items.roofglass)
+        this.windows = new GlassFrosted(this.items.windows, {
+            name: '🪟 Back Windows',
+        })
+        this.leftwindow = new GlassFrosted(this.items.leftwindow, {
+            name: '🪟 Left Window',
+        })
+        this.frontwindows = new GlassFrosted(this.items.frontwindows, {
+            name: '🪟 Front Windows',
+        })
     }
 
     setEmissions() {
@@ -93,29 +106,59 @@ export default class Cottage extends EventEmitter {
         }
     }
 
-    updateCycle() {
+    updateUniforms() {
         this.uniforms.uMap0.value = this.texture
+        this.uniformsFront.uMap0.value = this.texture
+        this.uniformsLeft.uMap0.value = this.texture
+    }
 
-        this.setTextures()
-
+    updateMaterials() {
         this.material.map = this.texture
         this.material.needsUpdate = true
+        this.materialLeft.map = this.texture
+        this.materialLeft.needsUpdate = true
+        this.materialFront.map = this.texture
+        this.materialFront.needsUpdate = true
+    }
 
+    updateCycle() {
+        this.updateUniforms()
+        this.setTextures()
+        this.updateMaterials()
         this.setBaked()
         this.setEmissions()
 
         animateTextureChange(this.uniforms.uMixProgress)
+        animateTextureChange(this.uniformsFront.uMixProgress)
+        animateTextureChange(this.uniformsLeft.uMixProgress)
     }
 
     toggleLeft() {
-        this.items.CottageLeftMerged.visible = this.states.leftVisibility
-        this.items.leftwindow.visible = this.states.leftVisibility
+        toggleFade(
+            this.items.CottageLeftMerged.material,
+            this.states.leftVisibility
+        )
+        toggleFade(
+            this.items.leftwindow.material,
+            this.states.leftVisibility,
+            this.leftwindow.options.opacity
+        )
     }
 
     toggleFront() {
-        this.items.CottageFrontMerged.visible = this.states.frontVisibility
-        this.items.frontwindows.visible = this.states.frontVisibility
-        this.items.dooremissionfront.visible = this.states.frontVisibility
+        toggleFade(
+            this.items.CottageFrontMerged.material,
+            this.states.frontVisibility
+        )
+        toggleFade(
+            this.items.frontwindows.material,
+            this.states.frontVisibility,
+            this.frontwindows.options.opacity
+        )
+        toggleFade(
+            this.items.dooremissionfront.material,
+            this.states.frontVisibility
+        )
     }
 
     setDebug() {

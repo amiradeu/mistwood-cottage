@@ -6,7 +6,7 @@ import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
-import Emissive from './Emissive.js'
+import Emissive from '../Materials/Emissive.js'
 
 export default class Environment {
     constructor() {

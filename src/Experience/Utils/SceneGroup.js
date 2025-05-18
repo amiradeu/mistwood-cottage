@@ -10,7 +10,7 @@ export default class SceneGroup {
         this.instance = new THREE.Group()
 
         this.instance.scale.set(0.1, 0.1, 0.1)
-        // this.instance.position.set(0, -2, 0)
+        this.instance.position.set(0, -1, 0)
 
         this.scene.add(this.instance)
     }

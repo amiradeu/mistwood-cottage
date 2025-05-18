@@ -3,18 +3,24 @@ import * as THREE from 'three'
 import Experience from '../Experience'
 
 export default class GlassFrosted {
-    constructor(meshes = []) {
+    constructor(mesh, options = {}) {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
-        this.meshes = meshes
+        this.mesh = mesh
+
+        const defaultOptions = {
+            scale: 1.0,
+            opacity: 0.8,
+            color: '#464851',
+            name: '🪟 Window Glass Frosted',
+        }
 
         this.options = {
-            scale: 1.0,
-            opacity: 1,
-            color: '#464851',
+            ...defaultOptions,
+            ...options,
         }
 
         this.setTextures()
@@ -51,18 +57,18 @@ export default class GlassFrosted {
     }
 
     setModel() {
-        this.meshes.forEach((mesh) => {
-            mesh.material = this.material
-        })
+        this.mesh.material = this.material
     }
 
     setDebug() {
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder(
-                '🪟 Window Glass Frosted'
-            )
+            this.debugFolder = this.debug.ui.addFolder(this.options.name)
 
-            this.debugFolder.add(this.material, 'opacity', 0, 1, 0.01)
+            this.debugFolder
+                .add(this.options, 'opacity', 0, 1, 0.01)
+                .onChange(() => {
+                    this.material.opacity = this.options.opacity
+                })
 
             this.debugFolder.addColor(this.options, 'color').onChange(() => {
                 this.material.color.set(this.options.color)

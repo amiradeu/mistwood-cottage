@@ -25,14 +25,10 @@ export default class Environment {
             power: 1.2,
         })
 
-        // Debug
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🌳 Environment')
-        }
-
         this.setTextures()
         this.setMaterials()
         this.setModel()
+        this.setDebug()
     }
 
     setTextures() {
@@ -99,6 +95,12 @@ export default class Environment {
             emissions.layers.enable(1)
             // console.log(emissions.isMesh)
             this.emissions.registerEmissive(emissions)
+        }
+    }
+
+    setDebug() {
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder('🌳 Environment').close()
         }
     }
 }

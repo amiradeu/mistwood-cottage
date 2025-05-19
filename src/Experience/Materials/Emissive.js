@@ -67,7 +67,9 @@ export default class Emissive {
 
     setDebug() {
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder(this.options.name)
+            this.debugFolder = this.debug.ui
+                .addFolder(this.options.name)
+                .close()
 
             this.debugFolder.addColor(this.options, 'colorA').onChange(() => {
                 this.material.uniforms.uColorA.value.set(this.options.colorA)

@@ -15,10 +15,6 @@ export default class Glass {
         this.debug = this.experience.debug
         this.mesh = mesh
 
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('Glass')
-        }
-
         this.setTextures()
         this.setMaterials()
         this.setModel()

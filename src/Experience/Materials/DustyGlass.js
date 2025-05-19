@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 import Experience from '../Experience'
 
-export default class GlassFrosted {
+export default class DustyGlass {
     constructor(mesh, options = {}) {
         this.experience = new Experience()
         this.scene = this.experience.scene
@@ -15,7 +15,7 @@ export default class GlassFrosted {
             scale: 1.0,
             opacity: 0.8,
             color: '#464851',
-            name: '🪟 Window Glass Frosted',
+            name: '🪟 Window',
         }
 
         this.options = {
@@ -62,7 +62,9 @@ export default class GlassFrosted {
 
     setDebug() {
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder(this.options.name)
+            this.debugFolder = this.debug.ui
+                .addFolder(this.options.name)
+                .close()
 
             this.debugFolder
                 .add(this.options, 'opacity', 0, 1, 0.01)

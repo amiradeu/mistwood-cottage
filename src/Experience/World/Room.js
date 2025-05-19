@@ -21,14 +21,10 @@ export default class Room {
         this.debug = this.experience.debug
         this.states = this.experience.states.instance
 
-        // Debug
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🛋️ Room')
-        }
-
         this.setTextures()
         this.setMaterials()
         this.setModel()
+        this.setDebug()
     }
 
     update() {
@@ -249,5 +245,11 @@ export default class Room {
         animateTextureChange(this.uniformsPattern.uMixProgress)
         animateTextureChange(this.uniformsPlain.uMixProgress)
         animateTextureChange(this.uniformsPictureframes.uMixProgress)
+    }
+
+    setDebug() {
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder('🛋️ Room').close()
+        }
     }
 }

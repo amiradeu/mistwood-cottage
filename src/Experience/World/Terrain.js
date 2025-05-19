@@ -14,15 +14,11 @@ export default class Terrain {
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
-        // Debug
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('⛰️ Terrain')
-        }
-
         // Setup
         this.setTextures()
         this.setMaterials()
         this.setModel()
+        this.setDebug()
     }
 
     setTextures() {
@@ -56,5 +52,11 @@ export default class Terrain {
         })
 
         animateTextureChange(this.uniforms.uMixProgress)
+    }
+
+    setDebug() {
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder('⛰️ Terrain').close()
+        }
     }
 }

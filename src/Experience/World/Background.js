@@ -10,7 +10,7 @@ export default class Background {
         this.debug = this.experience.debug
 
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('☁️ Ambiance')
+            this.debugFolder = this.debug.ui.addFolder('☁️ Sky')
         }
 
         this.setBackground()

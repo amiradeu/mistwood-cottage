@@ -101,7 +101,7 @@ export default class TeaSmoke {
 
     setDebug() {
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('Tea Smoke')
+            this.debugFolder = this.debug.ui.addFolder('☕️ Tea Smoke').close()
 
             this.debugFolder.add(this.smokeMaterial, 'wireframe')
             this.debugFolder

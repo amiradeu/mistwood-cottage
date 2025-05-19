@@ -9,7 +9,7 @@ import {
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
 import Emissive from '../Materials/Emissive.js'
-import GlassFrosted from '../Materials/GlassFrosted.js'
+import DustyGlass from '../Materials/DustyGlass.js'
 import { toggleFade } from '../Utils/Animation.js'
 
 export default class Cottage extends EventEmitter {
@@ -82,13 +82,13 @@ export default class Cottage extends EventEmitter {
 
     setCustom() {
         this.roofGlass = new Glass(this.items.roofglass)
-        this.windows = new GlassFrosted(this.items.windows, {
+        this.windows = new DustyGlass(this.items.windows, {
             name: '🪟 Back Windows',
         })
-        this.leftwindow = new GlassFrosted(this.items.leftwindow, {
+        this.leftwindow = new DustyGlass(this.items.leftwindow, {
             name: '🪟 Left Window',
         })
-        this.frontwindows = new GlassFrosted(this.items.frontwindows, {
+        this.frontwindows = new DustyGlass(this.items.frontwindows, {
             name: '🪟 Front Windows',
         })
     }
@@ -163,7 +163,7 @@ export default class Cottage extends EventEmitter {
 
     setDebug() {
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🏡 Cottage')
+            this.debugFolder = this.debug.ui.addFolder('🏡 Cottage').close()
         }
     }
 }

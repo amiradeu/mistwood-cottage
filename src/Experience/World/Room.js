@@ -9,6 +9,7 @@ import {
 } from '../Shaders/addTextureTransition.js'
 import Emissive, { EMISSIVE_TYPE } from '../Materials/Emissive.js'
 import { toggleFade } from '../Utils/Animation.js'
+import TeaSmoke from '../Materials/TeaSmoke.js'
 
 export default class Room {
     constructor() {
@@ -28,6 +29,10 @@ export default class Room {
         this.setTextures()
         this.setMaterials()
         this.setModel()
+    }
+
+    update() {
+        this.teasmoke.update()
     }
 
     setTextures() {
@@ -162,14 +167,20 @@ export default class Room {
     }
 
     setCustom() {
+        // Reflections
         this.mirror = new Mirror(this.items.wallmirror)
         this.items.recordcover.material = this.recordMaterial
+
+        // Wall Arts
         this.items.bigart.material = this.art0Material
         this.items.smallart.material = this.art1Material
         this.items.smallart001.material = this.art2Material
         this.items.smallart002.material = this.art3Material
         this.items.smallart003.material = this.art4Material
         this.items.smallart004.material = this.art5Material
+
+        // Smokes
+        this.teasmoke = new TeaSmoke(this.items.teawater)
     }
 
     setEmissions() {

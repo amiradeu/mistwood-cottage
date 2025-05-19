@@ -46,7 +46,9 @@ export default class World {
     }
 
     // Update based on tick time
-    update() {}
+    update() {
+        if (this.room) this.room.update()
+    }
 
     // Update based on day cycle
     changeWorldCycle() {

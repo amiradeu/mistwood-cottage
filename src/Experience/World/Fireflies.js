@@ -4,6 +4,11 @@ import Experience from '../Experience.js'
 import firefliesVertexShader from '../Shaders/Fireflies/vertex.glsl'
 import firefliesFragmentShader from '../Shaders/Fireflies/fragment.glsl'
 
+export const AREA_TYPE = {
+    SPHERE: 'Sphere',
+    CUBE: 'Cube',
+}
+
 export default class Fireflies {
     constructor(options = {}) {
         this.experience = new Experience()
@@ -21,7 +26,14 @@ export default class Fireflies {
 
     setOptions(options) {
         const defaultOptions = {
+            area: AREA_TYPE.SPHERE,
             positions: new THREE.Vector3(0, 0, 0),
+            cubeSize: {
+                x: 10,
+                y: 10,
+                z: 10,
+            },
+
             color: '#ffd009',
             count: 200,
             size: 60,
@@ -69,15 +81,25 @@ export default class Fireflies {
             const position = new THREE.Vector3()
             position.setFromSpherical(spherical)
 
-            // Random spherical position
-            positionsArray[i3] = position.x
-            positionsArray[i3 + 1] = position.y
-            positionsArray[i3 + 2] = position.z
+            if (this.options.area === AREA_TYPE.SPHERE) {
+                // Random spherical position
+                positionsArray[i3] = position.x
+                positionsArray[i3 + 1] = position.y
+                positionsArray[i3 + 2] = position.z
+            }
 
-            // Random cube position
-            // positionsArray[i3] = Math.random() - 0.5
-            // positionsArray[i3 + 1] = Math.random() - 0.5
-            // positionsArray[i3 + 2] = Math.random() - 0.5
+            if (this.options.area === AREA_TYPE.CUBE) {
+                // Random cube position
+                positionsArray[i3] =
+                    Math.random() * this.options.cubeSize.x -
+                    this.options.cubeSize.x / 2
+                positionsArray[i3 + 1] =
+                    Math.random() * this.options.cubeSize.y -
+                    this.options.cubeSize.y / 2
+                positionsArray[i3 + 2] =
+                    Math.random() * this.options.cubeSize.z -
+                    this.options.cubeSize.z / 2
+            }
 
             randomness[i] = Math.random()
             randomMove[i] = Math.random()

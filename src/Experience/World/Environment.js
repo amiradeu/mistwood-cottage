@@ -7,6 +7,7 @@ import {
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
 import Emissive from '../Materials/Emissive.js'
+import Fireflies, { AREA_TYPE } from './Fireflies.js'
 
 export default class Environment {
     constructor() {
@@ -53,31 +54,33 @@ export default class Environment {
     }
 
     setModel() {
+        this.items = {}
+
         this.model = this.resources.items.environmentModel.scene
         this.sceneGroup.add(this.model)
 
         this.model.traverse((child) => {
+            this.items[child.name] = child
             child.material = this.environmentMaterial
         })
 
         this.setEmission()
+        this.setCustom()
     }
 
-    updateCycle() {
-        this.uniforms.uMap0.value = this.texture
-
-        this.setTextures()
-
-        this.environmentMaterial.map = this.texture
-        this.environmentMaterial.needsUpdate = true
-
-        this.model.traverse((child) => {
-            child.material = this.environmentMaterial
+    setCustom() {
+        this.fireflies = new Fireflies({
+            area: AREA_TYPE.CUBE,
+            cubeSize: {
+                x: 200,
+                y: 30,
+                z: 200,
+            },
+            positions: new THREE.Vector3(0, 10, 0),
+            count: 500,
+            radius: 50,
+            size: 100,
         })
-
-        this.setEmission()
-
-        animateTextureChange(this.uniforms.uMixProgress)
     }
 
     setEmission() {
@@ -102,5 +105,26 @@ export default class Environment {
         if (this.debug.active) {
             this.debugFolder = this.debug.ui.addFolder('🌳 Environment').close()
         }
+    }
+
+    updateCycle() {
+        this.uniforms.uMap0.value = this.texture
+
+        this.setTextures()
+
+        this.environmentMaterial.map = this.texture
+        this.environmentMaterial.needsUpdate = true
+
+        this.model.traverse((child) => {
+            child.material = this.environmentMaterial
+        })
+
+        this.setEmission()
+
+        animateTextureChange(this.uniforms.uMixProgress)
+    }
+
+    update() {
+        if (this.fireflies) this.fireflies.update()
     }
 }

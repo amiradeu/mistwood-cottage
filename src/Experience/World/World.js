@@ -49,6 +49,7 @@ export default class World {
     update() {
         if (this.room) this.room.update()
         if (this.cottage) this.cottage.update()
+        if (this.environment) this.environment.update()
     }
 
     // Update based on day cycle

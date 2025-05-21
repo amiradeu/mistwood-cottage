@@ -11,6 +11,7 @@ import {
 import Emissive from '../Materials/Emissive.js'
 import DustyGlass from '../Materials/DustyGlass.js'
 import { toggleFade } from '../Utils/Animation.js'
+import Fireflies from './Fireflies.js'
 
 export default class Cottage extends EventEmitter {
     constructor() {
@@ -91,6 +92,12 @@ export default class Cottage extends EventEmitter {
         this.frontwindows = new DustyGlass(this.items.frontwindows, {
             name: '🪟 Front Windows',
         })
+        this.firefliesFront = new Fireflies({
+            positions: this.items.dooremissionfront.position,
+        })
+        this.firefliesBack = new Fireflies({
+            positions: this.items.dooremissionback.position,
+        })
     }
 
     setEmissions() {
@@ -165,5 +172,10 @@ export default class Cottage extends EventEmitter {
         if (this.debug.active) {
             this.debugFolder = this.debug.ui.addFolder('🏡 Cottage').close()
         }
+    }
+
+    update() {
+        if (this.firefliesFront) this.firefliesFront.update()
+        if (this.firefliesBack) this.firefliesBack.update()
     }
 }

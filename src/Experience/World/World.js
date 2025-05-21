@@ -21,7 +21,7 @@ export default class World {
             // console.log('Resources Ready')
 
             this.sceneGroup = new SceneGroup()
-            this.bloom = new Bloom()
+            // this.bloom = new Bloom()
 
             this.fog = new Fog()
             this.background = new Background()
@@ -48,6 +48,7 @@ export default class World {
     // Update based on tick time
     update() {
         if (this.room) this.room.update()
+        if (this.cottage) this.cottage.update()
     }
 
     // Update based on day cycle

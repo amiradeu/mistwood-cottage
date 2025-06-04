@@ -11,6 +11,8 @@ uniform float strength;
 varying vec2 vUv;
 varying vec4 vUvRefraction;
 
+#include <fog_pars_fragment>
+
 float blendOverlay( float base, float blend ) {
     return( base < 0.5 ? ( 2.0 * base * blend ) : ( 1.0 - 2.0 * ( 1.0 - base ) * ( 1.0 - blend ) ) );
 }
@@ -41,6 +43,7 @@ void main() {
 
     gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );
 
+    #include <fog_fragment>
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 

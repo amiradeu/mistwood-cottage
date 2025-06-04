@@ -42,6 +42,7 @@ export default class Glass {
             vertexShader: glassRefractionVertexShader,
             fragmentShader: glassRefractionFragmentShader,
             uniforms: this.uniforms,
+            fog: true,
         })
     }
 

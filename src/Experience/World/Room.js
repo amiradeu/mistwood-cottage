@@ -1,15 +1,15 @@
 import * as THREE from 'three'
 
 import Experience from '../Experience.js'
-import Mirror from '../Materials/Mirror.js'
+import Mirror from '../Objects/Mirror.js'
 import { CycleEmissions } from '../Constants.js'
 import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
-import Emissive, { EMISSIVE_TYPE } from '../Materials/Emissive.js'
+import Emissive, { EMISSIVE_TYPE } from '../Objects/Emissive.js'
 import { toggleFade } from '../Utils/Animation.js'
-import TeaSmoke from '../Materials/TeaSmoke.js'
+import TeaSmoke from '../Objects/TeaSmoke.js'
 
 export default class Room {
     constructor() {

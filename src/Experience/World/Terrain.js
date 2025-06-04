@@ -5,8 +5,8 @@ import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition'
-import Water from '../Materials/Water'
-import CausticsGround from '../Materials/CausticsGround'
+import Pond from '../Objects/Pond'
+import CausticsFloor from '../Objects/CausticsFloor'
 
 export default class Terrain {
     constructor() {
@@ -58,8 +58,8 @@ export default class Terrain {
     }
 
     setCustom() {
-        this.pond = new Water(this.items.Water)
-        this.pondGround = new CausticsGround(this.items.PondGround, {
+        this.pond = new Pond(this.items.Water)
+        this.pondGround = new CausticsFloor(this.items.PondGround, {
             texture: this.texture,
         })
     }

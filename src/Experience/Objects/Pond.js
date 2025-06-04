@@ -4,7 +4,7 @@ import Experience from '../Experience.js'
 import waterVertexShader from '../Shaders/Water/vertex.glsl'
 import waterFragmentShader from '../Shaders/Water/fragment.glsl'
 
-export default class Water {
+export default class Pond {
     constructor(mesh, options = {}) {
         this.experience = new Experience()
         this.sceneGroup = this.experience.world.sceneGroup

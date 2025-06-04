@@ -3,13 +3,13 @@ import * as THREE from 'three'
 import EventEmitter from '../Utils/EventEmitter.js'
 import Experience from '../Experience.js'
 import { CycleEmissions } from '../Constants.js'
-import Glass from '../Materials/Glass.js'
+import RoofGlass from '../Objects/RoofGlass.js'
 import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
-import Emissive from '../Materials/Emissive.js'
-import DustyGlass from '../Materials/DustyGlass.js'
+import Emissive from '../Objects/Emissive.js'
+import DustyGlass from '../Objects/DustyGlass.js'
 import { toggleFade } from '../Utils/Animation.js'
 import Fireflies from './Fireflies.js'
 
@@ -82,7 +82,7 @@ export default class Cottage extends EventEmitter {
     }
 
     setCustom() {
-        this.roofGlass = new Glass(this.items.roofglass)
+        this.roofGlass = new RoofGlass(this.items.roofglass)
         this.windows = new DustyGlass(this.items.windows, {
             name: '🪟 Back Windows',
         })

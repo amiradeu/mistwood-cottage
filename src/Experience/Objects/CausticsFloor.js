@@ -5,7 +5,7 @@ import causticsVertexShader from '../Shaders/Caustics/vertex.glsl'
 import causticsFragmentShader from '../Shaders/Caustics/fragment.glsl'
 import { animateTextureChange } from '../Shaders/addTextureTransition.js'
 
-export default class CausticsGround {
+export default class CausticsFloor {
     constructor(mesh, options = {}) {
         this.experience = new Experience()
         this.sceneGroup = this.experience.world.sceneGroup

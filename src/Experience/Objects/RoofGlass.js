@@ -6,7 +6,7 @@ import Experience from '../Experience'
 import glassRefractionVertexShader from '../Shaders/GlassRefraction/vertex.glsl'
 import glassRefractionFragmentShader from '../Shaders/GlassRefraction/fragment.glsl'
 
-export default class Glass {
+export default class RoofGlass {
     constructor(mesh) {
         this.experience = new Experience()
         this.scene = this.experience.scene

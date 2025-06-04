@@ -5,6 +5,8 @@ import {
     addTextureTransition,
     animateTextureChange,
 } from '../Shaders/addTextureTransition'
+import Water from '../Materials/Water'
+import CausticsGround from '../Materials/CausticsGround'
 
 export default class Terrain {
     constructor() {
@@ -35,23 +37,53 @@ export default class Terrain {
     }
 
     setModel() {
+        this.items = {}
+
         this.model = this.resources.items.terrainModel.scene
         this.sceneGroup.add(this.model)
 
         this.model.traverse((child) => {
-            if (child.name !== 'Water') child.material = this.material
+            this.items[child.name] = child
+        })
+
+        this.setBaked()
+        this.setCustom()
+    }
+
+    setBaked() {
+        this.items.Land.material = this.material
+        this.items.PondGround.material = this.material
+        this.items.LandBase.material = this.material
+        this.items.Mountain.material = this.material
+    }
+
+    setCustom() {
+        this.pond = new Water(this.items.Water)
+        this.pondGround = new CausticsGround(this.items.PondGround, {
+            texture: this.material,
         })
     }
 
-    updateCycle() {
+    updateUniforms() {
         this.uniforms.uMap0.value = this.texture
+    }
 
+    updateMaterials() {
+        this.material.map = this.texture
+        this.material.needsUpdate = true
+    }
+
+    updateCycle() {
+        this.updateUniforms()
         this.setTextures()
-        this.model.traverse((child) => {
-            if (child.name !== 'Water') child.material.map = this.texture
-        })
+        this.updateMaterials()
 
         animateTextureChange(this.uniforms.uMixProgress)
+    }
+
+    update() {
+        if (this.pond) this.pond.update()
+        if (this.pondGround) this.pondGround.update()
     }
 
     setDebug() {

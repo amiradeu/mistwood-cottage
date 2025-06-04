@@ -168,12 +168,12 @@ export default class Fireflies {
 
     update() {
         if (this.material)
-            this.material.uniforms.uTime.value = this.time.elapsed * 0.001
+            this.material.uniforms.uTime.value = this.time.elapsed
     }
 
     setDebug() {
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🐞 Fireflies')
+            this.debugFolder = this.debug.ui.addFolder('🐞 Fireflies').close()
 
             this.debugFolder.addColor(this.options, 'color').onChange(() => {
                 this.material.uniforms.uColor.value.set(this.options.color)

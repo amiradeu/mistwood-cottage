@@ -14,7 +14,7 @@ export default class Background {
         }
 
         this.setBackground()
-        // this.setEnvironmentMap()
+        this.setEnvironmentMap()
     }
 
     setBackground() {
@@ -35,7 +35,7 @@ export default class Background {
     }
 
     setTextures() {
-        this.environmentMapTexture = this.resources.items.environmentMapTexture
+        this.environmentMapTexture = this.resources.items.environmentMapTexture2
         this.environmentMapTexture.mapping =
             THREE.EquirectangularReflectionMapping
     }

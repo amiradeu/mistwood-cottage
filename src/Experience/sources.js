@@ -149,6 +149,11 @@ export default [
         path: 'textures/EnvironmentMap/aerial-canadian-mountain-sunset_1K.exr',
     },
     {
+        name: 'environmentMapTexture2',
+        type: 'rgbeTexture',
+        path: 'textures/EnvironmentMap/spaichingen_hill_1k.hdr',
+    },
+    {
         name: 'perlinNoiseTexture',
         type: 'texture',
         path: 'textures/Noise/perlin.png',

@@ -40,7 +40,7 @@ export default class TeaSmoke {
     }
 
     update() {
-        this.smokeMaterial.uniforms.uTime.value = this.time.elapsed * 0.001
+        this.smokeMaterial.uniforms.uTime.value = this.time.elapsed
     }
 
     setTextures() {

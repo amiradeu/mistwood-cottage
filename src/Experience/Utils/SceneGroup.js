@@ -11,6 +11,7 @@ export default class SceneGroup {
 
         this.instance.scale.set(0.1, 0.1, 0.1)
         this.instance.position.set(0, -1, 0)
+        this.instance.rotation.y = Math.PI
 
         this.scene.add(this.instance)
     }

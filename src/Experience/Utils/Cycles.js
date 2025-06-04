@@ -8,7 +8,7 @@ export default class Cycles extends EventEmitter {
 
         this.experience = new Experience()
         this.debug = this.experience.debug
-        this.currentCycle = CycleNames.NIGHT
+        this.currentCycle = CycleNames.DAYLIGHT
 
         this.setTextures()
 

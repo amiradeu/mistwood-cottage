@@ -3,6 +3,10 @@ import * as THREE from 'three'
 import Experience from '../Experience.js'
 import causticsVertexShader from '../Shaders/Caustics/vertex.glsl'
 import causticsFragmentShader from '../Shaders/Caustics/fragment.glsl'
+import {
+    addTextureTransition,
+    animateTextureChange,
+} from '../Shaders/addTextureTransition.js'
 
 export default class CausticsGround {
     constructor(mesh, options = {}) {
@@ -16,11 +20,14 @@ export default class CausticsGround {
 
         const defaultOptions = {
             texture: null,
-            causticsColor: '#ffffff',
+
+            opacity: 0.27,
+
+            causticsColor: '#f0f0f0',
             causticsIntensity: 0.2,
-            causticsScale: 20.0,
-            causticsSpeed: 1.0,
-            causticsThickness: 0.4,
+            causticsScale: 33.0,
+            causticsSpeed: 0.5,
+            causticsThickness: 0.3,
             causticsOffset: 0.75,
         }
 
@@ -35,25 +42,40 @@ export default class CausticsGround {
     }
 
     setMaterial() {
+        this.uniforms = {
+            // texture transition
+            uMap0: { value: this.options.texture },
+            uMap: { value: this.options.texture },
+            uMixProgress: new THREE.Uniform(0),
+
+            uTime: new THREE.Uniform(0),
+
+            // caustics
+            uOpacity: new THREE.Uniform(this.options.opacity),
+            uCausticsColor: new THREE.Uniform(
+                new THREE.Color(this.options.causticsColor)
+            ),
+            uCausticsIntensity: new THREE.Uniform(
+                this.options.causticsIntensity
+            ),
+            uCausticsScale: new THREE.Uniform(this.options.causticsScale),
+            uCausticsSpeed: new THREE.Uniform(this.options.causticsSpeed),
+            uCausticsThickness: new THREE.Uniform(
+                this.options.causticsThickness
+            ),
+            uCausticsOffset: new THREE.Uniform(this.options.causticsOffset),
+        }
+
         this.material = new THREE.ShaderMaterial({
-            side: THREE.DoubleSide,
             transparent: true,
             depthTest: true,
             // wireframe: true,
+            fog: true,
             vertexShader: causticsVertexShader,
             fragmentShader: causticsFragmentShader,
             uniforms: {
-                uTime: new THREE.Uniform(0),
-                uTexture: { value: this.options.texture },
-
-                uCausticsColor: new THREE.Uniform(
-                    new THREE.Color(this.options.causticsColor)
-                ),
-                uCausticsIntensity: new THREE.Uniform(0.2),
-                uCausticsScale: new THREE.Uniform(20.0),
-                uCausticsSpeed: new THREE.Uniform(1.0),
-                uCausticsThickness: new THREE.Uniform(0.4),
-                uCausticsOffset: new THREE.Uniform(0.75),
+                ...this.uniforms,
+                ...THREE.UniformsLib.fog,
             },
         })
     }
@@ -62,9 +84,70 @@ export default class CausticsGround {
         this.mesh.material = this.material
     }
 
+    updateCycle(texture) {
+        this.uniforms.uMap0.value = this.uniforms.uMap.value
+        this.uniforms.uMap.value = texture
+
+        animateTextureChange(this.uniforms.uMixProgress)
+    }
+
     update() {
         this.material.uniforms.uTime.value = this.time.elapsed
     }
 
-    setDebug() {}
+    setDebug() {
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder('🌊 Caustics')
+
+            this.debugFolder
+                .add(this.material.uniforms.uOpacity, 'value')
+                .min(0)
+                .max(1)
+                .step(0.01)
+                .name('opacity')
+
+            this.debugFolder
+                .addColor(this.options, 'causticsColor')
+                .onChange(() => {
+                    this.material.uniforms.uCausticsColor.value.set(
+                        this.options.causticsColor
+                    )
+                })
+
+            this.debugFolder
+                .add(this.material.uniforms.uCausticsIntensity, 'value')
+                .min(0)
+                .max(2)
+                .step(0.001)
+                .name('intensity')
+
+            this.debugFolder
+                .add(this.material.uniforms.uCausticsScale, 'value')
+                .min(0)
+                .max(200)
+                .step(1)
+                .name('scale')
+
+            this.debugFolder
+                .add(this.material.uniforms.uCausticsSpeed, 'value')
+                .min(0)
+                .max(1)
+                .step(0.01)
+                .name('speed')
+
+            this.debugFolder
+                .add(this.material.uniforms.uCausticsThickness, 'value')
+                .min(0)
+                .max(2)
+                .step(0.01)
+                .name('thickness')
+
+            this.debugFolder
+                .add(this.material.uniforms.uCausticsOffset, 'value')
+                .min(0)
+                .max(1)
+                .step(0.01)
+                .name('offset')
+        }
+    }
 }

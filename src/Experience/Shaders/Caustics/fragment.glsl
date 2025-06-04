@@ -1,5 +1,12 @@
+// Based on Water Shader by Dan Greenheck (https://github.com/dgreenheck/threejs-water-shader/tree/main)
+precision highp float;
+
+uniform sampler2D uMap0;
+uniform sampler2D uMap;
+uniform float uMixProgress;
+
 uniform float uTime;
-uniform sampler2D uTexture;
+uniform float uOpacity;
 uniform vec3 uCausticsColor;
 uniform float uCausticsIntensity;
 uniform float uCausticsOffset;
@@ -8,6 +15,8 @@ uniform float uCausticsSpeed;
 uniform float uCausticsThickness;
 
 varying vec2 vUv;
+
+#include <fog_pars_fragment>
 
 //	Simplex 3D Noise 
 //	by Ian McEwan, Stefan Gustavson (https://github.com/stegu/webgl-noise)
@@ -85,7 +94,9 @@ float snoise(vec3 v) {
 }
 
 void main() {
-  vec4 texColor = texture2D(uTexture, vUv);
+  vec4 texelColor0 = texture2D(uMap0, vUv);
+  vec4 texelColor1 = texture2D(uMap, vUv);
+  vec4 texelColor = mix(texelColor0, texelColor1, uMixProgress);
 
   float caustics = 0.0;
 
@@ -96,7 +107,12 @@ void main() {
   // Shape the caustics
   caustics = smoothstep(0.5 - uCausticsThickness, 0.5 + uCausticsThickness, caustics);
 
-  vec3 finalColor = texColor.rgb + caustics * uCausticsColor;
+  vec3 finalColor = texelColor.rgb;
+  finalColor += caustics * uCausticsColor * uOpacity;
 
   gl_FragColor = vec4(finalColor, 1.0);
+
+  #include <fog_fragment>
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
 }

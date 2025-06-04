@@ -52,7 +52,7 @@ export default class Terrain {
 
     setBaked() {
         this.items.Land.material = this.material
-        this.items.PondGround.material = this.material
+        // this.items.PondGround.material = this.material
         this.items.LandBase.material = this.material
         this.items.Mountain.material = this.material
     }
@@ -60,7 +60,7 @@ export default class Terrain {
     setCustom() {
         this.pond = new Water(this.items.Water)
         this.pondGround = new CausticsGround(this.items.PondGround, {
-            texture: this.material,
+            texture: this.texture,
         })
     }
 
@@ -79,6 +79,8 @@ export default class Terrain {
         this.updateMaterials()
 
         animateTextureChange(this.uniforms.uMixProgress)
+
+        if (this.pondGround) this.pondGround.updateCycle(this.texture)
     }
 
     update() {

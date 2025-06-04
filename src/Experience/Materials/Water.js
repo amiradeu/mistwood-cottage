@@ -101,7 +101,7 @@ export default class Water {
         this.water.position.copy(this.mesh.position)
         this.water.rotation.x = -Math.PI * 0.5
         this.water.scale.set(130, 130)
-        this.sceneGroup.add(this.water)
+        // this.sceneGroup.add(this.water)
     }
 
     update() {
@@ -110,7 +110,7 @@ export default class Water {
 
     setDebug() {
         if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🌊 Pond')
+            this.debugFolder = this.debug.ui.addFolder('🌊 Pond').close()
 
             this.debugFolder
                 .add(this.material.uniforms.uOpacity, 'value')

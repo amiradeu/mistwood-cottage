@@ -7,6 +7,8 @@ varying vec2 vUv2;
 // Emission ON - uv2 unwrap to fill the whole space
 attribute vec2 uv2;
 
+#include <fog_pars_vertex>
+
 void main() {
 
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
@@ -17,4 +19,8 @@ void main() {
 
     vUv = uv;
     vUv2 = uv2;
+
+    #include <begin_vertex>
+    #include <project_vertex>
+    #include <fog_vertex>
 }

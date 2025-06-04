@@ -6,6 +6,8 @@ uniform float uTime;
 
 varying vec2 vUv2;
 
+#include <fog_pars_fragment>
+
 void main() {
     vec2 uv = vUv2;
 
@@ -23,4 +25,5 @@ void main() {
 
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
+    #include <fog_fragment>
 }

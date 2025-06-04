@@ -112,7 +112,7 @@ void main() {
 
   gl_FragColor = vec4(finalColor, 1.0);
 
-  #include <fog_fragment>
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
+  #include <fog_fragment>
 }

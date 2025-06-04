@@ -39,10 +39,13 @@ export default class Glass {
         }
 
         this.material = new THREE.ShaderMaterial({
+            fog: true,
             vertexShader: glassRefractionVertexShader,
             fragmentShader: glassRefractionFragmentShader,
-            uniforms: this.uniforms,
-            fog: true,
+            uniforms: {
+                ...THREE.UniformsLib['fog'],
+                ...this.uniforms,
+            },
         })
     }
 

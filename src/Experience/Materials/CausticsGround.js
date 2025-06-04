@@ -3,10 +3,7 @@ import * as THREE from 'three'
 import Experience from '../Experience.js'
 import causticsVertexShader from '../Shaders/Caustics/vertex.glsl'
 import causticsFragmentShader from '../Shaders/Caustics/fragment.glsl'
-import {
-    addTextureTransition,
-    animateTextureChange,
-} from '../Shaders/addTextureTransition.js'
+import { animateTextureChange } from '../Shaders/addTextureTransition.js'
 
 export default class CausticsGround {
     constructor(mesh, options = {}) {
@@ -69,13 +66,13 @@ export default class CausticsGround {
         this.material = new THREE.ShaderMaterial({
             transparent: true,
             depthTest: true,
-            // wireframe: true,
             fog: true,
+            // wireframe: true,
             vertexShader: causticsVertexShader,
             fragmentShader: causticsFragmentShader,
             uniforms: {
+                ...THREE.UniformsLib['fog'],
                 ...this.uniforms,
-                ...THREE.UniformsLib.fog,
             },
         })
     }

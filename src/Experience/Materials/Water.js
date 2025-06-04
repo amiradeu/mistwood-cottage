@@ -49,41 +49,47 @@ export default class Water {
     setMaterial() {
         this.environmentMap = this.resources.items.environmentMapTexture2
 
+        this.uniforms = {
+            uTime: new THREE.Uniform(0),
+            uOpacity: new THREE.Uniform(this.options.opacity),
+            uEnvironmentMap: new THREE.Uniform(this.environmentMap),
+
+            uWavesAmplitude: new THREE.Uniform(this.options.amplitude),
+            uWavesFrequency: new THREE.Uniform(this.options.frequency),
+            uWavesPersistence: new THREE.Uniform(this.options.persistence),
+            uWavesLacunarity: new THREE.Uniform(this.options.lacunarity),
+            uWavesIterations: new THREE.Uniform(this.options.iterations),
+            uWavesSpeed: new THREE.Uniform(this.options.speed),
+
+            uTroughColor: new THREE.Uniform(
+                new THREE.Color(this.options.troughColor)
+            ),
+            uSurfaceColor: new THREE.Uniform(
+                new THREE.Color(this.options.surfaceColor)
+            ),
+            uPeakColor: new THREE.Uniform(
+                new THREE.Color(this.options.peakColor)
+            ),
+
+            uPeakThreshold: new THREE.Uniform(this.options.peakThreshold),
+            uPeakTransition: new THREE.Uniform(this.options.peakTransition),
+            uTroughThreshold: new THREE.Uniform(this.options.troughThreshold),
+            uTroughTransition: new THREE.Uniform(this.options.troughTransition),
+            uFresnelScale: new THREE.Uniform(this.options.fresnelScale),
+            uFresnelPower: new THREE.Uniform(this.options.fresnelPower),
+        }
+
         this.material = new THREE.ShaderMaterial({
             side: THREE.DoubleSide,
             transparent: true,
             depthTest: true,
+            fog: true,
             // wireframe: true,
             vertexShader: waterVertexShader,
             fragmentShader: waterFragmentShader,
             uniforms: {
-                uTime: new THREE.Uniform(0),
-                uOpacity: new THREE.Uniform(this.options.opacity),
-                uEnvironmentMap: new THREE.Uniform(this.environmentMap),
-
-                uWavesAmplitude: new THREE.Uniform(0.025),
-                uWavesFrequency: new THREE.Uniform(1.07),
-                uWavesPersistence: new THREE.Uniform(0.3),
-                uWavesLacunarity: new THREE.Uniform(2.18),
-                uWavesIterations: new THREE.Uniform(8),
-                uWavesSpeed: new THREE.Uniform(0.4),
-
-                uTroughColor: new THREE.Uniform(
-                    new THREE.Color(this.options.troughColor)
-                ),
-                uSurfaceColor: new THREE.Uniform(
-                    new THREE.Color(this.options.surfaceColor)
-                ),
-                uPeakColor: new THREE.Uniform(
-                    new THREE.Color(this.options.peakColor)
-                ),
-
-                uPeakThreshold: new THREE.Uniform(0.08),
-                uPeakTransition: new THREE.Uniform(0.05),
-                uTroughThreshold: new THREE.Uniform(-0.01),
-                uTroughTransition: new THREE.Uniform(0.15),
-                uFresnelScale: new THREE.Uniform(0.8),
-                uFresnelPower: new THREE.Uniform(0.5),
+                ...THREE.UniformsLib['fog'],
+                ...this.uniforms,
             },
         })
     }
@@ -101,11 +107,11 @@ export default class Water {
         this.water.position.copy(this.mesh.position)
         this.water.rotation.x = -Math.PI * 0.5
         this.water.scale.set(130, 130)
-        // this.sceneGroup.add(this.water)
+        this.sceneGroup.add(this.water)
     }
 
     update() {
-        this.material.uniforms.uTime.value = this.time.elapsed
+        this.uniforms.uTime.value = this.time.elapsed
     }
 
     setDebug() {

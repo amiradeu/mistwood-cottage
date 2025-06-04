@@ -20,6 +20,8 @@ varying vec3 vWorldPosition;
 
 uniform samplerCube uEnvironmentMap;
 
+#include <fog_pars_fragment>
+
 void main() {
   // Calculate vector from camera to the vertex
   vec3 viewDirection = normalize(vWorldPosition - cameraPosition);
@@ -49,4 +51,8 @@ void main() {
   vec3 finalColor = mix(mixedColor2, reflectionColor.rgb, fresnel);
 
   gl_FragColor = vec4(finalColor, uOpacity);
+
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
+  #include <fog_fragment>
 }

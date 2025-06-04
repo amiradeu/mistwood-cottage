@@ -19,6 +19,7 @@ vec2 lissajous(float t, float a, float b, float d)
 
 void main()
 {
+
     vec3 newPosition = position;
 
     // base time input
@@ -67,5 +68,6 @@ void main()
     // scale point with camera perspective
     gl_PointSize *= 1.0 / - viewPosition.z;
 
-    vRandomness = aRandomness;
+    vRandomness = aRandomness;    
+
 }

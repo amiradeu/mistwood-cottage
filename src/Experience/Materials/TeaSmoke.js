@@ -57,7 +57,9 @@ export default class TeaSmoke {
             // wireframe: true,
             depthWrite: false, // do not occlude anything behind it, including itself
             transparent: true,
+            fog: true,
             uniforms: {
+                ...THREE.UniformsLib['fog'],
                 uPerlinTexture: new THREE.Uniform(this.perlinTexture),
                 uTime: new THREE.Uniform(0),
 

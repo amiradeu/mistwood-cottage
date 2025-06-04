@@ -19,12 +19,13 @@ export default class Fog {
         this.fogOptions = {
             color: '#dfe9f3',
             near: 1,
-            far: 50,
+            far: 40,
             density: 0.015,
         }
-        this.fog = new THREE.FogExp2(
+        this.fog = new THREE.Fog(
             this.fogOptions.color,
-            this.fogOptions.density
+            this.fogOptions.near,
+            this.fogOptions.far
         )
         this.scene.fog = this.fog
 
@@ -32,7 +33,8 @@ export default class Fog {
             this.debugFolder.addColor(this.fogOptions, 'color').onChange(() => {
                 this.fog.color.set(this.fogOptions.color)
             })
-            this.debugFolder.add(this.fog, 'density', 0, 0.1, 0.001)
+            this.debugFolder.add(this.fog, 'near', -30, 10, 0.01)
+            this.debugFolder.add(this.fog, 'far', 5, 100, 0.001)
         }
     }
 }

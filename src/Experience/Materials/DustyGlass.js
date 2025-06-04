@@ -53,6 +53,7 @@ export default class DustyGlass {
             color: this.options.color,
             map: this.texture,
             alphaMap: this.textureNormal,
+            fog: true,
         })
     }
 

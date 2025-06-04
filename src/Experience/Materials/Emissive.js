@@ -39,7 +39,9 @@ export default class Emissive {
                 vertexShader: emissiveRadialGradientVertexShader,
                 fragmentShader: emissiveRadialGradientFragmentShader,
                 side: THREE.DoubleSide,
+                fog: true,
                 uniforms: {
+                    ...THREE.UniformsLib['fog'],
                     uColorA: { value: new THREE.Color(this.options.colorA) },
                     uColorB: { value: new THREE.Color(this.options.colorB) },
                     uTime: { value: 0 },
@@ -54,7 +56,9 @@ export default class Emissive {
                 vertexShader: emissiveLinearGradientVertexShader,
                 fragmentShader: emissiveLinearGradientFragmentShader,
                 side: THREE.DoubleSide,
+                fog: true,
                 uniforms: {
+                    ...THREE.UniformsLib['fog'],
                     uColorA: { value: new THREE.Color(this.options.colorA) },
                     uColorB: { value: new THREE.Color(this.options.colorB) },
                     uTime: { value: 0 },

@@ -43,8 +43,8 @@ void main() {
 
     gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );
 
-    #include <fog_fragment>
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
+    #include <fog_fragment>
 
 }

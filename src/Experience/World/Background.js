@@ -14,7 +14,7 @@ export default class Background {
         }
 
         this.setBackground()
-        this.setEnvironmentMap()
+        // this.setEnvironmentMap()
     }
 
     setBackground() {

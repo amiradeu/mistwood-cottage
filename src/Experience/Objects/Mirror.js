@@ -30,6 +30,7 @@ export default class Mirror {
         })
         mirror.quaternion.copy(worldQuat)
         mirror.rotateX(Math.PI * -0.5)
+        mirror.rotateY(Math.PI)
         mirror.position.copy(this.mesh.position)
         this.sceneGroup.add(mirror)
     }

@@ -10,6 +10,7 @@ import {
 import Emissive, { EMISSIVE_TYPE } from '../Objects/Emissive.js'
 import { toggleFade } from '../Utils/Animation.js'
 import TeaSmoke from '../Objects/TeaSmoke.js'
+import gsap from 'gsap'
 
 export default class Room {
     constructor() {
@@ -100,7 +101,7 @@ export default class Room {
         })
 
         this.recordMaterial = new THREE.MeshBasicMaterial({
-            color: '#31d0f7',
+            color: '#7e8385',
             transparent: true,
             opacity: 0.5,
         })
@@ -146,6 +147,14 @@ export default class Room {
             this.items[child.name] = child
         })
 
+        // rotate the record disk
+        gsap.to(this.items.recorddisk.rotation, {
+            y: -Math.PI * 2,
+            duration: 8,
+            ease: 'none',
+            repeat: -1,
+        })
+
         this.setCustom()
         this.setBaked()
         this.setEmissions()
@@ -159,6 +168,7 @@ export default class Room {
         this.items.deskemission.material = this.roomPlainMaterial
         this.items.kitchenemission.material = this.roomPlainMaterial
         this.items.roomemission.material = this.roomPlainMaterial
+        this.items.recorddisk.material = this.roomPlainMaterial
         this.items.pictureframes.material = this.pictureframesMaterial
     }
 

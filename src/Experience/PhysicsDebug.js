@@ -30,12 +30,12 @@ export default class PhysicsDebug {
 
     update() {
         const { vertices, colors } = this.physics.world.debugRender()
-        console.log(
-            'Vertices:',
-            vertices.length / 3,
-            'Colors:',
-            colors.length / 4
-        )
+        // console.log(
+        //     'Vertices:',
+        //     vertices.length / 3,
+        //     'Colors:',
+        //     colors.length / 4
+        // )
 
         this.geometry.setAttribute(
             'position',

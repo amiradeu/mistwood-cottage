@@ -19,6 +19,7 @@ export default class Physics {
 
         // Create the ground
         let groundColliderDesc = RAPIER.ColliderDesc.cuboid(100.0, 0.1, 100.0)
+        groundColliderDesc.setFriction(0.1)
         this.world.createCollider(groundColliderDesc)
     }
 

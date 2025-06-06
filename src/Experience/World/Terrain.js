@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import * as CANNON from 'cannon-es'
 
 import Experience from '../Experience'
 import {
@@ -15,11 +16,13 @@ export default class Terrain {
         this.sceneCycle = this.experience.cycles
         this.resources = this.experience.resources
         this.debug = this.experience.debug
+        this.physics = this.experience.physics
 
         // Setup
         this.setTextures()
         this.setMaterials()
         this.setModel()
+        this.setPhysics()
         this.setDebug()
     }
 
@@ -32,6 +35,7 @@ export default class Terrain {
     setMaterials() {
         this.material = new THREE.MeshBasicMaterial({
             map: this.texture,
+            // wireframe: true,
         })
         this.uniforms = addTextureTransition(this.material)
     }
@@ -50,9 +54,26 @@ export default class Terrain {
         this.setCustom()
     }
 
+    setPhysics() {
+        this.setTerrainPhysics(this.items.Land)
+        this.setTerrainPhysics(this.items.PondGround)
+    }
+
+    setTerrainPhysics(mesh) {
+        const shape = this.physics.createTrimesh(mesh.geometry)
+
+        // static terrain
+        const body = new CANNON.Body({
+            mass: 0,
+            shape: shape,
+        })
+
+        body.position.copy(mesh.position)
+        this.physics.world.addBody(body)
+    }
+
     setBaked() {
         this.items.Land.material = this.material
-        // this.items.PondGround.material = this.material
         this.items.LandBase.material = this.material
         this.items.Mountain.material = this.material
     }

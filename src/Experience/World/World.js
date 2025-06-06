@@ -7,6 +7,7 @@ import Terrain from './Terrain.js'
 import Background from './Background.js'
 import Fog from './Fog.js'
 import Bloom from './Bloom.js'
+import Player from './Player.js'
 
 export default class World {
     constructor() {
@@ -30,6 +31,8 @@ export default class World {
             this.cottage = new Cottage()
             this.environment = new Environment()
             this.terrain = new Terrain()
+
+            this.player = new Player()
         })
 
         this.sceneCycle.on('cycleChanged', () => {

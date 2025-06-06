@@ -12,6 +12,7 @@ import Overlay from './Components/Overlay.js'
 import Cycles from './Utils/Cycles.js'
 import PostProcessing from './PostProcessing.js'
 import States from './Utils/States.js'
+import Physics from './Physics.js'
 
 // Singleton
 let instance = null
@@ -42,6 +43,7 @@ export default class Experience {
         this.effectComposer = new PostProcessing()
         this.stats = new Statistics()
 
+        this.physics = new Physics()
         this.cycles = new Cycles()
         this.states = new States()
         this.world = new World()
@@ -68,6 +70,7 @@ export default class Experience {
 
     update() {
         this.camera.update()
+        this.physics.update()
         this.world.update()
         // this.renderer.update()
         this.effectComposer.update()

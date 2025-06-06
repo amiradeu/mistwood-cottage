@@ -1,5 +1,6 @@
 import restart from 'vite-plugin-restart'
 import glsl from 'vite-plugin-glsl'
+import wasm from 'vite-plugin-wasm'
 
 export default {
     root: 'src/',
@@ -19,6 +20,7 @@ export default {
     plugins: [
         restart({ restart: ['../static/**'] }), // Restart server on static file change
         glsl(), // Handle shader files
+        wasm(), // Rapier uses WASM files
     ],
     css: {
         preprocessorOptions: {

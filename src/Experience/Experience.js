@@ -13,6 +13,7 @@ import Cycles from './Utils/Cycles.js'
 import PostProcessing from './PostProcessing.js'
 import States from './Utils/States.js'
 import Physics from './Physics.js'
+import PhysicsDebug from './PhysicsDebug.js'
 import SceneGroup from './Utils/SceneGroup.js'
 
 // Singleton
@@ -46,6 +47,8 @@ export default class Experience {
         this.stats = new Statistics()
 
         this.physics = new Physics()
+        this.physicsDebug = new PhysicsDebug()
+
         this.cycles = new Cycles()
         this.states = new States()
         this.world = new World()
@@ -73,6 +76,7 @@ export default class Experience {
     update() {
         this.camera.update()
         this.physics.update()
+        this.physicsDebug.update()
         this.world.update()
         // this.renderer.update()
         this.effectComposer.update()

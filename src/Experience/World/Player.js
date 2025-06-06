@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import * as CANNON from 'cannon-es'
+import RAPIER from '@dimforge/rapier3d'
 
 import Experience from '../Experience.js'
 
@@ -7,21 +7,29 @@ export default class Player {
     constructor() {
         this.experience = new Experience()
         this.sceneGroup = this.experience.sceneGroup
+        this.resources = this.experience.resources
         this.physics = this.experience.physics
 
         this.options = {
             radius: 3,
+            color: '#42ff48',
+            initPosition: { x: 0, y: 50, z: -50 },
         }
 
-        this.setMaterial()
         this.setGeometry()
+        this.setMaterial()
         this.setMesh()
         this.setPhysics()
     }
 
     setMaterial() {
+        this.texture = this.resources.items.playerTexture
+        this.texture.flipY = false
+        this.texture.colorSpace = THREE.SRGBColorSpace
+
         this.material = new THREE.MeshBasicMaterial({
-            color: '#fff715',
+            // color: this.options.color,
+            map: this.texture,
         })
     }
 
@@ -32,7 +40,8 @@ export default class Player {
     setMesh() {
         this.mesh = new THREE.Mesh(this.geometry, this.material)
 
-        this.mesh.position.set(0, 50, -50)
+        const { x, y, z } = this.options.initPosition
+        this.mesh.position.set(x, y, z)
         this.mesh.scale.set(
             this.options.radius,
             this.options.radius,
@@ -42,15 +51,18 @@ export default class Player {
     }
 
     setPhysics() {
-        const shape = new CANNON.Sphere(this.options.radius)
-        const body = new CANNON.Body({
-            mass: 1,
-            position: new CANNON.Vec3(0, 10, 0),
-            shape: shape,
-        })
-        body.position.copy(this.mesh.position)
+        const { x, y, z } = this.options.initPosition
 
-        this.physics.addObject(this.mesh, body)
+        // Body
+        let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
+        rigidBodyDesc.setTranslation(x, y, z)
+        this.rigidBody = this.physics.world.createRigidBody(rigidBodyDesc)
+
+        // Collider
+        let colliderDesc = RAPIER.ColliderDesc.ball(this.options.radius)
+        this.physics.world.createCollider(colliderDesc, this.rigidBody)
+
+        this.physics.addObject(this.mesh, this.rigidBody)
     }
 
     update() {}

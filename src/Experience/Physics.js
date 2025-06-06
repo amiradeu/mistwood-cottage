@@ -1,4 +1,5 @@
-import * as CANNON from 'cannon-es'
+import * as THREE from 'three'
+import RAPIER from '@dimforge/rapier3d'
 
 import Experience from './Experience.js'
 
@@ -13,49 +14,30 @@ export default class Physics {
     }
 
     setInstance() {
-        this.world = new CANNON.World()
-        this.world.gravity.set(0, -9.82, 0)
+        const gravity = { x: 0.0, y: -9.82, z: 0.0 }
+        this.world = new RAPIER.World(gravity)
 
-        // Improve performance
-        this.world.broadphase = new CANNON.SAPBroadphase(this.world)
-        this.world.allowSleep = true
+        // Create the ground
+        let groundColliderDesc = RAPIER.ColliderDesc.cuboid(100.0, 0.1, 100.0)
+        this.world.createCollider(groundColliderDesc)
     }
 
-    createTrimesh(geometry) {
-        const position = geometry.attributes.position
-        const index = geometry.index
-
-        const vertices = Array.from(position.array)
-        const indices = index
-            ? Array.from(index.array)
-            : this.generateIndices(vertices)
-
-        return new CANNON.Trimesh(vertices, indices)
-    }
-
-    generateIndices(vertices) {
-        const indices = []
-        for (let i = 0; i < vertices.length / 3; i++) {
-            indices.push(i)
-        }
-        return indices
-    }
+    createTrimesh(geometry) {}
 
     addObject(mesh, body) {
-        this.world.addBody(body)
-
         this.objectsToUpdate.push({
-            mesh,
-            body,
+            visual: mesh,
+            physical: body,
         })
     }
 
     update() {
-        this.world.step(1 / 60, this.time.elapsed, 3)
+        this.world.timestep = this.time.delta / 1000
+        this.world.step()
 
         for (const object of this.objectsToUpdate) {
-            object.mesh.position.copy(object.body.position)
-            object.mesh.quaternion.copy(object.body.quaternion)
+            object.visual.position.copy(object.physical.translation())
+            object.visual.quaternion.copy(object.physical.rotation())
         }
     }
 }

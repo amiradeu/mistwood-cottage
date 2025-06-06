@@ -158,6 +158,11 @@ export default [
         type: 'texture',
         path: 'textures/Noise/perlin.png',
     },
+    {
+        name: 'playerTexture',
+        type: 'texture',
+        path: 'textures/fabric.jpg',
+    },
 
     // Images to fill Room Wall Frames
     {

@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import * as CANNON from 'cannon-es'
 
 import Experience from '../Experience'
 import {
@@ -60,16 +59,14 @@ export default class Terrain {
     }
 
     setTerrainPhysics(mesh) {
-        const shape = this.physics.createTrimesh(mesh.geometry)
-
-        // static terrain
-        const body = new CANNON.Body({
-            mass: 0,
-            shape: shape,
-        })
-
-        body.position.copy(mesh.position)
-        this.physics.world.addBody(body)
+        // const shape = this.physics.createTrimesh(mesh.geometry)
+        // // static terrain
+        // const body = new CANNON.Body({
+        //     mass: 0,
+        //     shape: shape,
+        // })
+        // body.position.copy(mesh.position)
+        // this.physics.world.addBody(body)
     }
 
     setBaked() {

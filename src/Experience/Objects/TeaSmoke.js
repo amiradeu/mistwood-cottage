@@ -7,7 +7,7 @@ import teaSmokeFragmentShader from '../Shaders/TeaSmoke/fragment.glsl'
 export default class TeaSmoke {
     constructor(mesh, options = {}) {
         this.experience = new Experience()
-        this.sceneGroup = this.experience.world.sceneGroup
+        this.sceneGroup = this.experience.sceneGroup
         this.resources = this.experience.resources
         this.time = this.experience.time
         this.debug = this.experience.debug

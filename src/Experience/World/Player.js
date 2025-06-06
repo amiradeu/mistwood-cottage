@@ -6,7 +6,7 @@ import Experience from '../Experience.js'
 export default class Player {
     constructor() {
         this.experience = new Experience()
-        this.sceneGroup = this.experience.world.sceneGroup
+        this.sceneGroup = this.experience.sceneGroup
         this.physics = this.experience.physics
 
         this.options = {

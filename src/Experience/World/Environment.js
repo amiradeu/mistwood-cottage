@@ -13,7 +13,7 @@ export default class Environment {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
-        this.sceneGroup = this.experience.world.sceneGroup
+        this.sceneGroup = this.experience.sceneGroup
         this.sceneCycle = this.experience.cycles
         this.resources = this.experience.resources
         this.debug = this.experience.debug

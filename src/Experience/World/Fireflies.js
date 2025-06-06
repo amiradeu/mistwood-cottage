@@ -12,7 +12,7 @@ export const AREA_TYPE = {
 export default class Fireflies {
     constructor(options = {}) {
         this.experience = new Experience()
-        this.sceneGroup = this.experience.world.sceneGroup
+        this.sceneGroup = this.experience.sceneGroup
         this.sizes = this.experience.sizes
         this.time = this.experience.time
         this.debug = this.experience.debug

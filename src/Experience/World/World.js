@@ -21,9 +21,7 @@ export default class World {
         this.resources.on('ready', () => {
             // console.log('Resources Ready')
 
-            this.sceneGroup = new SceneGroup()
             // this.bloom = new Bloom()
-
             this.fog = new Fog()
             this.background = new Background()
 

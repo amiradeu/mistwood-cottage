@@ -13,6 +13,7 @@ import Cycles from './Utils/Cycles.js'
 import PostProcessing from './PostProcessing.js'
 import States from './Utils/States.js'
 import Physics from './Physics.js'
+import SceneGroup from './Utils/SceneGroup.js'
 
 // Singleton
 let instance = null
@@ -37,6 +38,7 @@ export default class Experience {
         this.sizes = new Sizes()
         this.time = new Time()
         this.scene = new THREE.Scene()
+        this.sceneGroup = new SceneGroup()
         this.resources = new Resources(sources)
         this.camera = new Camera()
         this.renderer = new Renderer()

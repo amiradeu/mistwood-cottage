@@ -15,7 +15,7 @@ import gsap from 'gsap'
 export default class Room {
     constructor() {
         this.experience = new Experience()
-        this.sceneGroup = this.experience.world.sceneGroup
+        this.sceneGroup = this.experience.sceneGroup
         this.cycles = this.experience.cycles
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes

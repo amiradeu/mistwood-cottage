@@ -6,7 +6,7 @@ import Experience from '../Experience.js'
 export default class Mirror {
     constructor(mesh) {
         this.experience = new Experience()
-        this.sceneGroup = this.experience.world.sceneGroup
+        this.sceneGroup = this.experience.sceneGroup
         this.sizes = this.experience.sizes
 
         this.mesh = mesh

@@ -18,7 +18,7 @@ export default class Cottage extends EventEmitter {
         super()
 
         this.experience = new Experience()
-        this.sceneGroup = this.experience.world.sceneGroup
+        this.sceneGroup = this.experience.sceneGroup
         this.sceneCycle = this.experience.cycles
         this.resources = this.experience.resources
         this.sizes = this.experience.sizes

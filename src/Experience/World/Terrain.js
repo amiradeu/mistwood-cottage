@@ -12,7 +12,7 @@ import CausticsFloor from '../Objects/CausticsFloor'
 export default class Terrain {
     constructor() {
         this.experience = new Experience()
-        this.sceneGroup = this.experience.world.sceneGroup
+        this.sceneGroup = this.experience.sceneGroup
         this.sceneCycle = this.experience.cycles
         this.resources = this.experience.resources
         this.debug = this.experience.debug

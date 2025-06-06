@@ -8,7 +8,7 @@ import { animateTextureChange } from '../Shaders/addTextureTransition.js'
 export default class CausticsFloor {
     constructor(mesh, options = {}) {
         this.experience = new Experience()
-        this.sceneGroup = this.experience.world.sceneGroup
+        this.sceneGroup = this.experience.sceneGroup
         this.resources = this.experience.resources
         this.time = this.experience.time
         this.debug = this.experience.debug

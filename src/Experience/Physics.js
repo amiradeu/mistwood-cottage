@@ -16,14 +16,43 @@ export default class Physics {
     setInstance() {
         const gravity = { x: 0.0, y: -9.82, z: 0.0 }
         this.world = new RAPIER.World(gravity)
+    }
 
+    testGround() {
         // Create the ground
         let groundColliderDesc = RAPIER.ColliderDesc.cuboid(100.0, 0.1, 100.0)
         groundColliderDesc.setFriction(0.1)
         this.world.createCollider(groundColliderDesc)
     }
 
-    createTrimesh(geometry) {}
+    /**
+     * Sourced from https://github.com/dimforge/rapier.js/blob/master/testbed3d/src/demos/glbToTrimesh.ts
+     */
+    glbToTrimesh(mesh) {
+        const geometry = mesh.geometry
+        const vertices = []
+        const indices = new Uint32Array(geometry.index.array)
+        const positionAttribute = geometry.attributes.position
+
+        // Convert vertices to world space
+        // This is necessary because the mesh might be transformed (position, rotation, scale)
+        // and we need the vertices in world space for the physics engine
+        const v = new THREE.Vector3()
+        for (let i = 0, l = positionAttribute.count; i < l; i++) {
+            v.fromBufferAttribute(positionAttribute, i)
+            v.applyMatrix4(mesh.matrixWorld)
+            vertices.push(v.x, v.y, v.z)
+        }
+        const verticesArray = new Float32Array(vertices)
+
+        // Body
+        const rigidBodyDesc = RAPIER.RigidBodyDesc.fixed()
+        const rigidBody = this.world.createRigidBody(rigidBodyDesc)
+
+        // Collider
+        const colliderDesc = RAPIER.ColliderDesc.trimesh(verticesArray, indices)
+        this.world.createCollider(colliderDesc, rigidBody)
+    }
 
     addObject(mesh, body) {
         this.objectsToUpdate.push({

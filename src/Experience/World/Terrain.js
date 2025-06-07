@@ -54,19 +54,8 @@ export default class Terrain {
     }
 
     setPhysics() {
-        this.setTerrainPhysics(this.items.Land)
-        this.setTerrainPhysics(this.items.PondGround)
-    }
-
-    setTerrainPhysics(mesh) {
-        // const shape = this.physics.createTrimesh(mesh.geometry)
-        // // static terrain
-        // const body = new CANNON.Body({
-        //     mass: 0,
-        //     shape: shape,
-        // })
-        // body.position.copy(mesh.position)
-        // this.physics.world.addBody(body)
+        this.physics.glbToTrimesh(this.items.Land)
+        this.physics.glbToTrimesh(this.items.PondGround)
     }
 
     setBaked() {

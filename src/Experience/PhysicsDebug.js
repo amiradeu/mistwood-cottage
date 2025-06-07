@@ -5,7 +5,7 @@ import Experience from './Experience.js'
 export default class PhysicsDebug {
     constructor() {
         this.experience = new Experience()
-        this.sceneGroup = this.experience.sceneGroup
+        this.scene = this.experience.scene
         this.physics = this.experience.physics
 
         this.setGeometry()
@@ -25,7 +25,7 @@ export default class PhysicsDebug {
 
     setLine() {
         this.lineSegments = new THREE.LineSegments(this.geometry, this.material)
-        this.sceneGroup.add(this.lineSegments)
+        this.scene.add(this.lineSegments)
     }
 
     update() {

@@ -6,23 +6,33 @@ import Experience from '../Experience.js'
 export default class Player {
     constructor() {
         this.experience = new Experience()
-        this.sceneGroup = this.experience.sceneGroup
+        // this.sceneGroup = this.experience.sceneGroup
+        this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.physics = this.experience.physics
         this.time = this.experience.time
         this.keys = this.experience.keys
+        this.camera = this.experience.camera.instance
 
         this.options = {
-            radius: 2,
+            radius: 0.2,
             color: '#42ff48',
-            initPosition: { x: 0, y: 50, z: -50 },
+            initPosition: { x: 0, y: 10, z: 5 },
+            impulseStrength: 0.003,
+            torqueStrength: 0.005,
         }
 
+        this.addAxesHelper()
         this.setGeometry()
         this.setMaterial()
         this.setMesh()
         this.setPhysics()
         this.handleKeys()
+    }
+
+    addAxesHelper() {
+        const axesHelper = new THREE.AxesHelper(10)
+        this.scene.add(axesHelper)
     }
 
     setMaterial() {
@@ -49,7 +59,7 @@ export default class Player {
             this.options.radius,
             this.options.radius
         )
-        this.sceneGroup.add(this.mesh)
+        this.scene.add(this.mesh)
     }
 
     setPhysics() {
@@ -64,8 +74,8 @@ export default class Player {
 
         // Collider
         let colliderDesc = RAPIER.ColliderDesc.ball(this.options.radius)
-        colliderDesc.setRestitution(1) // Bounciness
-        colliderDesc.setFriction(0.1) // Friction
+        colliderDesc.setRestitution(0.5) // Bounciness
+        colliderDesc.setFriction(1.0) // Friction
         this.physics.world.createCollider(colliderDesc, this.rigidBody)
 
         this.physics.addObject(this.mesh, this.rigidBody)
@@ -103,11 +113,8 @@ export default class Player {
         const impulse = { x: 0, y: 0, z: 0 }
         const torque = { x: 0, y: 0, z: 0 }
 
-        const impulseStrength = 5.0 * this.time.delta
-        const torqueStrength = 2.0 * this.time.delta
-
-        impulse.z = impulseStrength
-        torque.x = torqueStrength
+        impulse.z -= this.options.impulseStrength
+        torque.x -= this.options.torqueStrength
 
         // apply forces on ball
         this.rigidBody.applyImpulse(impulse, true)
@@ -119,11 +126,8 @@ export default class Player {
         const impulse = { x: 0, y: 0, z: 0 }
         const torque = { x: 0, y: 0, z: 0 }
 
-        const impulseStrength = 5.0 * this.time.delta
-        const torqueStrength = 2.0 * this.time.delta
-
-        impulse.z -= impulseStrength
-        torque.x -= torqueStrength
+        impulse.z = this.options.impulseStrength
+        torque.x = this.options.torqueStrength
 
         // apply forces on ball
         this.rigidBody.applyImpulse(impulse, true)
@@ -135,11 +139,8 @@ export default class Player {
         const impulse = { x: 0, y: 0, z: 0 }
         const torque = { x: 0, y: 0, z: 0 }
 
-        const impulseStrength = 5.0 * this.time.delta
-        const torqueStrength = 2.0 * this.time.delta
-
-        impulse.x -= impulseStrength
-        torque.z = torqueStrength
+        impulse.x = this.options.impulseStrength
+        torque.z -= this.options.torqueStrength
 
         // apply forces on ball
         this.rigidBody.applyImpulse(impulse, true)
@@ -151,11 +152,8 @@ export default class Player {
         const impulse = { x: 0, y: 0, z: 0 }
         const torque = { x: 0, y: 0, z: 0 }
 
-        const impulseStrength = 5.0 * this.time.delta
-        const torqueStrength = 2.0 * this.time.delta
-
-        impulse.x = impulseStrength
-        torque.z -= torqueStrength
+        impulse.x -= this.options.impulseStrength
+        torque.z = this.options.torqueStrength
 
         // apply forces on ball
         this.rigidBody.applyImpulse(impulse, true)
@@ -163,7 +161,7 @@ export default class Player {
     }
 
     jump() {
-        const impulse = { x: 0, y: 80 * this.time.delta, z: 0 }
+        const impulse = { x: 0, y: 0.2, z: 0 }
         this.rigidBody.applyImpulse(impulse, true)
     }
 
@@ -172,5 +170,30 @@ export default class Player {
         this.rigidBody.applyTorqueImpulse(this.torque)
     }
 
-    update() {}
+    update() {
+        /**
+         * Camera Follow
+         */
+        const meshPosition = this.mesh.position
+        // meshPosition.applyMatrix4(this.mesh.matrixWorld)
+        console.log('Player Position:', meshPosition)
+
+        // Camera Position
+        const cameraPosition = new THREE.Vector3()
+        cameraPosition.copy(meshPosition)
+        // Offset the camera position slightly above the player
+        cameraPosition.y += 3
+        cameraPosition.z += 5
+
+        // Camera Target
+        const cameraTarget = new THREE.Vector3()
+        cameraTarget.copy(meshPosition)
+        cameraTarget.y += 0.25
+
+        // -10, 4, 20
+        this.camera.position.copy(cameraPosition)
+        this.camera.lookAt(cameraTarget)
+
+        console.log('Camera Position:', this.camera.position)
+    }
 }

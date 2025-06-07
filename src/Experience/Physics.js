@@ -34,6 +34,8 @@ export default class Physics {
         const indices = new Uint32Array(geometry.index.array)
         const positionAttribute = geometry.attributes.position
 
+        mesh.updateWorldMatrix(true, true)
+
         // Convert vertices to world space
         // This is necessary because the mesh might be transformed (position, rotation, scale)
         // and we need the vertices in world space for the physics engine

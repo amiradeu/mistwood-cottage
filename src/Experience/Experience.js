@@ -50,7 +50,9 @@ export default class Experience {
         this.stats = new Statistics()
 
         this.physics = new Physics()
-        this.physicsDebug = new PhysicsDebug()
+        if (this.debug.active) {
+            this.physicsDebug = new PhysicsDebug()
+        }
 
         this.cycles = new Cycles()
         this.states = new States()
@@ -79,7 +81,8 @@ export default class Experience {
     update() {
         this.camera.update()
         this.physics.update()
-        this.physicsDebug.update()
+
+        if (this.physicsDebug) this.physicsDebug.update()
         this.world.update()
         // this.renderer.update()
         this.effectComposer.update()

@@ -22,6 +22,9 @@ export default class Player {
             torqueStrength: 0.005,
         }
 
+        this.smoothCameraPosition = new THREE.Vector3(10, 10, 10)
+        this.smoothCameraTarget = new THREE.Vector3()
+
         this.addAxesHelper()
         this.setGeometry()
         this.setMaterial()
@@ -175,27 +178,25 @@ export default class Player {
          * Camera Follow
          */
         const meshPosition = this.mesh.position
-        const meshRotation = this.mesh.rotation
-        // meshPosition.applyMatrix4(this.mesh.matrixWorld)
-        // console.log('Player Position:', meshPosition)
-        // console.log('Player Rotation:', meshRotation)
 
         // Camera Position
         const cameraPosition = new THREE.Vector3()
         cameraPosition.copy(meshPosition)
         // Offset the camera position slightly above the player
         cameraPosition.y += 0.6
-        cameraPosition.z += 2.5
+        cameraPosition.z += 3.5
 
         // Camera Target
         const cameraTarget = new THREE.Vector3()
         cameraTarget.copy(meshPosition)
         cameraTarget.y += 0.55
 
-        // -10, 4, 20
-        // this.camera.position.copy(cameraPosition)
-        // this.camera.lookAt(cameraTarget)
+        // Lerping
+        this.smoothCameraPosition.lerp(cameraPosition, 0.05)
+        this.smoothCameraTarget.lerp(cameraTarget, 0.05)
+        // console.log(cameraPosition, this.smoothCameraPosition)
 
-        // console.log('Camera Position:', this.camera.position)
+        this.camera.position.copy(this.smoothCameraPosition)
+        this.camera.lookAt(this.smoothCameraTarget)
     }
 }

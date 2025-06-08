@@ -55,13 +55,16 @@ export default class Terrain {
     }
 
     setPhysics() {
-        // Land
+        /**
+         * Land & Mountains
+         */
         this.physics.glbToTrimesh(this.items.Land)
         this.physics.glbToTrimesh(this.items.PondGround)
+        this.physics.glbToConvexHull(this.items.Mountain)
 
-        // console.log(this.items.Land)
-
-        // Borders
+        /**
+         * Surrounding Borders
+         */
         const width = 0.5
         const height = 8
         const length = 18.0

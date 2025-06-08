@@ -57,6 +57,35 @@ export default class Physics {
         this.world.createCollider(colliderDesc, rigidBody)
     }
 
+    glbToConvexHull(mesh) {
+        const geometry = mesh.geometry
+        const vertices = []
+        const indices = new Uint32Array(geometry.index.array)
+        const positionAttribute = geometry.attributes.position
+
+        mesh.updateWorldMatrix(true, true)
+
+        // Convert vertices to world space
+        // This is necessary because the mesh might be transformed (position, rotation, scale)
+        // and we need the vertices in world space for the physics engine
+        const v = new THREE.Vector3()
+        for (let i = 0, l = positionAttribute.count; i < l; i++) {
+            v.fromBufferAttribute(positionAttribute, i)
+            v.applyMatrix4(mesh.matrixWorld)
+            vertices.push(v.x, v.y, v.z)
+        }
+        const verticesArray = new Float32Array(vertices)
+
+        // Body
+        const rigidBodyDesc = RAPIER.RigidBodyDesc.fixed()
+        const rigidBody = this.world.createRigidBody(rigidBodyDesc)
+
+        // Collider
+        const colliderDesc = RAPIER.ColliderDesc.convexHull(verticesArray)
+        colliderDesc.setFriction(0.5) // Friction
+        this.world.createCollider(colliderDesc, rigidBody)
+    }
+
     addObject(mesh, body) {
         this.objectsToUpdate.push({
             visual: mesh,

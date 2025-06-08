@@ -12,7 +12,7 @@ import Fireflies, { AREA_TYPE } from './Fireflies.js'
 export default class Environment {
     constructor() {
         this.experience = new Experience()
-        this.scene = this.experience.scene
+        this.physics = this.experience.physics
         this.sceneGroup = this.experience.sceneGroup
         this.sceneCycle = this.experience.cycles
         this.resources = this.experience.resources
@@ -30,6 +30,7 @@ export default class Environment {
         this.setMaterials()
         this.setModel()
         this.setDebug()
+        this.setPhysics()
     }
 
     setTextures() {
@@ -40,13 +41,10 @@ export default class Environment {
     }
 
     setMaterials() {
-        this.materials = []
-
-        this.environmentMaterial = new THREE.MeshBasicMaterial({
+        this.material = new THREE.MeshBasicMaterial({
             map: this.texture,
         })
-
-        this.uniforms = addTextureTransition(this.environmentMaterial)
+        this.uniforms = addTextureTransition(this.material)
 
         this.wellEmissionMaterial = new THREE.MeshBasicMaterial({
             color: '#9110d2',
@@ -61,11 +59,27 @@ export default class Environment {
 
         this.model.traverse((child) => {
             this.items[child.name] = child
-            child.material = this.environmentMaterial
         })
 
+        this.setBaked()
         this.setEmission()
         this.setCustom()
+    }
+
+    setBaked() {
+        this.items.EnvironmentMerged.material = this.material
+        this.items.streetemissions.material = this.material
+    }
+
+    setEmission() {
+        this.emissionState =
+            CycleEmissions[this.sceneCycle.currentCycle].environment
+
+        this.items.wellemission.material = this.wellEmissionMaterial
+
+        if (this.emissionState.streets) {
+            this.emissions.registerEmissive(this.items.streetemissions)
+        }
     }
 
     setCustom() {
@@ -83,22 +97,8 @@ export default class Environment {
         })
     }
 
-    setEmission() {
-        this.emissionState =
-            CycleEmissions[this.sceneCycle.currentCycle].environment
-
-        this.model.children.find(
-            (child) => child.name === 'wellemission'
-        ).material = this.wellEmissionMaterial
-
-        if (this.emissionState.streets) {
-            const emissions = this.model.children.find(
-                (child) => child.name === 'streetemissions'
-            )
-            emissions.layers.enable(1)
-            // console.log(emissions.isMesh)
-            this.emissions.registerEmissive(emissions)
-        }
+    setPhysics() {
+        this.physics.glbToTrimesh(this.items.EnvironmentMerged)
     }
 
     setDebug() {
@@ -112,13 +112,10 @@ export default class Environment {
 
         this.setTextures()
 
-        this.environmentMaterial.map = this.texture
-        this.environmentMaterial.needsUpdate = true
+        this.material.map = this.texture
+        this.material.needsUpdate = true
 
-        this.model.traverse((child) => {
-            child.material = this.environmentMaterial
-        })
-
+        this.setBaked()
         this.setEmission()
 
         animateTextureChange(this.uniforms.uMixProgress)

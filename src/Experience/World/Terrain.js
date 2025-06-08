@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import RAPIER from '@dimforge/rapier3d'
 
 import Experience from '../Experience'
 import {
@@ -54,8 +55,40 @@ export default class Terrain {
     }
 
     setPhysics() {
+        // Land
         this.physics.glbToTrimesh(this.items.Land)
         this.physics.glbToTrimesh(this.items.PondGround)
+
+        // console.log(this.items.Land)
+
+        // Borders
+        const width = 0.5
+        const height = 8
+        const length = 18.0
+        let colliderDesc = RAPIER.ColliderDesc.cuboid(width, height, length)
+        colliderDesc.setFriction(0.5)
+
+        // right, left
+        this.physics.world
+            .createCollider(colliderDesc)
+            .setTranslation({ x: 16, y: 5, z: -4 })
+        this.physics.world
+            .createCollider(colliderDesc)
+            .setTranslation({ x: -16, y: 5, z: -4 })
+
+        // rotate collider
+        const rotation = new THREE.Quaternion().setFromEuler(
+            new THREE.Euler(0, Math.PI * 0.5, 0)
+        )
+        colliderDesc.setRotation(rotation)
+
+        // front, back
+        this.physics.world
+            .createCollider(colliderDesc)
+            .setTranslation({ x: 0, y: 5, z: -20 })
+        this.physics.world
+            .createCollider(colliderDesc)
+            .setTranslation({ x: 0, y: 5, z: 12 })
     }
 
     setBaked() {
@@ -98,6 +131,16 @@ export default class Terrain {
     setDebug() {
         if (this.debug.active) {
             this.debugFolder = this.debug.ui.addFolder('⛰️ Terrain').close()
+
+            // this.debugFolder
+            //     .add(this.test, 'rotation', -Math.PI, Math.PI, 0.01)
+            //     .name('Collider Rotation')
+            //     .onChange(() => {
+            //         this.physics.world.setColliderRotation(
+            //             this.test,
+            //             new RAPIER.Vector3(0, 0, this.test.rotation)
+            //         )
+            //     })
         }
     }
 }

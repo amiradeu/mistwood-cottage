@@ -17,8 +17,8 @@ export default class Player {
         this.options = {
             radius: 0.2,
             color: '#42ff48',
-            initPosition: { x: 0, y: 10, z: 5 },
-            impulseStrength: 0.003,
+            initPosition: { x: 0, y: 5, z: 2 },
+            impulseStrength: 0.005,
             torqueStrength: 0.005,
         }
 
@@ -175,25 +175,27 @@ export default class Player {
          * Camera Follow
          */
         const meshPosition = this.mesh.position
+        const meshRotation = this.mesh.rotation
         // meshPosition.applyMatrix4(this.mesh.matrixWorld)
-        console.log('Player Position:', meshPosition)
+        // console.log('Player Position:', meshPosition)
+        // console.log('Player Rotation:', meshRotation)
 
         // Camera Position
         const cameraPosition = new THREE.Vector3()
         cameraPosition.copy(meshPosition)
         // Offset the camera position slightly above the player
-        cameraPosition.y += 3
-        cameraPosition.z += 5
+        cameraPosition.y += 0.6
+        cameraPosition.z += 2.5
 
         // Camera Target
         const cameraTarget = new THREE.Vector3()
         cameraTarget.copy(meshPosition)
-        cameraTarget.y += 0.25
+        cameraTarget.y += 0.55
 
         // -10, 4, 20
-        this.camera.position.copy(cameraPosition)
-        this.camera.lookAt(cameraTarget)
+        // this.camera.position.copy(cameraPosition)
+        // this.camera.lookAt(cameraTarget)
 
-        console.log('Camera Position:', this.camera.position)
+        // console.log('Camera Position:', this.camera.position)
     }
 }

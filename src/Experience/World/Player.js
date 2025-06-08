@@ -22,6 +22,7 @@ export default class Player {
             torqueStrength: 0.005,
         }
 
+        this.initMovement()
         this.smoothCameraPosition = new THREE.Vector3(10, 10, 10)
         this.smoothCameraTarget = new THREE.Vector3()
 
@@ -112,55 +113,31 @@ export default class Player {
     }
 
     moveForward() {
-        // forces in 3d dimensions
-        const impulse = { x: 0, y: 0, z: 0 }
-        const torque = { x: 0, y: 0, z: 0 }
-
-        impulse.z -= this.options.impulseStrength
-        torque.x -= this.options.torqueStrength
-
-        // apply forces on ball
-        this.rigidBody.applyImpulse(impulse, true)
-        this.rigidBody.applyTorqueImpulse(torque)
+        this.initMovement()
+        this.impulse.z -= this.options.impulseStrength
+        this.torque.x -= this.options.torqueStrength
+        this.applyMovement()
     }
 
     moveBackward() {
-        // forces in 3d dimensions
-        const impulse = { x: 0, y: 0, z: 0 }
-        const torque = { x: 0, y: 0, z: 0 }
-
-        impulse.z = this.options.impulseStrength
-        torque.x = this.options.torqueStrength
-
-        // apply forces on ball
-        this.rigidBody.applyImpulse(impulse, true)
-        this.rigidBody.applyTorqueImpulse(torque)
+        this.initMovement()
+        this.impulse.z = this.options.impulseStrength
+        this.torque.x = this.options.torqueStrength
+        this.applyMovement()
     }
 
     moveRight() {
-        // forces in 3d dimensions
-        const impulse = { x: 0, y: 0, z: 0 }
-        const torque = { x: 0, y: 0, z: 0 }
-
-        impulse.x = this.options.impulseStrength
-        torque.z -= this.options.torqueStrength
-
-        // apply forces on ball
-        this.rigidBody.applyImpulse(impulse, true)
-        this.rigidBody.applyTorqueImpulse(torque)
+        this.initMovement()
+        this.impulse.x = this.options.impulseStrength
+        this.torque.z -= this.options.torqueStrength
+        this.applyMovement()
     }
 
     moveLeft() {
-        // forces in 3d dimensions
-        const impulse = { x: 0, y: 0, z: 0 }
-        const torque = { x: 0, y: 0, z: 0 }
-
-        impulse.x -= this.options.impulseStrength
-        torque.z = this.options.torqueStrength
-
-        // apply forces on ball
-        this.rigidBody.applyImpulse(impulse, true)
-        this.rigidBody.applyTorqueImpulse(torque)
+        this.initMovement()
+        this.impulse.x -= this.options.impulseStrength
+        this.torque.z = this.options.torqueStrength
+        this.applyMovement()
     }
 
     jump() {
@@ -168,8 +145,13 @@ export default class Player {
         this.rigidBody.applyImpulse(impulse, true)
     }
 
-    applyImpulse() {
-        this.rigidBody.applyImpulse(this.impulse)
+    initMovement() {
+        this.impulse = { x: 0, y: 0, z: 0 }
+        this.torque = { x: 0, y: 0, z: 0 }
+    }
+
+    applyMovement() {
+        this.rigidBody.applyImpulse(this.impulse, true)
         this.rigidBody.applyTorqueImpulse(this.torque)
     }
 

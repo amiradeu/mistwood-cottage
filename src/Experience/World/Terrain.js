@@ -77,7 +77,7 @@ export default class Terrain {
             .setTranslation({ x: 16, y: 5, z: -4 })
         this.physics.world
             .createCollider(colliderDesc)
-            .setTranslation({ x: -16, y: 5, z: -4 })
+            .setTranslation({ x: -17, y: 5, z: -4 })
 
         // rotate collider
         const rotation = new THREE.Quaternion().setFromEuler(

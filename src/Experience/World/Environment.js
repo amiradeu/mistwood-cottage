@@ -68,6 +68,8 @@ export default class Environment {
 
     setBaked() {
         this.items.EnvironmentMerged.material = this.material
+        this.items.Well.material = this.material
+        this.items.Plants.material = this.material
         this.items.streetemissions.material = this.material
     }
 
@@ -99,6 +101,7 @@ export default class Environment {
 
     setPhysics() {
         this.physics.glbToTrimesh(this.items.EnvironmentMerged)
+        this.physics.glbToConvexHull(this.items.Well)
     }
 
     setDebug() {

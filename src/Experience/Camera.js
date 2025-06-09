@@ -30,6 +30,7 @@ export default class Camera {
         this.controls = new OrbitControls(this.instance, this.canvas)
         this.controls.enableDamping = true
         this.controls.maxPolarAngle = Math.PI * 0.55
+        this.controls.maxDistance = 45
     }
 
     resize() {

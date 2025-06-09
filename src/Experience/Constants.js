@@ -36,6 +36,21 @@ export const CycleTextures = {
     },
 }
 
+export const CyclesSettings = {
+    sunrise: {
+        fog: 50,
+    },
+    daylight: {
+        fog: 60,
+    },
+    sunset: {
+        fog: 50,
+    },
+    night: {
+        fog: 30,
+    },
+}
+
 export const CycleEmissions = {
     sunrise: {
         room: {

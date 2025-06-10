@@ -6,7 +6,6 @@ import Experience from '../Experience.js'
 export default class Player {
     constructor() {
         this.experience = new Experience()
-        // this.sceneGroup = this.experience.sceneGroup
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.physics = this.experience.physics
@@ -15,14 +14,18 @@ export default class Player {
         this.camera = this.experience.camera.instance
 
         this.options = {
-            radius: 0.2,
+            // Visual
+            radius: 0.15,
+            height: 0.6,
             color: '#42ff48',
-            initPosition: { x: 0, y: 5, z: 2 },
+            initPosition: { x: -0.6, y: -0.6, z: 5 },
+
+            // Physics
             impulseStrength: 0.005,
             torqueStrength: 0.005,
+            speed: 0.2,
         }
 
-        this.initMovement()
         this.smoothCameraPosition = new THREE.Vector3(10, 10, 10)
         this.smoothCameraTarget = new THREE.Vector3()
 
@@ -32,6 +35,7 @@ export default class Player {
         this.setMesh()
         this.setPhysics()
         this.handleKeys()
+        this.setController()
     }
 
     addAxesHelper() {
@@ -50,7 +54,11 @@ export default class Player {
     }
 
     setGeometry() {
-        this.geometry = new THREE.IcosahedronGeometry(1, 1)
+        this.geometry = new THREE.CylinderGeometry(
+            this.options.radius,
+            this.options.radius,
+            this.options.height
+        )
     }
 
     setMesh() {
@@ -58,11 +66,6 @@ export default class Player {
 
         const { x, y, z } = this.options.initPosition
         this.mesh.position.set(x, y, z)
-        this.mesh.scale.set(
-            this.options.radius,
-            this.options.radius,
-            this.options.radius
-        )
         this.scene.add(this.mesh)
     }
 
@@ -70,89 +73,88 @@ export default class Player {
         const { x, y, z } = this.options.initPosition
 
         // Body
-        let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
+        let rigidBodyDesc = RAPIER.RigidBodyDesc.kinematicPositionBased()
         rigidBodyDesc.setTranslation(x, y, z)
-        rigidBodyDesc.setLinearDamping(0.5)
-        rigidBodyDesc.setAngularDamping(0.5)
         this.rigidBody = this.physics.world.createRigidBody(rigidBodyDesc)
 
         // Collider
-        let colliderDesc = RAPIER.ColliderDesc.ball(this.options.radius)
-        colliderDesc.setRestitution(0.5) // Bounciness
-        colliderDesc.setFriction(1.0) // Friction
-        this.physics.world.createCollider(colliderDesc, this.rigidBody)
+        let colliderDesc = RAPIER.ColliderDesc.cylinder(
+            this.options.height / 2,
+            this.options.radius
+        )
+        this.collider = this.physics.world.createCollider(
+            colliderDesc,
+            this.rigidBody
+        )
 
         this.physics.addObject(this.mesh, this.rigidBody)
+    }
+
+    setController() {
+        this.controller = this.physics.world.createCharacterController(0.01)
+        // when <stepHeight, >width
+        this.controller.enableAutostep(0.5, 0.2, true)
+        // when <heightToGround
+        this.controller.enableSnapToGround(2.0)
     }
 
     handleKeys() {
         this.keys.on('up', () => {
             console.log('up')
-            this.moveForward()
+            this.movementDirection = {
+                x: 0,
+                y: -0.1,
+                z: -this.options.speed,
+            }
+            this.updateController()
         })
 
         this.keys.on('down', () => {
             console.log('down')
-            this.moveBackward()
+            this.movementDirection = {
+                x: 0,
+                y: -0.1,
+                z: this.options.speed,
+            }
+            this.updateController()
         })
-
-        this.keys.on('right', () => {
-            console.log('right')
-            this.moveRight()
-        })
-
         this.keys.on('left', () => {
             console.log('left')
-            this.moveLeft()
+            this.movementDirection = {
+                x: -this.options.speed,
+                y: -0.1,
+                z: 0,
+            }
+            this.updateController()
         })
-
+        this.keys.on('right', () => {
+            console.log('right')
+            this.movementDirection = {
+                x: this.options.speed,
+                y: -0.1,
+                z: 0,
+            }
+            this.updateController()
+        })
         this.keys.on('jump', () => {
             console.log('jump')
-            this.jump()
+            this.movementDirection = { x: 0, y: this.options.speed, z: 0 }
+            this.updateController()
         })
     }
 
-    moveForward() {
-        this.initMovement()
-        this.impulse.z -= this.options.impulseStrength
-        this.torque.x -= this.options.torqueStrength
-        this.applyMovement()
-    }
+    updateController() {
+        this.controller.computeColliderMovement(
+            this.collider, // The collider we would like to move.
+            this.movementDirection
+        )
 
-    moveBackward() {
-        this.initMovement()
-        this.impulse.z = this.options.impulseStrength
-        this.torque.x = this.options.torqueStrength
-        this.applyMovement()
-    }
-
-    moveRight() {
-        this.initMovement()
-        this.impulse.x = this.options.impulseStrength
-        this.torque.z -= this.options.torqueStrength
-        this.applyMovement()
-    }
-
-    moveLeft() {
-        this.initMovement()
-        this.impulse.x -= this.options.impulseStrength
-        this.torque.z = this.options.torqueStrength
-        this.applyMovement()
-    }
-
-    jump() {
-        const impulse = { x: 0, y: 0.2, z: 0 }
-        this.rigidBody.applyImpulse(impulse, true)
-    }
-
-    initMovement() {
-        this.impulse = { x: 0, y: 0, z: 0 }
-        this.torque = { x: 0, y: 0, z: 0 }
-    }
-
-    applyMovement() {
-        this.rigidBody.applyImpulse(this.impulse, true)
-        this.rigidBody.applyTorqueImpulse(this.torque)
+        let movement = this.controller.computedMovement()
+        let newPos = this.rigidBody.translation()
+        newPos.x += movement.x
+        newPos.y += movement.y
+        newPos.z += movement.z
+        this.rigidBody.setNextKinematicTranslation(newPos)
     }
 
     update() {

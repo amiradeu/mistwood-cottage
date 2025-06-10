@@ -15,7 +15,7 @@ import States from './Utils/States.js'
 import Physics from './Physics.js'
 import PhysicsDebug from './PhysicsDebug.js'
 import SceneGroup from './Utils/SceneGroup.js'
-import Key from './Utils/Keys.js'
+import KeysControls from './Utils/KeysControls.js'
 
 // Singleton
 let instance = null
@@ -40,7 +40,7 @@ export default class Experience {
         this.sizes = new Sizes()
         this.time = new Time()
         this.resources = new Resources(sources)
-        this.keys = new Key()
+        this.keysControls = new KeysControls()
 
         this.scene = new THREE.Scene()
         this.sceneGroup = new SceneGroup()
@@ -93,7 +93,6 @@ export default class Experience {
         // Removing Listeners
         this.sizes.off('resize')
         this.time.off('tick')
-        this.keys.removeAllListeners()
 
         // Traverse the whole scene
         this.scene.traverse((child) => {

@@ -10,7 +10,7 @@ export default class Player {
         this.resources = this.experience.resources
         this.physics = this.experience.physics
         this.time = this.experience.time
-        this.keys = this.experience.keys
+        this.keysControls = this.experience.keysControls
         this.camera = this.experience.camera.instance
 
         this.options = {
@@ -23,18 +23,18 @@ export default class Player {
             // Physics
             impulseStrength: 0.005,
             torqueStrength: 0.005,
-            speed: 0.2,
+            speed: 0.03,
         }
 
         this.smoothCameraPosition = new THREE.Vector3(10, 10, 10)
         this.smoothCameraTarget = new THREE.Vector3()
+        this.movementDirection = { x: 0, y: 0, z: 0 }
 
         this.addAxesHelper()
         this.setGeometry()
         this.setMaterial()
         this.setMesh()
         this.setPhysics()
-        this.handleKeys()
         this.setController()
     }
 
@@ -57,7 +57,8 @@ export default class Player {
         this.geometry = new THREE.CylinderGeometry(
             this.options.radius,
             this.options.radius,
-            this.options.height
+            // add height for visual to overlap ground
+            this.options.height + 0.1
         )
     }
 
@@ -93,14 +94,14 @@ export default class Player {
     setController() {
         this.controller = this.physics.world.createCharacterController(0.01)
         // when <stepHeight, >width
-        this.controller.enableAutostep(0.5, 0.2, true)
+        this.controller.enableAutostep(1.0, 0.2, true)
         // when <heightToGround
         this.controller.enableSnapToGround(2.0)
     }
 
     handleKeys() {
-        this.keys.on('up', () => {
-            console.log('up')
+        this.keysControls.on('forward', () => {
+            // console.log('forward')
             this.movementDirection = {
                 x: 0,
                 y: -0.1,
@@ -109,8 +110,8 @@ export default class Player {
             this.updateController()
         })
 
-        this.keys.on('down', () => {
-            console.log('down')
+        this.keysControls.on('backward', () => {
+            // console.log('backward')
             this.movementDirection = {
                 x: 0,
                 y: -0.1,
@@ -118,8 +119,9 @@ export default class Player {
             }
             this.updateController()
         })
-        this.keys.on('left', () => {
-            console.log('left')
+        this.keysControls.on('left', () => {
+            // console.log('left')
+            console.log(this.keysControls.keys.down)
             this.movementDirection = {
                 x: -this.options.speed,
                 y: -0.1,
@@ -127,8 +129,8 @@ export default class Player {
             }
             this.updateController()
         })
-        this.keys.on('right', () => {
-            console.log('right')
+        this.keysControls.on('right', () => {
+            // console.log('right')
             this.movementDirection = {
                 x: this.options.speed,
                 y: -0.1,
@@ -136,8 +138,8 @@ export default class Player {
             }
             this.updateController()
         })
-        this.keys.on('jump', () => {
-            console.log('jump')
+        this.keysControls.on('jump', () => {
+            // console.log('jump')
             this.movementDirection = { x: 0, y: this.options.speed, z: 0 }
             this.updateController()
         })
@@ -168,7 +170,7 @@ export default class Player {
         cameraPosition.copy(meshPosition)
         // Offset the camera position slightly above the player
         cameraPosition.y += 0.6
-        cameraPosition.z += 3.5
+        cameraPosition.z += 3.2
 
         // Camera Target
         const cameraTarget = new THREE.Vector3()
@@ -182,5 +184,41 @@ export default class Player {
 
         this.camera.position.copy(this.smoothCameraPosition)
         this.camera.lookAt(this.smoothCameraTarget)
+
+        /**
+         * Check and Update Key Controls
+         */
+        if (this.keysControls.keys.down.forward) {
+            this.movementDirection = {
+                x: 0,
+                y: -0.01,
+                z: -this.options.speed,
+            }
+            this.updateController()
+        }
+        if (this.keysControls.keys.down.backward) {
+            this.movementDirection = {
+                x: 0,
+                y: -0.01,
+                z: this.options.speed,
+            }
+            this.updateController()
+        }
+        if (this.keysControls.keys.down.left) {
+            this.movementDirection = {
+                x: -this.options.speed,
+                y: -0.01,
+                z: 0,
+            }
+            this.updateController()
+        }
+        if (this.keysControls.keys.down.right) {
+            this.movementDirection = {
+                x: this.options.speed,
+                y: -0.01,
+                z: 0,
+            }
+            this.updateController()
+        }
     }
 }

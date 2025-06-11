@@ -127,6 +127,10 @@ export default class Player {
         this.controller = this.physics.world.createCharacterController(0.01)
         // when <stepHeight, >width
         this.controller.enableAutostep(1.0, 1, true)
+        // when <heightToGround
+        // low value to prevent awkward fast snapping
+        // ensure body attach to ground when slide down slope
+        this.controller.enableSnapToGround(0.1)
 
         // climb slopes
         this.controller.slideEnabled(true)

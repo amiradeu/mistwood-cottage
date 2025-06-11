@@ -30,16 +30,14 @@ export default class Player {
         this.smoothCameraTarget = new THREE.Vector3()
         this.movementDirection = { x: 0, y: 0, z: 0 }
 
+        // Visual
         this.setGeometry()
         this.setMaterial()
         this.setMesh()
+
+        // Physics
         this.setPhysics()
         this.setController()
-    }
-
-    addAxesHelper() {
-        const axesHelper = new THREE.AxesHelper(10)
-        this.scene.add(axesHelper)
     }
 
     setMaterial() {
@@ -147,6 +145,9 @@ export default class Player {
          * Check and Update Key Controls
          */
 
+        // downward gravity
+        this.movementDirection.y = -this.options.gravity
+
         if (this.keysControls.keys.down.forward) {
             this.movementDirection.z = -this.options.speed
         }
@@ -176,9 +177,6 @@ export default class Player {
         ) {
             this.movementDirection.x = 0
         }
-
-        // downward gravity
-        this.movementDirection.y = -this.options.gravity
 
         if (this.keysControls.keys.down.jump) {
             this.movementDirection.y = this.options.jumpStrength

@@ -69,7 +69,7 @@ export default class Environment {
     setBaked() {
         this.items.EnvironmentMerged.material = this.material
         this.items.Well.material = this.material
-        this.items.Plants.material = this.material
+        this.items.NoPhysics.material = this.material
         this.items.streetemissions.material = this.material
     }
 

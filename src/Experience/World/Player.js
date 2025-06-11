@@ -127,8 +127,6 @@ export default class Player {
         this.controller = this.physics.world.createCharacterController(0.01)
         // when <stepHeight, >width
         this.controller.enableAutostep(1.0, 1, true)
-        // when <heightToGround
-        this.controller.enableSnapToGround(2.0)
 
         // climb slopes
         this.controller.slideEnabled(true)

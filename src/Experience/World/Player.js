@@ -46,7 +46,7 @@ export default class Player {
 
         // Physics
         this.setPhysics()
-        this.setController()
+        // this.setController()
 
         this.setDebug()
     }
@@ -163,7 +163,7 @@ export default class Player {
         cameraPosition.copy(meshPosition)
         // Offset the camera position slightly above the player
         cameraPosition.y += 0.6
-        cameraPosition.z += 3.2
+        cameraPosition.z += 1.2
 
         // Camera Target
         const cameraTarget = new THREE.Vector3()
@@ -175,52 +175,54 @@ export default class Player {
         this.smoothCameraTarget.lerp(cameraTarget, 0.05)
         // console.log(cameraPosition, this.smoothCameraPosition)
 
-        this.camera.position.copy(this.smoothCameraPosition)
-        this.camera.lookAt(this.smoothCameraTarget)
+        // this.camera.position.copy(this.smoothCameraPosition)
+        // this.camera.lookAt(this.smoothCameraTarget)
 
         /**
          * Check and Update Key Controls
          */
 
-        // downward gravity
-        this.movementDirection.y = -this.options.gravity
+        if (this.controller) {
+            // downward gravity
+            this.movementDirection.y = -this.options.gravity
 
-        if (this.keysControls.keys.down.forward) {
-            this.movementDirection.z = -this.options.speed
+            if (this.keysControls.keys.down.forward) {
+                this.movementDirection.z = -this.options.speed
+            }
+
+            if (this.keysControls.keys.down.backward) {
+                this.movementDirection.z = this.options.speed
+            }
+
+            if (this.keysControls.keys.down.left) {
+                this.movementDirection.x = -this.options.speed
+            }
+
+            if (this.keysControls.keys.down.right) {
+                this.movementDirection.x = this.options.speed
+            }
+
+            if (
+                !this.keysControls.keys.down.forward &&
+                !this.keysControls.keys.down.backward
+            ) {
+                this.movementDirection.z = 0
+            }
+
+            if (
+                !this.keysControls.keys.down.left &&
+                !this.keysControls.keys.down.right
+            ) {
+                this.movementDirection.x = 0
+            }
+
+            if (this.keysControls.keys.down.jump) {
+                this.movementDirection.y = this.options.jumpStrength
+            }
+
+            // console.log(this.movementDirection)
+            this.updateController()
         }
-
-        if (this.keysControls.keys.down.backward) {
-            this.movementDirection.z = this.options.speed
-        }
-
-        if (this.keysControls.keys.down.left) {
-            this.movementDirection.x = -this.options.speed
-        }
-
-        if (this.keysControls.keys.down.right) {
-            this.movementDirection.x = this.options.speed
-        }
-
-        if (
-            !this.keysControls.keys.down.forward &&
-            !this.keysControls.keys.down.backward
-        ) {
-            this.movementDirection.z = 0
-        }
-
-        if (
-            !this.keysControls.keys.down.left &&
-            !this.keysControls.keys.down.right
-        ) {
-            this.movementDirection.x = 0
-        }
-
-        if (this.keysControls.keys.down.jump) {
-            this.movementDirection.y = this.options.jumpStrength
-        }
-
-        // console.log(this.movementDirection)
-        this.updateController()
     }
 
     updateCycle() {

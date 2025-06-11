@@ -42,6 +42,8 @@ export default class Experience {
         this.resources = new Resources(sources)
         this.keysControls = new KeysControls()
 
+        this.overlay = new Overlay()
+
         this.scene = new THREE.Scene()
         this.sceneGroup = new SceneGroup()
         this.camera = new Camera()
@@ -56,8 +58,8 @@ export default class Experience {
 
         this.cycles = new Cycles()
         this.states = new States()
+
         this.world = new World()
-        this.overlay = new Overlay()
 
         // Adding Listener to events
         // 💡 using arrow function to keep the context

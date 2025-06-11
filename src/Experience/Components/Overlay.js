@@ -43,6 +43,7 @@ export default class Overlay extends EventEmitter {
     setEventListeners() {
         this.enterButton.addEventListener('click', () => {
             this.click()
+            this.trigger('enter')
         })
     }
 

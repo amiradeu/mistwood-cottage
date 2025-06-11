@@ -1,9 +1,5 @@
-import EventEmitter from './EventEmitter.js'
-
-export default class KeysControls extends EventEmitter {
+export default class KeysControls {
     constructor() {
-        super()
-
         this.setKeys()
         this.addEventListener()
     }
@@ -59,10 +55,6 @@ export default class KeysControls extends EventEmitter {
             // console.log('keydown', event.code, mapItem)
             if (mapItem) {
                 this.keys.down[mapItem.name] = true
-
-                if (mapItem.name === 'jump') {
-                    this.trigger('jump')
-                }
             }
         })
 

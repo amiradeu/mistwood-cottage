@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d'
-import gsap from 'gsap'
 
 import Experience from '../Experience.js'
 
@@ -17,26 +16,25 @@ export default class Player {
         this.options = {
             // Visual
             radius: 0.15,
-            height: 0.6,
+            height: 0.4,
             color: '#42ff48',
             initPosition: { x: -0.6, y: -0.6, z: 5 },
 
             // Physics
-            speed: 0.03,
+            speed: 0.02,
             jumpStrength: 0.03,
+            gravity: 0.005,
         }
 
         this.smoothCameraPosition = new THREE.Vector3(10, 10, 10)
         this.smoothCameraTarget = new THREE.Vector3()
         this.movementDirection = { x: 0, y: 0, z: 0 }
-        this.jumpState = false
 
         this.setGeometry()
         this.setMaterial()
         this.setMesh()
         this.setPhysics()
         this.setController()
-        this.handleJump()
     }
 
     addAxesHelper() {
@@ -105,26 +103,6 @@ export default class Player {
         this.controller.setMaxSlopeClimbAngle((145 * Math.PI) / 180)
     }
 
-    handleJump() {
-        this.keysControls.on('jump', () => {
-            console.log('jump')
-            this.jumpState = true
-            gsap.fromTo(
-                this.movementDirection,
-                { y: 0 },
-                {
-                    y: this.options.jumpStrength,
-                    duration: 0.5,
-                    repeat: 1,
-                    yoyo: true,
-                    onComplete: () => {
-                        this.jumpState = false
-                    },
-                }
-            )
-        })
-    }
-
     updateController() {
         this.controller.computeColliderMovement(
             this.collider, // The collider we would like to move.
@@ -168,40 +146,45 @@ export default class Player {
         /**
          * Check and Update Key Controls
          */
-        console.log(this.movementDirection)
 
         if (this.keysControls.keys.down.forward) {
-            this.movementDirection = {
-                x: 0,
-                y: -0.01,
-                z: -this.options.speed,
-            }
-        } else if (this.keysControls.keys.down.backward) {
-            this.movementDirection = {
-                x: 0,
-                y: -0.01,
-                z: this.options.speed,
-            }
-        } else if (this.keysControls.keys.down.left) {
-            this.movementDirection = {
-                x: -this.options.speed,
-                y: -0.01,
-                z: 0,
-            }
-        } else if (this.keysControls.keys.down.right) {
-            this.movementDirection = {
-                x: this.options.speed,
-                y: -0.01,
-                z: 0,
-            }
-        } else if (!this.jumpState) {
-            // downward gravity
-            this.movementDirection = {
-                x: 0,
-                y: -0.05,
-                z: 0,
-            }
+            this.movementDirection.z = -this.options.speed
         }
+
+        if (this.keysControls.keys.down.backward) {
+            this.movementDirection.z = this.options.speed
+        }
+
+        if (this.keysControls.keys.down.left) {
+            this.movementDirection.x = -this.options.speed
+        }
+
+        if (this.keysControls.keys.down.right) {
+            this.movementDirection.x = this.options.speed
+        }
+
+        if (
+            !this.keysControls.keys.down.forward &&
+            !this.keysControls.keys.down.backward
+        ) {
+            this.movementDirection.z = 0
+        }
+
+        if (
+            !this.keysControls.keys.down.left &&
+            !this.keysControls.keys.down.right
+        ) {
+            this.movementDirection.x = 0
+        }
+
+        // downward gravity
+        this.movementDirection.y = -this.options.gravity
+
+        if (this.keysControls.keys.down.jump) {
+            this.movementDirection.y = this.options.jumpStrength
+        }
+
+        console.log(this.movementDirection)
         this.updateController()
     }
 }

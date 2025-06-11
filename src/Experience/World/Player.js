@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d'
 
 import Experience from '../Experience.js'
+import PlayerMaterial from '../Objects/PlayerMaterial.js'
 
 export default class Player {
     constructor() {
@@ -45,17 +46,13 @@ export default class Player {
         this.texture.flipY = false
         this.texture.colorSpace = THREE.SRGBColorSpace
 
-        this.material = new THREE.MeshBasicMaterial({
-            map: this.texture,
-        })
+        this.material = new PlayerMaterial().material
     }
 
     setGeometry() {
-        this.geometry = new THREE.CylinderGeometry(
+        this.geometry = new THREE.CapsuleGeometry(
             this.options.radius,
-            this.options.radius,
-            // add height for visual to overlap ground
-            this.options.height + 0.1
+            this.options.height
         )
     }
 
@@ -182,7 +179,7 @@ export default class Player {
             this.movementDirection.y = this.options.jumpStrength
         }
 
-        console.log(this.movementDirection)
+        // console.log(this.movementDirection)
         this.updateController()
     }
 }

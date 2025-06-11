@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d'
+import gsap from 'gsap'
 
 import Experience from '../Experience.js'
 
@@ -21,21 +22,21 @@ export default class Player {
             initPosition: { x: -0.6, y: -0.6, z: 5 },
 
             // Physics
-            impulseStrength: 0.005,
-            torqueStrength: 0.005,
             speed: 0.03,
+            jumpStrength: 0.03,
         }
 
         this.smoothCameraPosition = new THREE.Vector3(10, 10, 10)
         this.smoothCameraTarget = new THREE.Vector3()
         this.movementDirection = { x: 0, y: 0, z: 0 }
+        this.jumpState = false
 
-        this.addAxesHelper()
         this.setGeometry()
         this.setMaterial()
         this.setMesh()
         this.setPhysics()
         this.setController()
+        this.handleJump()
     }
 
     addAxesHelper() {
@@ -94,54 +95,33 @@ export default class Player {
     setController() {
         this.controller = this.physics.world.createCharacterController(0.01)
         // when <stepHeight, >width
-        this.controller.enableAutostep(1.0, 0.2, true)
+        this.controller.enableAutostep(1.0, 1, true)
         // when <heightToGround
         this.controller.enableSnapToGround(2.0)
+
+        // climb slopes
+        this.controller.slideEnabled(true)
+        // Don’t allow climbing >145 degrees.
+        this.controller.setMaxSlopeClimbAngle((145 * Math.PI) / 180)
     }
 
-    handleKeys() {
-        this.keysControls.on('forward', () => {
-            // console.log('forward')
-            this.movementDirection = {
-                x: 0,
-                y: -0.1,
-                z: -this.options.speed,
-            }
-            this.updateController()
-        })
-
-        this.keysControls.on('backward', () => {
-            // console.log('backward')
-            this.movementDirection = {
-                x: 0,
-                y: -0.1,
-                z: this.options.speed,
-            }
-            this.updateController()
-        })
-        this.keysControls.on('left', () => {
-            // console.log('left')
-            console.log(this.keysControls.keys.down)
-            this.movementDirection = {
-                x: -this.options.speed,
-                y: -0.1,
-                z: 0,
-            }
-            this.updateController()
-        })
-        this.keysControls.on('right', () => {
-            // console.log('right')
-            this.movementDirection = {
-                x: this.options.speed,
-                y: -0.1,
-                z: 0,
-            }
-            this.updateController()
-        })
+    handleJump() {
         this.keysControls.on('jump', () => {
-            // console.log('jump')
-            this.movementDirection = { x: 0, y: this.options.speed, z: 0 }
-            this.updateController()
+            console.log('jump')
+            this.jumpState = true
+            gsap.fromTo(
+                this.movementDirection,
+                { y: 0 },
+                {
+                    y: this.options.jumpStrength,
+                    duration: 0.5,
+                    repeat: 1,
+                    yoyo: true,
+                    onComplete: () => {
+                        this.jumpState = false
+                    },
+                }
+            )
         })
     }
 
@@ -188,37 +168,40 @@ export default class Player {
         /**
          * Check and Update Key Controls
          */
+        console.log(this.movementDirection)
+
         if (this.keysControls.keys.down.forward) {
             this.movementDirection = {
                 x: 0,
                 y: -0.01,
                 z: -this.options.speed,
             }
-            this.updateController()
-        }
-        if (this.keysControls.keys.down.backward) {
+        } else if (this.keysControls.keys.down.backward) {
             this.movementDirection = {
                 x: 0,
                 y: -0.01,
                 z: this.options.speed,
             }
-            this.updateController()
-        }
-        if (this.keysControls.keys.down.left) {
+        } else if (this.keysControls.keys.down.left) {
             this.movementDirection = {
                 x: -this.options.speed,
                 y: -0.01,
                 z: 0,
             }
-            this.updateController()
-        }
-        if (this.keysControls.keys.down.right) {
+        } else if (this.keysControls.keys.down.right) {
             this.movementDirection = {
                 x: this.options.speed,
                 y: -0.01,
                 z: 0,
             }
-            this.updateController()
+        } else if (!this.jumpState) {
+            // downward gravity
+            this.movementDirection = {
+                x: 0,
+                y: -0.05,
+                z: 0,
+            }
         }
+        this.updateController()
     }
 }

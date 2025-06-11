@@ -62,6 +62,7 @@ export default class World {
         if (this.environment) this.environment.updateCycle()
         if (this.terrain) this.terrain.updateCycle()
         if (this.fog) this.fog.updateCycle()
+        if (this.player) this.player.updateCycle()
     }
 
     // Show or Hide Sides of Cottage

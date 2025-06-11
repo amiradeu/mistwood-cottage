@@ -2,7 +2,9 @@ import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d'
 
 import Experience from '../Experience.js'
-import PlayerMaterial from '../Objects/PlayerMaterial.js'
+import playerVertexShader from '../Shaders/Player/vertex.glsl'
+import playerFragmentShader from '../Shaders/Player/fragment.glsl'
+import { CyclesSettings } from '../Constants.js'
 
 export default class Player {
     constructor() {
@@ -13,13 +15,19 @@ export default class Player {
         this.time = this.experience.time
         this.keysControls = this.experience.keysControls
         this.camera = this.experience.camera.instance
+        this.debug = this.experience.debug
+        this.cycle = this.experience.cycles
 
         this.options = {
             // Visual
             radius: 0.15,
             height: 0.4,
-            color: '#42ff48',
             initPosition: { x: -0.6, y: -0.6, z: 5 },
+            color: CyclesSettings[this.cycle.currentCycle].playerColor,
+            sunShadeColor: '#332951',
+            sunPosition: new THREE.Vector3(
+                CyclesSettings[this.cycle.currentCycle].sunPosition
+            ),
 
             // Physics
             speed: 0.02,
@@ -39,6 +47,8 @@ export default class Player {
         // Physics
         this.setPhysics()
         this.setController()
+
+        this.setDebug()
     }
 
     setMaterial() {
@@ -46,7 +56,17 @@ export default class Player {
         this.texture.flipY = false
         this.texture.colorSpace = THREE.SRGBColorSpace
 
-        this.material = new PlayerMaterial().material
+        this.material = new THREE.ShaderMaterial({
+            vertexShader: playerVertexShader,
+            fragmentShader: playerFragmentShader,
+            uniforms: {
+                uSunPosition: new THREE.Uniform(this.options.sunPosition),
+                uColor: new THREE.Uniform(new THREE.Color(this.options.color)),
+                uSunShadeColor: new THREE.Uniform(
+                    new THREE.Color(this.options.sunShadeColor)
+                ),
+            },
+        })
     }
 
     setGeometry() {
@@ -83,6 +103,24 @@ export default class Player {
         )
 
         this.physics.addObject(this.mesh, this.rigidBody)
+    }
+
+    setDebug() {
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder('🕴🏻Player')
+
+            this.debugFolder.addColor(this.options, 'color').onChange(() => {
+                this.material.uniforms.uColor.value.set(this.options.color)
+            })
+
+            this.debugFolder
+                .addColor(this.options, 'sunShadeColor')
+                .onChange(() => {
+                    this.material.uniforms.uSunShadeColor.value.set(
+                        this.options.sunShadeColor
+                    )
+                })
+        }
     }
 
     setController() {
@@ -181,5 +219,19 @@ export default class Player {
 
         // console.log(this.movementDirection)
         this.updateController()
+    }
+
+    updateCycle() {
+        // Change Sun Position
+        this.material.uniforms.uSunPosition.value = new THREE.Vector3(
+            CyclesSettings[this.cycle.currentCycle].sunPosition
+        )
+
+        // Change player color
+        this.material.uniforms.uColor.value.set(
+            CyclesSettings[this.cycle.currentCycle].playerColor
+        )
+
+        if (this.debug.active) this.debugFolder.updateDisplay()
     }
 }

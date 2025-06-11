@@ -39,15 +39,23 @@ export const CycleTextures = {
 export const CyclesSettings = {
     sunrise: {
         fog: 50,
+        sunPosition: (-0.5, -0.5, -0.5),
+        playerColor: '#ff9b3d',
     },
     daylight: {
         fog: 60,
+        sunPosition: (-0.5, -0.5, -0.5),
+        playerColor: '#fffd94',
     },
     sunset: {
         fog: 50,
+        sunPosition: (0.5, -0.5, -0.5),
+        playerColor: '#fda0ef',
     },
     night: {
         fog: 30,
+        sunPosition: (0.5, -0.5, -0.5),
+        playerColor: '#af58bb',
     },
 }
 

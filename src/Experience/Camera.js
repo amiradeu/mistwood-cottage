@@ -52,6 +52,24 @@ export default class Camera {
         this.overlay.on('enter', () => {
             this.pointerLockControls.lock()
         })
+
+        this.blocker = document.querySelector('.blocker')
+        this.instructions = document.querySelector('.instructions')
+
+        // start capturing mouse
+        this.instructions.addEventListener('click', () => {
+            this.pointerLockControls.lock()
+        })
+
+        // hide instructions
+        this.pointerLockControls.addEventListener('lock', () => {
+            this.blocker.style.display = 'none'
+        })
+
+        // show instructions
+        this.pointerLockControls.addEventListener('unlock', () => {
+            this.blocker.style.display = 'revert'
+        })
     }
 
     resize() {

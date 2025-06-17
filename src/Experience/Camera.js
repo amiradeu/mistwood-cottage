@@ -16,7 +16,8 @@ export default class Camera {
         this.keysControls = this.experience.keysControls
 
         this.setInstance()
-        this.setPointerLockControls()
+        this.setOrbitControls()
+        // this.setPointerLockControls()
     }
 
     setInstance() {
@@ -115,13 +116,13 @@ export default class Camera {
             )
         }
 
-        console.log(
-            'camera. x:',
-            this.instance.position.x,
-            ' y:',
-            this.instance.position.y,
-            ' z:',
-            this.instance.position.z
-        )
+        // console.log(
+        //     'camera. x:',
+        //     this.instance.position.x,
+        //     ' y:',
+        //     this.instance.position.y,
+        //     ' z:',
+        //     this.instance.position.z
+        // )
     }
 }

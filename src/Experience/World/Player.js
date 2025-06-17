@@ -46,7 +46,7 @@ export default class Player {
 
         // Physics
         this.setPhysics()
-        // this.setController()
+        this.setController()
 
         this.setDebug()
     }
@@ -138,6 +138,8 @@ export default class Player {
         this.controller.setMaxSlopeClimbAngle((145 * Math.PI) / 180)
     }
 
+    updateCamera() {}
+
     updateController() {
         this.controller.computeColliderMovement(
             this.collider, // The collider we would like to move.
@@ -163,7 +165,7 @@ export default class Player {
         cameraPosition.copy(meshPosition)
         // Offset the camera position slightly above the player
         cameraPosition.y += 0.6
-        cameraPosition.z += 1.2
+        cameraPosition.z += 2.2
 
         // Camera Target
         const cameraTarget = new THREE.Vector3()
@@ -175,8 +177,8 @@ export default class Player {
         this.smoothCameraTarget.lerp(cameraTarget, 0.05)
         // console.log(cameraPosition, this.smoothCameraPosition)
 
-        // this.camera.position.copy(this.smoothCameraPosition)
-        // this.camera.lookAt(this.smoothCameraTarget)
+        this.camera.position.copy(this.smoothCameraPosition)
+        this.camera.lookAt(this.smoothCameraTarget)
 
         /**
          * Check and Update Key Controls

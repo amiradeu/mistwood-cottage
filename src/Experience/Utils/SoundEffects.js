@@ -1,6 +1,16 @@
+import Experience from '../Experience'
+
 export default class SoundEffects {
     constructor() {
+        this.experience = new Experience()
+        this.overlay = this.experience.overlay
+
         this.setSounds()
+
+        // start playing background ambience
+        this.overlay.on('enter', () => {
+            this.playInsectSound()
+        })
     }
 
     setSounds() {
@@ -16,7 +26,7 @@ export default class SoundEffects {
     }
 
     playJumpSound() {
-        console.log('Play jump sound')
+        // console.log('Play jump sound')
         this.jumpSound.currentTime = 0
         this.jumpSound.play()
     }
@@ -39,9 +49,10 @@ export default class SoundEffects {
     }
 
     playInsectSound() {
-        console.log('Play insect sound')
-
-        this.insectSound.currentTime = 0
-        this.insectSound.play()
+        if (this.insectSound.paused || this.insectSound.ended) {
+            // console.log('Play insect sound')
+            this.insectSound.currentTime = 0
+            this.insectSound.play()
+        }
     }
 }

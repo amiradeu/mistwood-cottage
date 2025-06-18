@@ -32,8 +32,6 @@ export default class World {
             this.terrain = new Terrain()
 
             this.player = new Player()
-
-            this.sfx.playInsectSound()
         })
 
         this.sceneCycle.on('cycleChanged', () => {

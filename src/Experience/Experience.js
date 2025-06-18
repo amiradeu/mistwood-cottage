@@ -9,7 +9,7 @@ import sources from './sources.js'
 import Debug from './Utils/Debug.js'
 import Statistics from './Utils/Statistics.js'
 import Overlay from './Components/Overlay.js'
-import Cycles from './Utils/Cycles.js'
+import DayCycle from './Utils/DayCycle.js'
 import PostProcessing from './PostProcessing.js'
 import States from './Utils/States.js'
 import Physics from './Physics.js'
@@ -56,7 +56,7 @@ export default class Experience {
             this.physicsDebug = new PhysicsDebug()
         }
 
-        this.cycles = new Cycles()
+        this.cycles = new DayCycle()
         this.states = new States()
 
         this.world = new World()
@@ -83,6 +83,7 @@ export default class Experience {
     update() {
         this.camera.update()
         this.physics.update()
+        this.cycles.update()
 
         if (this.physicsDebug) this.physicsDebug.update()
         this.world.update()

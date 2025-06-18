@@ -17,6 +17,7 @@ import PhysicsDebug from './PhysicsDebug.js'
 import SceneGroup from './Utils/SceneGroup.js'
 import KeysControls from './Utils/KeysControls.js'
 import CyclesUI from './Components/CyclesUI.js'
+import SoundEffects from './Utils/SoundEffects.js'
 
 // Singleton
 let instance = null
@@ -62,6 +63,7 @@ export default class Experience {
         this.cycles = new DayCycle()
         this.states = new States()
 
+        this.sfx = new SoundEffects()
         this.world = new World()
 
         // Adding Listener to events

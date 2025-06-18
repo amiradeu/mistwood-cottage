@@ -17,6 +17,7 @@ export default class Player {
         this.camera = this.experience.camera.instance
         this.debug = this.experience.debug
         this.cycle = this.experience.cycles
+        this.sfx = this.experience.sfx
 
         this.options = {
             // Visual
@@ -218,8 +219,22 @@ export default class Player {
                 this.movementDirection.x = 0
             }
 
+            // moving any direction
+            const isMoving =
+                this.keysControls.keys.down.forward ||
+                this.keysControls.keys.down.backward ||
+                this.keysControls.keys.down.left ||
+                this.keysControls.keys.down.right
+
+            if (isMoving) {
+                this.sfx.playWalkingSound()
+            } else {
+                this.sfx.stopWalkingSound()
+            }
+
             if (this.keysControls.keys.down.jump) {
                 this.movementDirection.y = this.options.jumpStrength
+                this.sfx.playJumpSound()
             }
 
             // console.log(this.movementDirection)

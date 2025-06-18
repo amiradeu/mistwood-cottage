@@ -16,6 +16,7 @@ export default class World {
         this.sceneCycle = this.experience.cycles
         this.overlay = this.experience.overlay
         this.states = this.experience.states
+        this.sfx = this.experience.sfx
 
         // Setup World
         this.resources.on('ready', () => {
@@ -31,6 +32,8 @@ export default class World {
             this.terrain = new Terrain()
 
             this.player = new Player()
+
+            this.sfx.playInsectSound()
         })
 
         this.sceneCycle.on('cycleChanged', () => {

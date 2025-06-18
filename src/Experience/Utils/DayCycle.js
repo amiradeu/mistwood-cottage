@@ -9,6 +9,7 @@ export default class DayCycle extends EventEmitter {
         this.experience = new Experience()
         this.time = this.experience.time
         this.debug = this.experience.debug
+        this.ui = this.experience.cyclesUI
 
         this.cycleSequence = [
             CycleNames.SUNRISE,
@@ -23,27 +24,27 @@ export default class DayCycle extends EventEmitter {
         this.triggerTime = this.duration
 
         this.setTextures()
+        this.setEventListeners()
+        this.setDebug()
+    }
 
-        // Debug
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🌞 Day Cycles')
-            this.debugFolder
-                .add(this, 'currentCycle')
-                .options(CycleNames)
-                .name('Current Cycle')
-                .onChange((value) => {
-                    this.changeCycle(value)
-                })
+    setEventListeners() {
+        this.ui.cycles.forEach((item) => {
+            item.addEventListener('click', () => {
+                console.log('button click')
 
-            this.debugFolder
-                .add(this, 'duration', 5, 30, 1)
-                .onChange((value) => this.setInterval(value))
-        }
+                const index = item.dataset.index
+                // use data-index value from html
+                this.ui.updateActiveStates(index)
+                this.advanceToSpecificCycle(index)
+            })
+        })
     }
 
     update() {
+        // Automatic Cycle Update by Duration
         if (this.time.elapsed >= this.triggerTime) {
-            console.log(this.time.elapsed, 'do something')
+            console.log(this.time.elapsed, 'change cycle')
             this.triggerTime += this.duration
             this.advanceCycle()
         }
@@ -52,9 +53,32 @@ export default class DayCycle extends EventEmitter {
     advanceCycle() {
         this.currentCycleIndex =
             (this.currentCycleIndex + 1) % this.cycleSequence.length
+
         this.currentCycle = this.cycleSequence[this.currentCycleIndex]
         this.setTextures()
+
         this.trigger('cycleChanged')
+
+        // ui
+        this.ui.updateActiveStates(this.currentCycleIndex)
+    }
+
+    advanceToSpecificCycle(index) {
+        // ensure acceptable cycle
+        if (index < 0 || index >= this.cycleSequence.length) {
+            console.warn(`Invalid cycle index: ${index}`)
+            return
+        }
+
+        this.setDuration(this.duration)
+        this.currentCycleIndex = index
+        this.currentCycle = this.cycleSequence[this.currentCycleIndex]
+        this.setTextures()
+
+        this.trigger('cycleChanged')
+
+        // ui
+        this.ui.updateActiveStates(this.currentCycleIndex)
     }
 
     setTextures() {
@@ -67,14 +91,14 @@ export default class DayCycle extends EventEmitter {
         }
     }
 
-    setInterval(interval) {
-        this.interval = interval
+    setDuration(duration) {
+        this.duration = duration
 
-        // Ensure next trigger is after current time
-        this.triggerTime =
-            Math.ceil(this.time.elapsed / this.interval) * this.interval
+        // Restart next trigger time
+        this.triggerTime = this.time.elapsed + this.duration
+
         console.log(
-            `🔄 Interval changed to ${interval}s, next trigger at ${this.triggerTime}s`
+            `🔄 Duration changed to ${duration}s, next trigger at ${this.triggerTime}s`
         )
     }
 
@@ -87,5 +111,22 @@ export default class DayCycle extends EventEmitter {
         this.currentCycle = cycle
         this.setTextures()
         this.trigger('cycleChanged')
+    }
+
+    setDebug() {
+        if (!this.debug.active) return
+
+        this.debugFolder = this.debug.ui.addFolder('🌞 Day Cycles')
+        this.debugFolder
+            .add(this, 'currentCycle')
+            .options(CycleNames)
+            .name('Current Cycle')
+            .onChange((value) => {
+                this.changeCycle(value)
+            })
+
+        this.debugFolder
+            .add(this, 'duration', 5, 30, 1)
+            .onChange((value) => this.setDuration(value))
     }
 }

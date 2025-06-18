@@ -25,20 +25,13 @@ p {
 button {
     display: block;
     margin: 0;
-    padding: 12px 24px;
-
-    border: 1px solid $color-text;
-    border-radius: 10em;
+    padding: 0px;
+    border: none;
 
     background: transparent;
     cursor: pointer;
     font: inherit;
     color: inherit;
-    text-transform: uppercase;
-
-    &:hover {
-        background-color: $color-strong;
-    }
 }
 
 a {

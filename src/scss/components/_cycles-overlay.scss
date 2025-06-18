@@ -1,0 +1,52 @@
+.cycles-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+
+    display: flex;
+    justify-content: center;
+    padding-block: 12px;
+    gap: 16px;
+
+    > .container {
+        display: flex;
+
+        > .cycles-item-button {
+            position: relative;
+
+            color: #7c7c95;
+            padding: 8px;
+
+            :hover {
+                color: #b6b6c0;
+            }
+        }
+
+        > .item:not(:last-child) {
+            padding-inline-end: 12px;
+
+            &::after {
+                content: '';
+            }
+        }
+
+        .active {
+            color: blue;
+        }
+    }
+
+    .indicator {
+        display: none;
+
+        position: absolute;
+        bottom: -10px;
+        left: calc(50% - 5px);
+
+        width: 10px;
+        height: 10px;
+        background-color: #7c7c95;
+        border-radius: 100%;
+    }
+}

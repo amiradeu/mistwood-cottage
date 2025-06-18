@@ -16,6 +16,7 @@ import Physics from './Physics.js'
 import PhysicsDebug from './PhysicsDebug.js'
 import SceneGroup from './Utils/SceneGroup.js'
 import KeysControls from './Utils/KeysControls.js'
+import CyclesUI from './Components/CyclesUI.js'
 
 // Singleton
 let instance = null
@@ -42,6 +43,8 @@ export default class Experience {
         this.resources = new Resources(sources)
         this.keysControls = new KeysControls()
 
+        // UI
+        this.cyclesUI = new CyclesUI()
         this.overlay = new Overlay()
 
         this.scene = new THREE.Scene()

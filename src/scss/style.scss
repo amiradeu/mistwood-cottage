@@ -4,6 +4,8 @@
 @use 'base' as *;
 @use 'webgl';
 
+@use 'components/cycles-overlay';
+
 /* OVERLAY */
 .overlay {
     position: absolute;
@@ -112,6 +114,11 @@
     }
 
     .enter-button {
+        padding: 12px 24px;
+        border: 1px solid $color-text;
+        border-radius: 10em;
+        text-transform: uppercase;
+
         display: none;
         opacity: 0;
         font-weight: 700;
@@ -120,6 +127,10 @@
 
         &::after {
             content: ' →';
+        }
+
+        &:hover {
+            background-color: $color-strong;
         }
     }
 }

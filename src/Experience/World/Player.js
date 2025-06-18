@@ -177,8 +177,8 @@ export default class Player {
         this.smoothCameraTarget.lerp(cameraTarget, 0.05)
         // console.log(cameraPosition, this.smoothCameraPosition)
 
-        // this.camera.position.copy(this.smoothCameraPosition)
-        // this.camera.lookAt(this.smoothCameraTarget)
+        this.camera.position.copy(this.smoothCameraPosition)
+        this.camera.lookAt(this.smoothCameraTarget)
 
         /**
          * Check and Update Key Controls

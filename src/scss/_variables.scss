@@ -4,8 +4,8 @@ $color-text: #f5f5f4;
 $color-strong: #37312e;
 $color-disabled: #d6d3d1;
 
-$family-sans-serif: 'Pally-Variable', 'Adjusted Trebuchet MS Fallback';
-$family-serif: 'Neco-Variable', 'Adjusted Baskerville Fallback';
+$family-sans-serif: 'Bigelow Rules';
+$family-serif: 'Roboto Mono';
 
 @mixin phoneAndSmaller {
     @media (max-width: 600px) {

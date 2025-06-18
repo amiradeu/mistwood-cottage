@@ -7,10 +7,12 @@ export default class PhysicsDebug {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.physics = this.experience.physics
+        this.debug = this.experience.debug
 
         this.setGeometry()
         this.setMaterial()
         this.setLine()
+        this.setDebug()
     }
 
     setGeometry() {
@@ -49,5 +51,12 @@ export default class PhysicsDebug {
 
         this.geometry.attributes.position.needsUpdate = true
         this.geometry.attributes.color.needsUpdate = true
+    }
+
+    setDebug() {
+        if (!this.debug.active) return
+
+        this.debugFolder = this.debug.ui.addFolder('🏄 Physics')
+        this.debugFolder.add(this.lineSegments.material, 'visible')
     }
 }

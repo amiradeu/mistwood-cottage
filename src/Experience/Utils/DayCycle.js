@@ -36,7 +36,7 @@ export default class DayCycle extends EventEmitter {
                 })
 
             this.debugFolder
-                .add(this, 'duration', 5, 15, 1)
+                .add(this, 'duration', 5, 30, 1)
                 .onChange((value) => this.setInterval(value))
         }
     }

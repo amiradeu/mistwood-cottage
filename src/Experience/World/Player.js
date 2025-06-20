@@ -94,10 +94,7 @@ export default class Player {
         this.rigidBody = this.physics.world.createRigidBody(rigidBodyDesc)
 
         // Collider
-        let colliderDesc = RAPIER.ColliderDesc.cylinder(
-            this.options.height / 2,
-            this.options.radius
-        )
+        let colliderDesc = RAPIER.ColliderDesc.ball(this.options.radius)
         this.collider = this.physics.world.createCollider(
             colliderDesc,
             this.rigidBody

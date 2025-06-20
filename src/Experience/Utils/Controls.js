@@ -1,7 +1,10 @@
-export default class KeysControls {
+export default class Controls {
     constructor() {
         this.setKeys()
-        this.addEventListener()
+        this.addKeysEventListener()
+
+        this.setPointer()
+        this.addPointerEventListener()
     }
 
     /**
@@ -49,7 +52,7 @@ export default class KeysControls {
         return this.keys.map.find((mapItem) => mapItem.key.includes(key))
     }
 
-    addEventListener() {
+    addKeysEventListener() {
         window.addEventListener('keydown', (event) => {
             const mapItem = this.findKey(event.code)
             // console.log('keydown', event.code, mapItem)
@@ -65,5 +68,40 @@ export default class KeysControls {
                 this.keys.down[mapItem.name] = false
             }
         })
+    }
+
+    setPointer() {
+        this.pointer = {}
+        this.pointer.down = false
+        this.pointer.deltaTemp = { x: 0, y: 0 }
+        this.pointer.delta = { x: 0, y: 0 }
+    }
+
+    addPointerEventListener() {
+        window.addEventListener('pointerdown', (event) => {
+            this.pointer.down = true
+            // console.log('pointerdown')
+        })
+
+        window.addEventListener('pointermove', (event) => {
+            this.pointer.deltaTemp.x += event.movementX
+            this.pointer.deltaTemp.y += event.movementY
+            // console.log('pointermove')
+        })
+
+        window.addEventListener('pointerup', () => {
+            this.pointer.down = false
+            // console.log('pointerup')
+        })
+    }
+
+    update() {
+        this.pointer.delta.x = this.pointer.deltaTemp.x
+        this.pointer.delta.y = this.pointer.deltaTemp.y
+
+        this.pointer.deltaTemp.x = 0
+        this.pointer.deltaTemp.y = 0
+
+        // console.log(this.pointer.delta.x, this.pointer.delta.y)
     }
 }

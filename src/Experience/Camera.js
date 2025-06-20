@@ -13,10 +13,10 @@ export default class Camera {
         this.scene = this.experience.scene
         this.canvas = this.experience.canvas
         this.overlay = this.experience.overlay
-        this.keysControls = this.experience.keysControls
+        this.keysControls = this.experience.controls
 
         this.setInstance()
-        this.setOrbitControls()
+        // this.setOrbitControls()
         // this.setPointerLockControls()
     }
 
@@ -107,7 +107,7 @@ export default class Camera {
                 this.velocity.x -= this.direction.x * 400 * this.moveDelta
             }
 
-            // Update movement
+            // Update camera movement
             this.pointerLockControls.moveForward(
                 -this.velocity.z * this.moveDelta
             )

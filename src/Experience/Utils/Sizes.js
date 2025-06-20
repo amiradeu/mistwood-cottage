@@ -1,7 +1,6 @@
-import EventEmitter from "./EventEmitter.js"
+import EventEmitter from './EventEmitter.js'
 
 export default class Sizes extends EventEmitter {
-
     constructor() {
         super()
 
@@ -18,7 +17,14 @@ export default class Sizes extends EventEmitter {
 
             // Trigger Event
             this.trigger('resize')
-
         })
+    }
+
+    normalise(pixelCoords) {
+        const minSize = Math.min(this.width, this.height)
+        return {
+            x: pixelCoords.x / minSize,
+            y: pixelCoords.y / minSize,
+        }
     }
 }

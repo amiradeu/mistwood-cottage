@@ -15,7 +15,7 @@ import States from './Utils/States.js'
 import Physics from './Physics.js'
 import PhysicsDebug from './PhysicsDebug.js'
 import SceneGroup from './Utils/SceneGroup.js'
-import KeysControls from './Utils/KeysControls.js'
+import Controls from './Utils/Controls.js'
 import CyclesUI from './Components/CyclesUI.js'
 import SoundEffects from './Utils/SoundEffects.js'
 
@@ -42,7 +42,7 @@ export default class Experience {
         this.sizes = new Sizes()
         this.time = new Time()
         this.resources = new Resources(sources)
-        this.keysControls = new KeysControls()
+        this.controls = new Controls()
 
         // UI
         this.cyclesUI = new CyclesUI()
@@ -89,9 +89,11 @@ export default class Experience {
         this.camera.update()
         this.physics.update()
         this.cycles.update()
+        this.controls.update()
 
         if (this.physicsDebug) this.physicsDebug.update()
         this.world.update()
+
         // this.renderer.update()
         this.effectComposer.update()
         this.stats.update()

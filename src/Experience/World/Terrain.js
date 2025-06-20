@@ -126,6 +126,22 @@ export default class Terrain {
         if (this.pondGround) this.pondGround.updateCycle(this.texture)
     }
 
+    // Calculate object elevation from terrain with raycasting
+    getElevationFromTerrain(x, z) {
+        const raycaster = new THREE.Raycaster()
+        const downDirection = new THREE.Vector3(0, -1, 0)
+
+        const origin = new THREE.Vector3(x, 1000, z) // shoot ray from high above
+        raycaster.set(origin, downDirection)
+
+        const intersects = raycaster.intersectObject(this.items.Land, true)
+        if (intersects.length > 0) {
+            return intersects[0].point.y // This is the elevation
+        }
+
+        return null // No terrain hit
+    }
+
     update() {
         if (this.pond) this.pond.update()
         if (this.pondGround) this.pondGround.update()

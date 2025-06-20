@@ -57,15 +57,21 @@ export default class Player {
         this.texture.flipY = false
         this.texture.colorSpace = THREE.SRGBColorSpace
 
+        this.uniforms = {
+            uSunPosition: new THREE.Uniform(this.options.sunPosition),
+            uColor: new THREE.Uniform(new THREE.Color(this.options.color)),
+            uSunShadeColor: new THREE.Uniform(
+                new THREE.Color(this.options.sunShadeColor)
+            ),
+        }
+
         this.material = new THREE.ShaderMaterial({
+            fog: true,
             vertexShader: playerVertexShader,
             fragmentShader: playerFragmentShader,
             uniforms: {
-                uSunPosition: new THREE.Uniform(this.options.sunPosition),
-                uColor: new THREE.Uniform(new THREE.Color(this.options.color)),
-                uSunShadeColor: new THREE.Uniform(
-                    new THREE.Color(this.options.sunShadeColor)
-                ),
+                ...THREE.UniformsLib['fog'],
+                ...this.uniforms,
             },
         })
     }

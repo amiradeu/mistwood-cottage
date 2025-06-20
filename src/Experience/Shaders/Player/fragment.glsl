@@ -10,6 +10,8 @@ varying vec3 vGameNormal;
 #include ../includes/getSunShade.glsl;
 #include ../includes/getSunShadeColor.glsl;
 
+#include <fog_pars_fragment>
+
 void main()
 {
     vec3 baseColor = uColor;
@@ -22,4 +24,5 @@ void main()
 
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
+    #include <fog_fragment>
 }

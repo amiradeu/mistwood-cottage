@@ -6,6 +6,7 @@ import playerVertexShader from '../Shaders/Player/vertex.glsl'
 import playerFragmentShader from '../Shaders/Player/fragment.glsl'
 import { CyclesSettings } from '../Constants.js'
 import CameraThirdPerson from '../CameraThirdPerson.js'
+import PlayerController from '../Utils/PlayerController.js'
 
 export default class Player {
     constructor() {
@@ -20,24 +21,17 @@ export default class Player {
         this.cycle = this.experience.cycles
         this.sfx = this.experience.sfx
 
+        // Visual
         this.options = {
-            // Visual
             radius: 0.15,
             height: 0.4,
             initPosition: { x: -0.6, y: -0.6, z: 5 },
             color: CyclesSettings[this.cycle.currentCycle].playerColor,
-            sunShadeColor: '#332951',
+            sunShadeColor: '#b17412',
             sunPosition: new THREE.Vector3(
                 CyclesSettings[this.cycle.currentCycle].sunPosition
             ),
-
-            // Physics
-            speed: 0.01,
-            jumpStrength: 0.03,
-            gravity: 0.005,
         }
-
-        this.movementDirection = { x: 0, y: 0, z: 0 }
 
         // Visual
         this.setTexture()
@@ -47,11 +41,11 @@ export default class Player {
 
         // Physics
         this.setPhysics()
-        this.setCharacterController()
 
-        // POV Camera
+        // Third Person Camera
         this.cameraPOV = new CameraThirdPerson(this.mesh)
 
+        // Debug
         this.setDebug()
     }
 
@@ -111,37 +105,14 @@ export default class Player {
             this.rigidBody
         )
 
-        this.physics.addObject(this.mesh, this.rigidBody, 0.1)
-    }
+        // Physics update pipeline
+        this.physics.addDynamicObject(this.mesh, this.rigidBody, 0.1)
 
-    setCharacterController() {
-        this.characterController =
-            this.physics.world.createCharacterController(0.01)
-        // when <stepHeight, >width
-        this.characterController.enableAutostep(1.0, 1, true)
-        // when <heightToGround
-        // low value to prevent awkward fast snapping
-        // ensure body attach to ground when slide down slope
-        this.characterController.enableSnapToGround(0.1)
-
-        // climb slopes
-        this.characterController.slideEnabled(true)
-        // Don’t allow climbing >145 degrees.
-        this.characterController.setMaxSlopeClimbAngle((145 * Math.PI) / 180)
-    }
-
-    updateController() {
-        this.characterController.computeColliderMovement(
-            this.collider, // The collider we would like to move.
-            this.movementDirection
+        // Character Controller
+        this.playerController = new PlayerController(
+            this.rigidBody,
+            this.collider
         )
-
-        let movement = this.characterController.computedMovement()
-        let newPos = this.rigidBody.translation()
-        newPos.x += movement.x
-        newPos.y += movement.y
-        newPos.z += movement.z
-        this.rigidBody.setNextKinematicTranslation(newPos)
     }
 
     update() {
@@ -153,63 +124,10 @@ export default class Player {
         }
 
         /**
-         * Check and Update Key Controls
+         * Player movement and sound
          */
-
-        if (this.characterController) {
-            // downward gravity
-            this.movementDirection.y = -this.options.gravity
-
-            if (this.controls.keys.down.forward) {
-                this.movementDirection.z = -this.options.speed
-            }
-
-            if (this.controls.keys.down.backward) {
-                this.movementDirection.z = this.options.speed
-            }
-
-            if (this.controls.keys.down.left) {
-                this.movementDirection.x = -this.options.speed
-            }
-
-            if (this.controls.keys.down.right) {
-                this.movementDirection.x = this.options.speed
-            }
-
-            if (
-                !this.controls.keys.down.forward &&
-                !this.controls.keys.down.backward
-            ) {
-                this.movementDirection.z = 0
-            }
-
-            if (
-                !this.controls.keys.down.left &&
-                !this.controls.keys.down.right
-            ) {
-                this.movementDirection.x = 0
-            }
-
-            // moving any direction
-            const isMoving =
-                this.controls.keys.down.forward ||
-                this.controls.keys.down.backward ||
-                this.controls.keys.down.left ||
-                this.controls.keys.down.right
-
-            if (isMoving) {
-                this.sfx.playWalkingSound()
-            } else {
-                this.sfx.stopWalkingSound()
-            }
-
-            if (this.controls.keys.down.jump) {
-                this.movementDirection.y = this.options.jumpStrength
-                this.sfx.playJumpSound()
-            }
-
-            // console.log(this.movementDirection)
-            this.updateController()
+        if (this.playerController) {
+            this.playerController.update()
         }
     }
 

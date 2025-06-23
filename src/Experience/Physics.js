@@ -86,7 +86,7 @@ export default class Physics {
         this.world.createCollider(colliderDesc, rigidBody)
     }
 
-    addObject(mesh, body, offset = 0) {
+    addDynamicObject(mesh, body, offset = 0) {
         this.objectsToUpdate.push({
             visual: mesh,
             physical: body,

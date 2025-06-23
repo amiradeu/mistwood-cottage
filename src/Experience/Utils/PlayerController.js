@@ -1,14 +1,19 @@
-import * as THREE from 'three'
+/**
+ * Based on Rapier's Character Controller
+ * (https://github.com/dimforge/rapier.js/blob/master/testbed3d/src/demos/characterController.ts)
+ */
+import { Vector3 } from 'three'
 import Experience from '../Experience'
 
 export default class PlayerController {
     constructor(body, collider) {
         this.experience = new Experience()
-        this.physics = this.experience.physics
+        this.camera = this.experience.camera.instance
         this.controls = this.experience.controls
-        this.time = this.experience.time
-        this.sfx = this.experience.sfx
         this.debug = this.experience.debug
+        this.physics = this.experience.physics
+        this.sfx = this.experience.sfx
+        this.time = this.experience.time
 
         this.rigidBody = body
         this.collider = collider
@@ -20,10 +25,14 @@ export default class PlayerController {
         this.moveDelta = 0.0005 * this.time.delta
         this.decaySpeed = 24
 
+        // Camera direction
+        this.cameraForward = new Vector3()
+        this.cameraRight = new Vector3()
+        this.cameraUp = new Vector3(0, 1, 0)
+
         // Movement state
-        this.movementDirection = { x: 0, y: 0, z: 0 }
-        this.velocity = new THREE.Vector3()
-        this.direction = new THREE.Vector3()
+        this.velocity = new Vector3()
+        this.direction = new Vector3()
 
         this.setController()
         this.setDebug()
@@ -45,35 +54,42 @@ export default class PlayerController {
     }
 
     update() {
-        // Keys States
-        const { forward, backward, left, right, jump } = this.controls.keys.down
+        // Forward is based on camera direction
+        this.camera.getWorldDirection(this.cameraForward)
+        this.cameraForward.y = 0 // Ignore vertical direction
+        this.cameraForward.normalize()
+        // console.log(this.cameraForward)
 
         // Friction - movement decay to a stop slowly
         this.velocity.x -= this.velocity.x * this.decaySpeed * this.moveDelta
         this.velocity.z -= this.velocity.z * this.decaySpeed * this.moveDelta
 
-        // // Direction
-        this.direction.z = forward - backward
-        this.direction.x = left - right
-        // ensures consistent movements in all directions
+        // Get right vector by rotating forward vector 90° counterclockwise
+        this.cameraRight
+            .crossVectors(this.cameraForward, this.cameraUp)
+            .normalize()
+
+        // Keys States
+        const { forward, backward, left, right, jump } = this.controls.keys.down
+
+        // Input direction
+        this.direction.x = (left ? -1 : 0) + (right ? 1 : 0)
+        this.direction.y = 0
+        this.direction.z = (forward ? 1 : 0) + (backward ? -1 : 0)
         this.direction.normalize()
 
-        // // Acceleration - increases speed on keydown
-        if (forward || backward) {
-            this.velocity.z -= this.direction.z * this.speed * this.moveDelta
-        }
-        if (left || right) {
-            this.velocity.x -= this.direction.x * this.speed * this.moveDelta
-        }
+        // Rotate movement direction to match camera orientation
+        const moveDir = new Vector3()
+        moveDir
+            .addScaledVector(this.cameraForward, this.direction.z)
+            .addScaledVector(this.cameraRight, this.direction.x)
+            .normalize()
 
-        // moving any direction
-        const isMoving = forward || backward || left || right
+        // Apply acceleration
+        this.velocity.x += moveDir.x * this.speed * this.moveDelta
+        this.velocity.z += moveDir.z * this.speed * this.moveDelta
 
-        if (isMoving) {
-            if (this.controller.computedGrounded()) this.sfx.playWalkingSound()
-        } else {
-            this.sfx.stopWalkingSound()
-        }
+        this.handleSFX()
 
         // Player is grounded
         if (this.controller.computedGrounded()) {
@@ -83,6 +99,7 @@ export default class PlayerController {
                 this.velocity.y = this.jumpStrength
             } else {
                 // Reset vertical velocity when grounded
+                // ⭐️ Prevents controller from getting stuck with small obstacles
                 this.velocity.y = 0
             }
         } else {
@@ -90,8 +107,21 @@ export default class PlayerController {
             this.velocity.y -= this.gravity * this.moveDelta
         }
 
-        console.log('velocity', this.velocity)
+        // console.log('velocity', this.velocity)
         this.updateController()
+    }
+
+    handleSFX() {
+        const { forward, backward, left, right, jump } = this.controls.keys.down
+
+        // moving any direction
+        const isMoving = forward || backward || left || right
+
+        if (isMoving) {
+            if (this.controller.computedGrounded()) this.sfx.playWalkingSound()
+        } else {
+            this.sfx.stopWalkingSound()
+        }
     }
 
     updateController() {

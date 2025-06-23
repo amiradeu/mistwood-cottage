@@ -16,7 +16,6 @@ export default class Camera {
         this.keysControls = this.experience.controls
 
         this.setInstance()
-        // this.setOrbitControls()
         // this.setPointerLockControls()
     }
 
@@ -30,13 +29,6 @@ export default class Camera {
         this.instance.position.set(-10, 4, 20)
 
         this.scene.add(this.instance)
-    }
-
-    setOrbitControls() {
-        this.controls = new OrbitControls(this.instance, this.canvas)
-        this.controls.enableDamping = true
-        this.controls.maxPolarAngle = Math.PI * 0.55
-        this.controls.maxDistance = 45
     }
 
     setPointerLockControls() {
@@ -80,9 +72,6 @@ export default class Camera {
     }
 
     update() {
-        // Update Controls
-        if (this.controls) this.controls.update()
-
         // Update Pointer Lock Controls
         if (this.pointerLockControls && this.pointerLockControls.isLocked) {
             // Keys States

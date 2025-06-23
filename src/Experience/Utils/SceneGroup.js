@@ -9,7 +9,9 @@ export default class SceneGroup {
 
         this.instance = new THREE.Group()
 
-        this.instance.scale.set(0.1, 0.1, 0.1)
+        this.scale = 0.1
+
+        this.instance.scale.set(this.scale, this.scale, this.scale)
         this.instance.position.set(0, -1, 0)
         this.instance.rotation.y = Math.PI
 

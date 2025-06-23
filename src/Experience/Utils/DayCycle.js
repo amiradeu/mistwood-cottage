@@ -31,7 +31,7 @@ export default class DayCycle extends EventEmitter {
     setEventListeners() {
         this.ui.cycles.forEach((item) => {
             item.addEventListener('click', () => {
-                console.log('button click')
+                // console.log('button click')
 
                 const index = item.dataset.index
                 // use data-index value from html
@@ -44,7 +44,7 @@ export default class DayCycle extends EventEmitter {
     update() {
         // Automatic Cycle Update by Duration
         if (this.time.elapsed >= this.triggerTime) {
-            console.log(this.time.elapsed, 'change cycle')
+            // console.log(this.time.elapsed, 'change cycle')
             this.triggerTime += this.duration
             this.advanceCycle()
         }
@@ -97,9 +97,9 @@ export default class DayCycle extends EventEmitter {
         // Restart next trigger time
         this.triggerTime = this.time.elapsed + this.duration
 
-        console.log(
-            `🔄 Duration changed to ${duration}s, next trigger at ${this.triggerTime}s`
-        )
+        // console.log(
+        //     `🔄 Duration changed to ${duration}s, next trigger at ${this.triggerTime}s`
+        // )
     }
 
     changeCycle(cycle) {

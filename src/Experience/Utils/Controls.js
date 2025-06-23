@@ -1,10 +1,7 @@
 export default class Controls {
     constructor() {
         this.setKeys()
-        this.addKeysEventListener()
-
         this.setPointer()
-        this.addPointerEventListener()
     }
 
     /**
@@ -42,6 +39,8 @@ export default class Controls {
         for (const item of this.keys.map) {
             this.keys.down[item.name] = false
         }
+
+        this.addKeysEventListener()
     }
 
     /**
@@ -70,11 +69,16 @@ export default class Controls {
         })
     }
 
+    /**
+     * Pointer controls for mouse movement
+     */
     setPointer() {
         this.pointer = {}
         this.pointer.down = false
         this.pointer.deltaTemp = { x: 0, y: 0 }
         this.pointer.delta = { x: 0, y: 0 }
+
+        this.addPointerEventListener()
     }
 
     addPointerEventListener() {
@@ -96,12 +100,11 @@ export default class Controls {
     }
 
     update() {
+        // Update pointer
         this.pointer.delta.x = this.pointer.deltaTemp.x
         this.pointer.delta.y = this.pointer.deltaTemp.y
 
         this.pointer.deltaTemp.x = 0
         this.pointer.deltaTemp.y = 0
-
-        // console.log(this.pointer.delta.x, this.pointer.delta.y)
     }
 }

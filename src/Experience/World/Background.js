@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Color, EquirectangularReflectionMapping } from 'three'
 
 import Experience from '../Experience.js'
 
@@ -22,7 +22,7 @@ export default class Background {
             color: '#dfe9f3',
         }
 
-        this.scene.background = new THREE.Color(this.options.color)
+        this.scene.background = new Color(this.options.color)
 
         if (this.debug.active) {
             this.debugFolder
@@ -36,8 +36,7 @@ export default class Background {
 
     setTextures() {
         this.environmentMapTexture = this.resources.items.environmentMapTexture2
-        this.environmentMapTexture.mapping =
-            THREE.EquirectangularReflectionMapping
+        this.environmentMapTexture.mapping = EquirectangularReflectionMapping
     }
 
     setEnvironmentMap() {

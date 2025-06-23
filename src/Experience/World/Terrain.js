@@ -1,4 +1,11 @@
-import * as THREE from 'three'
+import {
+    SRGBColorSpace,
+    MeshBasicMaterial,
+    Quaternion,
+    Euler,
+    Raycaster,
+    Vector3,
+} from 'three'
 import RAPIER from '@dimforge/rapier3d'
 
 import Experience from '../Experience'
@@ -29,11 +36,11 @@ export default class Terrain {
     setTextures() {
         this.texture = this.resources.items[this.sceneCycle.textures.terrain]
         this.texture.flipY = false
-        this.texture.colorSpace = THREE.SRGBColorSpace
+        this.texture.colorSpace = SRGBColorSpace
     }
 
     setMaterials() {
-        this.material = new THREE.MeshBasicMaterial({
+        this.material = new MeshBasicMaterial({
             map: this.texture,
             // wireframe: true,
         })
@@ -80,8 +87,8 @@ export default class Terrain {
             .setTranslation({ x: -17, y: 5, z: -4 })
 
         // rotate collider
-        const rotation = new THREE.Quaternion().setFromEuler(
-            new THREE.Euler(0, Math.PI * 0.5, 0)
+        const rotation = new Quaternion().setFromEuler(
+            new Euler(0, Math.PI * 0.5, 0)
         )
         colliderDesc.setRotation(rotation)
 
@@ -128,10 +135,10 @@ export default class Terrain {
 
     // Calculate object elevation from terrain with raycasting
     getElevationFromTerrain(x, z) {
-        const raycaster = new THREE.Raycaster()
-        const downDirection = new THREE.Vector3(0, -1, 0)
+        const raycaster = new Raycaster()
+        const downDirection = new Vector3(0, -1, 0)
 
-        const origin = new THREE.Vector3(x, 1000, z) // shoot ray from high above
+        const origin = new Vector3(x, 1000, z) // shoot ray from high above
         raycaster.set(origin, downDirection)
 
         const intersects = raycaster.intersectObject(this.items.Land, true)

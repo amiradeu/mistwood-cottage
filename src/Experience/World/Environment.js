@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { SRGBColorSpace, MeshBasicMaterial, Vector3 } from 'three'
 
 import Experience from '../Experience.js'
 import { CycleEmissions } from '../Constants.js'
@@ -37,16 +37,16 @@ export default class Environment {
         this.texture =
             this.resources.items[this.sceneCycle.textures.environment]
         this.texture.flipY = false
-        this.texture.colorSpace = THREE.SRGBColorSpace
+        this.texture.colorSpace = SRGBColorSpace
     }
 
     setMaterials() {
-        this.material = new THREE.MeshBasicMaterial({
+        this.material = new MeshBasicMaterial({
             map: this.texture,
         })
         this.uniforms = addTextureTransition(this.material)
 
-        this.wellEmissionMaterial = new THREE.MeshBasicMaterial({
+        this.wellEmissionMaterial = new MeshBasicMaterial({
             color: '#9110d2',
         })
     }
@@ -92,7 +92,7 @@ export default class Environment {
                 y: 30,
                 z: 200,
             },
-            positions: new THREE.Vector3(0, 10, 0),
+            positions: new Vector3(0, 10, 0),
             count: 500,
             radius: 50,
             size: 100,

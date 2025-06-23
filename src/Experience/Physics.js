@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Vector3 } from 'three'
 import RAPIER from '@dimforge/rapier3d'
 
 import Experience from './Experience.js'
@@ -39,7 +39,7 @@ export default class Physics {
         // Convert vertices to world space
         // This is necessary because the mesh might be transformed (position, rotation, scale)
         // and we need the vertices in world space for the physics engine
-        const v = new THREE.Vector3()
+        const v = new Vector3()
         for (let i = 0, l = positionAttribute.count; i < l; i++) {
             v.fromBufferAttribute(positionAttribute, i)
             v.applyMatrix4(mesh.matrixWorld)
@@ -68,7 +68,7 @@ export default class Physics {
         // Convert vertices to world space
         // This is necessary because the mesh might be transformed (position, rotation, scale)
         // and we need the vertices in world space for the physics engine
-        const v = new THREE.Vector3()
+        const v = new Vector3()
         for (let i = 0, l = positionAttribute.count; i < l; i++) {
             v.fromBufferAttribute(positionAttribute, i)
             v.applyMatrix4(mesh.matrixWorld)

@@ -1,9 +1,9 @@
-import * as THREE from 'three'
+import { Fog } from 'three'
 
 import Experience from '../Experience'
 import { CyclesSettings } from '../Constants.js'
 import gsap from 'gsap'
-export default class Fog {
+export default class FogAmbient {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
@@ -22,7 +22,7 @@ export default class Fog {
             density: 0.015,
         }
 
-        this.fog = new THREE.Fog(
+        this.fog = new Fog(
             this.options.color,
             this.options.near,
             this.options.far

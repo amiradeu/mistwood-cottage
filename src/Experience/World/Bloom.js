@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Layers, Mesh } from 'three'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 
@@ -25,7 +25,7 @@ export default class Bloom {
     }
 
     setLayer() {
-        this.layer = new THREE.Layers()
+        this.layer = new Layers()
         this.layer.set(BLOOM_SCENE)
     }
 
@@ -43,7 +43,7 @@ export default class Bloom {
     }
 
     // Add objects causing bloom
-    addBloom(mesh = new THREE.Mesh()) {
+    addBloom(mesh = new Mesh()) {
         mesh.layers.enable(BLOOM_SCENE)
     }
 

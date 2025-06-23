@@ -1,11 +1,11 @@
 // Based on Texture Transition by Paul West @prisoner849
 // https://jsfiddle.net/prisoner849/bmda176z/
 
-import * as THREE from 'three'
+import { Material } from 'three'
 import gsap from 'gsap'
 
 export function addTextureTransition(
-    material = new THREE.Material(),
+    material = new Material(),
     mixProgress = 0
 ) {
     const uniforms = {

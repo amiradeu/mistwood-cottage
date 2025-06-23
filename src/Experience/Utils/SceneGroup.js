@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Group } from 'three'
 
 import Experience from '../Experience.js'
 
@@ -7,7 +7,7 @@ export default class SceneGroup {
         this.experience = new Experience()
         this.scene = this.experience.scene
 
-        this.instance = new THREE.Group()
+        this.instance = new Group()
 
         this.scale = 0.1
 

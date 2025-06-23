@@ -1,4 +1,10 @@
-import * as THREE from 'three'
+import {
+    RepeatWrapping,
+    ShaderMaterial,
+    UniformsLib,
+    Vector3,
+    Quaternion,
+} from 'three'
 import { Refractor } from 'three/examples/jsm/objects/Refractor.js'
 
 import Experience from '../Experience'
@@ -23,8 +29,8 @@ export default class RoofGlass {
 
     setTextures() {
         this.texture = this.resources.items.glassTexture
-        this.texture.wrapS = THREE.RepeatWrapping
-        this.texture.wrapT = THREE.RepeatWrapping
+        this.texture.wrapS = RepeatWrapping
+        this.texture.wrapT = RepeatWrapping
     }
 
     setMaterials() {
@@ -38,12 +44,12 @@ export default class RoofGlass {
             repeatScale: { value: 2 },
         }
 
-        this.material = new THREE.ShaderMaterial({
+        this.material = new ShaderMaterial({
             fog: true,
             vertexShader: glassRefractionVertexShader,
             fragmentShader: glassRefractionFragmentShader,
             uniforms: {
-                ...THREE.UniformsLib['fog'],
+                ...UniformsLib['fog'],
                 ...this.uniforms,
             },
         })
@@ -52,9 +58,9 @@ export default class RoofGlass {
     setModel() {
         // Extract world transform
         // 💡 correct child position when parent model is scaled
-        this.worldPos = new THREE.Vector3()
-        this.worldQuat = new THREE.Quaternion()
-        this.worldScale = new THREE.Vector3()
+        this.worldPos = new Vector3()
+        this.worldQuat = new Quaternion()
+        this.worldScale = new Vector3()
         this.mesh.getWorldPosition(this.worldPos)
         this.mesh.getWorldQuaternion(this.worldQuat)
         this.mesh.getWorldScale(this.worldScale)
@@ -78,17 +84,14 @@ export default class RoofGlass {
         // Apply transform
         const finalQuat = this.worldQuat.clone()
         finalQuat.multiply(
-            new THREE.Quaternion().setFromAxisAngle(
-                new THREE.Vector3(1, 0, 0),
+            new Quaternion().setFromAxisAngle(
+                new Vector3(1, 0, 0),
                 -Math.PI / 2
             )
         )
         if (isBack) {
             finalQuat.multiply(
-                new THREE.Quaternion().setFromAxisAngle(
-                    new THREE.Vector3(0, 1, 0),
-                    Math.PI
-                )
+                new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), Math.PI)
             )
         }
 
@@ -96,9 +99,7 @@ export default class RoofGlass {
         refractor.scale.copy(this.worldScale)
         refractor.position.copy(this.worldPos)
         refractor.position.add(
-            refractor
-                .getWorldDirection(new THREE.Vector3())
-                .multiplyScalar(offset)
+            refractor.getWorldDirection(new Vector3()).multiplyScalar(offset)
         )
 
         this.scene.add(refractor)

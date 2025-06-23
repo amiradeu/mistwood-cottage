@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { SRGBColorSpace, MeshBasicMaterial } from 'three'
 
 import EventEmitter from '../Utils/EventEmitter.js'
 import Experience from '../Experience.js'
@@ -38,11 +38,11 @@ export default class Cottage extends EventEmitter {
     setTextures() {
         this.texture = this.resources.items[this.sceneCycle.textures.cottage]
         this.texture.flipY = false
-        this.texture.colorSpace = THREE.SRGBColorSpace
+        this.texture.colorSpace = SRGBColorSpace
     }
 
     setMaterials() {
-        this.material = new THREE.MeshBasicMaterial({
+        this.material = new MeshBasicMaterial({
             map: this.texture,
             transparent: true,
         })

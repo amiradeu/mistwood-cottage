@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Scene, Mesh } from 'three'
 import Sizes from './Utils/Sizes.js'
 import Time from './Utils/Time.js'
 import Camera from './Camera.js'
@@ -48,7 +48,7 @@ export default class Experience {
         this.cyclesUI = new CyclesUI()
         this.overlay = new Overlay()
 
-        this.scene = new THREE.Scene()
+        this.scene = new Scene()
         this.sceneGroup = new SceneGroup()
         this.camera = new Camera()
         this.renderer = new Renderer()
@@ -107,7 +107,7 @@ export default class Experience {
         // Traverse the whole scene
         this.scene.traverse((child) => {
             // mesh
-            if (child instanceof THREE.Mesh) {
+            if (child instanceof Mesh) {
                 child.geometry.dispose()
 
                 for (const key in child.material) {

@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Uniform, Color, ShaderMaterial, UniformsLib } from 'three'
 
 import Experience from '../Experience.js'
 import causticsVertexShader from '../Shaders/Caustics/vertex.glsl'
@@ -43,27 +43,21 @@ export default class CausticsFloor {
             // texture transition
             uMap0: { value: this.options.texture },
             uMap: { value: this.options.texture },
-            uMixProgress: new THREE.Uniform(0),
+            uMixProgress: new Uniform(0),
 
-            uTime: new THREE.Uniform(0),
+            uTime: new Uniform(0),
 
             // caustics
-            uOpacity: new THREE.Uniform(this.options.opacity),
-            uCausticsColor: new THREE.Uniform(
-                new THREE.Color(this.options.causticsColor)
-            ),
-            uCausticsIntensity: new THREE.Uniform(
-                this.options.causticsIntensity
-            ),
-            uCausticsScale: new THREE.Uniform(this.options.causticsScale),
-            uCausticsSpeed: new THREE.Uniform(this.options.causticsSpeed),
-            uCausticsThickness: new THREE.Uniform(
-                this.options.causticsThickness
-            ),
-            uCausticsOffset: new THREE.Uniform(this.options.causticsOffset),
+            uOpacity: new Uniform(this.options.opacity),
+            uCausticsColor: new Uniform(new Color(this.options.causticsColor)),
+            uCausticsIntensity: new Uniform(this.options.causticsIntensity),
+            uCausticsScale: new Uniform(this.options.causticsScale),
+            uCausticsSpeed: new Uniform(this.options.causticsSpeed),
+            uCausticsThickness: new Uniform(this.options.causticsThickness),
+            uCausticsOffset: new Uniform(this.options.causticsOffset),
         }
 
-        this.material = new THREE.ShaderMaterial({
+        this.material = new ShaderMaterial({
             transparent: true,
             depthTest: true,
             fog: true,
@@ -71,7 +65,7 @@ export default class CausticsFloor {
             vertexShader: causticsVertexShader,
             fragmentShader: causticsFragmentShader,
             uniforms: {
-                ...THREE.UniformsLib['fog'],
+                ...UniformsLib['fog'],
                 ...this.uniforms,
             },
         })

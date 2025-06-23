@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Vector3, Quaternion } from 'three'
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
 
 import Experience from '../Experience.js'
@@ -16,8 +16,8 @@ export default class Mirror {
     }
 
     setModel() {
-        const worldPos = new THREE.Vector3()
-        const worldQuat = new THREE.Quaternion()
+        const worldPos = new Vector3()
+        const worldQuat = new Quaternion()
         this.mesh.getWorldPosition(worldPos)
         this.mesh.getWorldQuaternion(worldQuat)
 

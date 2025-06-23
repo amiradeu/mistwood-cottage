@@ -1,4 +1,14 @@
-import * as THREE from 'three'
+import {
+    Spherical,
+    Vector3,
+    BufferGeometry,
+    Float32BufferAttribute,
+    ShaderMaterial,
+    AdditiveBlending,
+    Color,
+    Uniform,
+    Points,
+} from 'three'
 
 import Experience from '../Experience.js'
 import firefliesVertexShader from '../Shaders/Fireflies/vertex.glsl'
@@ -27,7 +37,7 @@ export default class Fireflies {
     setOptions(options) {
         const defaultOptions = {
             area: AREA_TYPE.SPHERE,
-            positions: new THREE.Vector3(0, 0, 0),
+            positions: new Vector3(0, 0, 0),
             cubeSize: {
                 x: 10,
                 y: 10,
@@ -69,7 +79,7 @@ export default class Fireflies {
 
             // Place in a spherical randomness, instead of cube
             // radius, phi, theta
-            const spherical = new THREE.Spherical(
+            const spherical = new Spherical(
                 this.options.radius *
                     (1 -
                         this.options.fillRadius +
@@ -78,7 +88,7 @@ export default class Fireflies {
                 Math.random() * Math.PI * 2
             )
 
-            const position = new THREE.Vector3()
+            const position = new Vector3()
             position.setFromSpherical(spherical)
 
             if (this.options.area === AREA_TYPE.SPHERE) {
@@ -105,26 +115,26 @@ export default class Fireflies {
             randomMove[i] = Math.random()
         }
 
-        this.geometry = new THREE.BufferGeometry()
+        this.geometry = new BufferGeometry()
         this.geometry.setAttribute(
             'position',
-            new THREE.Float32BufferAttribute(positionsArray, 3)
+            new Float32BufferAttribute(positionsArray, 3)
         )
         this.geometry.setAttribute(
             'aRandomness',
-            new THREE.Float32BufferAttribute(randomness, 1)
+            new Float32BufferAttribute(randomness, 1)
         )
         this.geometry.setAttribute(
             'aRandomMove',
-            new THREE.Float32BufferAttribute(randomMove, 1)
+            new Float32BufferAttribute(randomMove, 1)
         )
     }
 
     setMaterial() {
-        this.material = new THREE.ShaderMaterial({
+        this.material = new ShaderMaterial({
             depthWrite: false,
             transparent: true,
-            blending: THREE.AdditiveBlending,
+            blending: AdditiveBlending,
             vertexShader: firefliesVertexShader,
             fragmentShader: firefliesFragmentShader,
             uniforms: {
@@ -134,36 +144,29 @@ export default class Fireflies {
                 },
 
                 // Fireflies
-                uColor: new THREE.Uniform(new THREE.Color(this.options.color)),
-                uSize: new THREE.Uniform(this.options.size),
+                uColor: new Uniform(new Color(this.options.color)),
+                uSize: new Uniform(this.options.size),
 
-                uMoveRatio: new THREE.Uniform(this.options.moveRatio),
-                uMoveSpeed: new THREE.Uniform(this.options.moveSpeed),
-                uFrequencyA: new THREE.Uniform(this.options.frequencyA),
-                uFrequencyB: new THREE.Uniform(this.options.frequencyB),
-                uPathSize: new THREE.Uniform(this.options.pathSize),
+                uMoveRatio: new Uniform(this.options.moveRatio),
+                uMoveSpeed: new Uniform(this.options.moveSpeed),
+                uFrequencyA: new Uniform(this.options.frequencyA),
+                uFrequencyB: new Uniform(this.options.frequencyB),
+                uPathSize: new Uniform(this.options.pathSize),
 
-                uFlickerSpeed: new THREE.Uniform(this.options.flickerSpeed),
-                uFlickerSync: new THREE.Uniform(this.options.flickerSync),
+                uFlickerSpeed: new Uniform(this.options.flickerSpeed),
+                uFlickerSync: new Uniform(this.options.flickerSync),
             },
         })
     }
 
     setModel() {
-        this.fireflies = new THREE.Points(this.geometry, this.material)
+        this.fireflies = new Points(this.geometry, this.material)
         this.fireflies.position.set(
             this.options.positions.x,
             this.options.positions.y,
             this.options.positions.z
         )
         this.sceneGroup.add(this.fireflies)
-
-        // const box = new THREE.Mesh(
-        //     new THREE.BoxGeometry(1, 1, 1),
-        //     new THREE.MeshBasicMaterial({ color: '#c20000' })
-        // )
-        // box.position.set(-4, 21, -18)
-        // this.sceneGroup.add(box)
     }
 
     update() {

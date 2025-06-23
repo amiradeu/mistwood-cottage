@@ -1,4 +1,9 @@
-import * as THREE from 'three'
+import {
+    BufferGeometry,
+    LineBasicMaterial,
+    LineSegments,
+    BufferAttribute,
+} from 'three'
 
 import Experience from './Experience.js'
 
@@ -16,17 +21,17 @@ export default class PhysicsDebug {
     }
 
     setGeometry() {
-        this.geometry = new THREE.BufferGeometry()
+        this.geometry = new BufferGeometry()
     }
 
     setMaterial() {
-        this.material = new THREE.LineBasicMaterial({
+        this.material = new LineBasicMaterial({
             vertexColors: true,
         })
     }
 
     setLine() {
-        this.lineSegments = new THREE.LineSegments(this.geometry, this.material)
+        this.lineSegments = new LineSegments(this.geometry, this.material)
         this.scene.add(this.lineSegments)
     }
 
@@ -39,15 +44,9 @@ export default class PhysicsDebug {
         //     colors.length / 4
         // )
 
-        this.geometry.setAttribute(
-            'position',
-            new THREE.BufferAttribute(vertices, 3)
-        )
+        this.geometry.setAttribute('position', new BufferAttribute(vertices, 3))
 
-        this.geometry.setAttribute(
-            'color',
-            new THREE.BufferAttribute(colors, 4)
-        )
+        this.geometry.setAttribute('color', new BufferAttribute(colors, 4))
 
         this.geometry.attributes.position.needsUpdate = true
         this.geometry.attributes.color.needsUpdate = true

@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { ShaderMaterial, DoubleSide, UniformsLib, Color } from 'three'
 
 import Experience from '../Experience'
 import emissiveRadialGradientVertexShader from '../Shaders/EmissiveRadialGradient/vertex.glsl'
@@ -35,15 +35,15 @@ export default class Emissive {
 
     setMaterial() {
         if (this.options.type === EMISSIVE_TYPE.RADIAL) {
-            this.material = new THREE.ShaderMaterial({
+            this.material = new ShaderMaterial({
                 vertexShader: emissiveRadialGradientVertexShader,
                 fragmentShader: emissiveRadialGradientFragmentShader,
-                side: THREE.DoubleSide,
+                side: DoubleSide,
                 fog: true,
                 uniforms: {
-                    ...THREE.UniformsLib['fog'],
-                    uColorA: { value: new THREE.Color(this.options.colorA) },
-                    uColorB: { value: new THREE.Color(this.options.colorB) },
+                    ...UniformsLib['fog'],
+                    uColorA: { value: new Color(this.options.colorA) },
+                    uColorB: { value: new Color(this.options.colorB) },
                     uTime: { value: 0 },
                     uRadius: { value: this.options.radius },
                     uPower: { value: this.options.power },
@@ -52,15 +52,15 @@ export default class Emissive {
         }
 
         if (this.options.type === EMISSIVE_TYPE.LINEAR) {
-            this.material = new THREE.ShaderMaterial({
+            this.material = new ShaderMaterial({
                 vertexShader: emissiveLinearGradientVertexShader,
                 fragmentShader: emissiveLinearGradientFragmentShader,
-                side: THREE.DoubleSide,
+                side: DoubleSide,
                 fog: true,
                 uniforms: {
-                    ...THREE.UniformsLib['fog'],
-                    uColorA: { value: new THREE.Color(this.options.colorA) },
-                    uColorB: { value: new THREE.Color(this.options.colorB) },
+                    ...UniformsLib['fog'],
+                    uColorA: { value: new Color(this.options.colorA) },
+                    uColorB: { value: new Color(this.options.colorB) },
                     uTime: { value: 0 },
                     uRadius: { value: this.options.radius },
                     uPower: { value: this.options.power },

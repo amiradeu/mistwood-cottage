@@ -1,4 +1,12 @@
-import * as THREE from 'three'
+import {
+    Uniform,
+    Color,
+    ShaderMaterial,
+    DoubleSide,
+    UniformsLib,
+    Mesh,
+    PlaneGeometry,
+} from 'three'
 
 import Experience from '../Experience.js'
 import waterVertexShader from '../Shaders/Water/vertex.glsl'
@@ -50,37 +58,31 @@ export default class Pond {
         this.environmentMap = this.resources.items.environmentMapTexture2
 
         this.uniforms = {
-            uTime: new THREE.Uniform(0),
-            uOpacity: new THREE.Uniform(this.options.opacity),
-            uEnvironmentMap: new THREE.Uniform(this.environmentMap),
+            uTime: new Uniform(0),
+            uOpacity: new Uniform(this.options.opacity),
+            uEnvironmentMap: new Uniform(this.environmentMap),
 
-            uWavesAmplitude: new THREE.Uniform(this.options.amplitude),
-            uWavesFrequency: new THREE.Uniform(this.options.frequency),
-            uWavesPersistence: new THREE.Uniform(this.options.persistence),
-            uWavesLacunarity: new THREE.Uniform(this.options.lacunarity),
-            uWavesIterations: new THREE.Uniform(this.options.iterations),
-            uWavesSpeed: new THREE.Uniform(this.options.speed),
+            uWavesAmplitude: new Uniform(this.options.amplitude),
+            uWavesFrequency: new Uniform(this.options.frequency),
+            uWavesPersistence: new Uniform(this.options.persistence),
+            uWavesLacunarity: new Uniform(this.options.lacunarity),
+            uWavesIterations: new Uniform(this.options.iterations),
+            uWavesSpeed: new Uniform(this.options.speed),
 
-            uTroughColor: new THREE.Uniform(
-                new THREE.Color(this.options.troughColor)
-            ),
-            uSurfaceColor: new THREE.Uniform(
-                new THREE.Color(this.options.surfaceColor)
-            ),
-            uPeakColor: new THREE.Uniform(
-                new THREE.Color(this.options.peakColor)
-            ),
+            uTroughColor: new Uniform(new Color(this.options.troughColor)),
+            uSurfaceColor: new Uniform(new Color(this.options.surfaceColor)),
+            uPeakColor: new Uniform(new Color(this.options.peakColor)),
 
-            uPeakThreshold: new THREE.Uniform(this.options.peakThreshold),
-            uPeakTransition: new THREE.Uniform(this.options.peakTransition),
-            uTroughThreshold: new THREE.Uniform(this.options.troughThreshold),
-            uTroughTransition: new THREE.Uniform(this.options.troughTransition),
-            uFresnelScale: new THREE.Uniform(this.options.fresnelScale),
-            uFresnelPower: new THREE.Uniform(this.options.fresnelPower),
+            uPeakThreshold: new Uniform(this.options.peakThreshold),
+            uPeakTransition: new Uniform(this.options.peakTransition),
+            uTroughThreshold: new Uniform(this.options.troughThreshold),
+            uTroughTransition: new Uniform(this.options.troughTransition),
+            uFresnelScale: new Uniform(this.options.fresnelScale),
+            uFresnelPower: new Uniform(this.options.fresnelPower),
         }
 
-        this.material = new THREE.ShaderMaterial({
-            side: THREE.DoubleSide,
+        this.material = new ShaderMaterial({
+            side: DoubleSide,
             transparent: true,
             depthTest: true,
             fog: true,
@@ -88,7 +90,7 @@ export default class Pond {
             vertexShader: waterVertexShader,
             fragmentShader: waterFragmentShader,
             uniforms: {
-                ...THREE.UniformsLib['fog'],
+                ...UniformsLib['fog'],
                 ...this.uniforms,
             },
         })
@@ -99,10 +101,7 @@ export default class Pond {
         this.mesh.parent.remove(this.mesh)
 
         // create water plane
-        this.water = new THREE.Mesh(
-            new THREE.PlaneGeometry(1, 1, 256, 256),
-            this.material
-        )
+        this.water = new Mesh(new PlaneGeometry(1, 1, 256, 256), this.material)
 
         this.water.position.copy(this.mesh.position)
         this.water.rotation.x = -Math.PI * 0.5

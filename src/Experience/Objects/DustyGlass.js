@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { RepeatWrapping, MeshBasicMaterial, DoubleSide } from 'three'
 
 import Experience from '../Experience'
 
@@ -31,23 +31,23 @@ export default class DustyGlass {
 
     setTextures() {
         this.texture = this.resources.items.glassFrostedBaseTexture
-        this.texture.wrapS = THREE.RepeatWrapping
-        this.texture.wrapT = THREE.RepeatWrapping
+        this.texture.wrapS = RepeatWrapping
+        this.texture.wrapT = RepeatWrapping
         this.texture.rotation = Math.PI
         this.texture.repeat.x = this.options.scale
         this.texture.repeat.y = this.options.scale
 
         this.textureNormal = this.resources.items.glassFrostedNormalTexture
-        this.textureNormal.wrapS = THREE.RepeatWrapping
-        this.textureNormal.wrapT = THREE.RepeatWrapping
+        this.textureNormal.wrapS = RepeatWrapping
+        this.textureNormal.wrapT = RepeatWrapping
         this.textureNormal.rotation = Math.PI
         this.textureNormal.repeat.x = this.options.scale
         this.textureNormal.repeat.y = this.options.scale
     }
 
     setMaterials() {
-        this.material = new THREE.MeshBasicMaterial({
-            side: THREE.DoubleSide,
+        this.material = new MeshBasicMaterial({
+            side: DoubleSide,
             transparent: true,
             opacity: this.options.opacity,
             color: this.options.color,

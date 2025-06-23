@@ -5,7 +5,7 @@ import Cottage from './Cottage.js'
 import Environment from './Environment.js'
 import Terrain from './Terrain.js'
 import Background from './Background.js'
-import Fog from './Fog.js'
+import FogAmbient from './Fog.js'
 import Bloom from './Bloom.js'
 import Player from './Player.js'
 
@@ -23,7 +23,7 @@ export default class World {
             // console.log('Resources Ready')
 
             // this.bloom = new Bloom()
-            this.fog = new Fog()
+            this.fog = new FogAmbient()
             this.background = new Background()
 
             this.room = new Room()

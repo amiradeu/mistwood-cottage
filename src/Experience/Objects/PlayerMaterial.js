@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { ShaderMaterial, Uniform, Vector3, Color } from 'three'
 
 import Experience from '../Experience.js'
 import playerVertexShader from '../Shaders/Player/vertex.glsl'
@@ -19,16 +19,14 @@ export default class PlayerMaterial {
     }
 
     setMaterial() {
-        this.material = new THREE.ShaderMaterial({
+        this.material = new ShaderMaterial({
             vertexShader: playerVertexShader,
             fragmentShader: playerFragmentShader,
             uniforms: {
-                uSunPosition: new THREE.Uniform(
-                    new THREE.Vector3(-0.5, -0.5, -0.5)
-                ),
-                uColor: new THREE.Uniform(new THREE.Color(this.options.color)),
-                uSunShadeColor: new THREE.Uniform(
-                    new THREE.Color(this.options.sunShadeColor)
+                uSunPosition: new Uniform(new Vector3(-0.5, -0.5, -0.5)),
+                uColor: new Uniform(new Color(this.options.color)),
+                uSunShadeColor: new Uniform(
+                    new Color(this.options.sunShadeColor)
                 ),
             },
         })

@@ -1,4 +1,14 @@
-import * as THREE from 'three'
+import {
+    RepeatWrapping,
+    ShaderMaterial,
+    DoubleSide,
+    UniformsLib,
+    Uniform,
+    Color,
+    MeshBasicMaterial,
+    Mesh,
+    PlaneGeometry,
+} from 'three'
 
 import Experience from '../Experience'
 import teaSmokeVertexShader from '../Shaders/TeaSmoke/vertex.glsl'
@@ -45,42 +55,40 @@ export default class TeaSmoke {
 
     setTextures() {
         this.perlinTexture = this.resources.items.perlinNoiseTexture
-        this.perlinTexture.wrapS = THREE.RepeatWrapping
-        this.perlinTexture.wrapT = THREE.RepeatWrapping
+        this.perlinTexture.wrapS = RepeatWrapping
+        this.perlinTexture.wrapT = RepeatWrapping
     }
 
     setMaterials() {
-        this.smokeMaterial = new THREE.ShaderMaterial({
+        this.smokeMaterial = new ShaderMaterial({
             vertexShader: teaSmokeVertexShader,
             fragmentShader: teaSmokeFragmentShader,
-            side: THREE.DoubleSide,
+            side: DoubleSide,
             // wireframe: true,
             depthWrite: false, // do not occlude anything behind it, including itself
             transparent: true,
             fog: true,
             uniforms: {
-                ...THREE.UniformsLib['fog'],
-                uPerlinTexture: new THREE.Uniform(this.perlinTexture),
-                uTime: new THREE.Uniform(0),
+                ...UniformsLib['fog'],
+                uPerlinTexture: new Uniform(this.perlinTexture),
+                uTime: new Uniform(0),
 
                 // Smoke
-                uSmokeColor: new THREE.Uniform(
-                    new THREE.Color(this.options.smokeColor)
-                ),
-                uSmokeStretchX: new THREE.Uniform(this.options.smokeStretchX),
-                uSmokeStretchY: new THREE.Uniform(this.options.smokeStretchY),
-                uSmokeSpeed: new THREE.Uniform(this.options.smokeSpeed),
+                uSmokeColor: new Uniform(new Color(this.options.smokeColor)),
+                uSmokeStretchX: new Uniform(this.options.smokeStretchX),
+                uSmokeStretchY: new Uniform(this.options.smokeStretchY),
+                uSmokeSpeed: new Uniform(this.options.smokeSpeed),
 
                 // Wind
-                uTwistFrequency: new THREE.Uniform(this.options.twistFrequency),
-                uTwistIntensity: new THREE.Uniform(this.options.twistIntensity),
-                uTwistSpeed: new THREE.Uniform(this.options.twistSpeed),
-                uWindStrength: new THREE.Uniform(this.options.windStrength),
-                uWindSpeed: new THREE.Uniform(this.options.windSpeed),
+                uTwistFrequency: new Uniform(this.options.twistFrequency),
+                uTwistIntensity: new Uniform(this.options.twistIntensity),
+                uTwistSpeed: new Uniform(this.options.twistSpeed),
+                uWindStrength: new Uniform(this.options.windStrength),
+                uWindSpeed: new Uniform(this.options.windSpeed),
             },
         })
 
-        this.waterMaterial = new THREE.MeshBasicMaterial({
+        this.waterMaterial = new MeshBasicMaterial({
             color: this.options.waterColor,
             reflectivity: 1.0,
         })
@@ -90,8 +98,8 @@ export default class TeaSmoke {
         this.mesh.material = this.waterMaterial
         this.sceneGroup.add(this.mesh)
 
-        this.smoke = new THREE.Mesh(
-            new THREE.PlaneGeometry(1, 1, 16, 64),
+        this.smoke = new Mesh(
+            new PlaneGeometry(1, 1, 16, 64),
             this.smokeMaterial
         )
         this.smoke.geometry.scale(0.7, 3, 1)

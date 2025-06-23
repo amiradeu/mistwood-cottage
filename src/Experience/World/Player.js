@@ -1,4 +1,13 @@
-import * as THREE from 'three'
+import {
+    Vector3,
+    SRGBColorSpace,
+    Uniform,
+    Color,
+    ShaderMaterial,
+    UniformsLib,
+    CapsuleGeometry,
+    Mesh,
+} from 'three'
 import RAPIER from '@dimforge/rapier3d'
 
 import Experience from '../Experience.js'
@@ -28,7 +37,7 @@ export default class Player {
             initPosition: { x: -0.6, y: -0.6, z: 5 },
             color: CyclesSettings[this.cycle.currentCycle].playerColor,
             sunShadeColor: '#b17412',
-            sunPosition: new THREE.Vector3(
+            sunPosition: new Vector3(
                 CyclesSettings[this.cycle.currentCycle].sunPosition
             ),
         }
@@ -52,38 +61,36 @@ export default class Player {
     setTexture() {
         this.texture = this.resources.items.playerTexture
         this.texture.flipY = false
-        this.texture.colorSpace = THREE.SRGBColorSpace
+        this.texture.colorSpace = SRGBColorSpace
     }
 
     setMaterial() {
         this.uniforms = {
-            uSunPosition: new THREE.Uniform(this.options.sunPosition),
-            uColor: new THREE.Uniform(new THREE.Color(this.options.color)),
-            uSunShadeColor: new THREE.Uniform(
-                new THREE.Color(this.options.sunShadeColor)
-            ),
+            uSunPosition: new Uniform(this.options.sunPosition),
+            uColor: new Uniform(new Color(this.options.color)),
+            uSunShadeColor: new Uniform(new Color(this.options.sunShadeColor)),
         }
 
-        this.material = new THREE.ShaderMaterial({
+        this.material = new ShaderMaterial({
             fog: true,
             vertexShader: playerVertexShader,
             fragmentShader: playerFragmentShader,
             uniforms: {
-                ...THREE.UniformsLib['fog'],
+                ...UniformsLib['fog'],
                 ...this.uniforms,
             },
         })
     }
 
     setGeometry() {
-        this.geometry = new THREE.CapsuleGeometry(
+        this.geometry = new CapsuleGeometry(
             this.options.radius,
             this.options.height
         )
     }
 
     setMesh() {
-        this.mesh = new THREE.Mesh(this.geometry, this.material)
+        this.mesh = new Mesh(this.geometry, this.material)
 
         const { x, y, z } = this.options.initPosition
         this.mesh.position.set(x, y, z)
@@ -133,7 +140,7 @@ export default class Player {
 
     updateCycle() {
         // Change Sun Position
-        this.material.uniforms.uSunPosition.value = new THREE.Vector3(
+        this.material.uniforms.uSunPosition.value = new Vector3(
             CyclesSettings[this.cycle.currentCycle].sunPosition
         )
 

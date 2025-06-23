@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { TextureLoader, CubeTextureLoader } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
@@ -33,8 +33,8 @@ export default class Resources extends EventEmitter {
         this.loaders.gltfLoader = new GLTFLoader()
         this.loaders.gltfLoader.setDRACOLoader(this.loaders.dracoLoader)
 
-        this.loaders.textureLoader = new THREE.TextureLoader()
-        this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader()
+        this.loaders.textureLoader = new TextureLoader()
+        this.loaders.cubeTextureLoader = new CubeTextureLoader()
         this.loaders.rgbeLoader = new RGBELoader()
         this.loaders.exrLoader = new EXRLoader()
     }

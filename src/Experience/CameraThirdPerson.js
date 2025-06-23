@@ -12,13 +12,14 @@ export default class CameraThirdPerson {
         this.camera = this.experience.camera.instance
         this.pointer = this.experience.controls.pointer
         this.sizes = this.experience.sizes
+        this.debug = this.experience.debug
 
         this.player = player
         this.target = new Vector3()
         this.position = new Vector3()
         this.quaternion = new Quaternion()
 
-        this.distance = 6 // how far the camera stays from the player
+        this.distance = 4 // how far the camera stays from the player
         this.phi = Math.PI * 0.45 // vertical angle (elevation)
         this.theta = -Math.PI * 0.25 // horizontal angle (azimuth)
         this.aboveOffset = 0.5 // how much above the player the camera looks
@@ -27,6 +28,8 @@ export default class CameraThirdPerson {
 
         this.smoothFactor = 0.1 // smooth camera movement
         this.smoothCameraPosition = new Vector3()
+
+        this.setDebug()
     }
 
     update() {
@@ -88,5 +91,13 @@ export default class CameraThirdPerson {
         // Update camera position and rotation
         this.camera.position.copy(this.smoothCameraPosition)
         this.camera.quaternion.copy(this.quaternion)
+    }
+
+    setDebug() {
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('📹 Camera Third Person')
+        this.debugFolder
+            .add(this, 'distance', 0, 20.0, 0.01)
+            .name('Camera Distance')
     }
 }

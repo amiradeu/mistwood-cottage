@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { SRGBColorSpace, MeshBasicMaterial } from 'three'
 
 import Experience from '../Experience.js'
 import Mirror from '../Objects/Mirror.js'
@@ -39,46 +39,46 @@ export default class Room {
         this.roomPatternTexture =
             this.resources.items[this.cycles.textures.roomPattern]
         this.roomPatternTexture.flipY = false
-        this.roomPatternTexture.colorSpace = THREE.SRGBColorSpace
+        this.roomPatternTexture.colorSpace = SRGBColorSpace
 
         this.roomPlainTexture =
             this.resources.items[this.cycles.textures.roomPlain]
         this.roomPlainTexture.flipY = false
-        this.roomPlainTexture.colorSpace = THREE.SRGBColorSpace
+        this.roomPlainTexture.colorSpace = SRGBColorSpace
 
         // Art Images
         this.art0Texture = this.resources.items.artImage0
         this.art0Texture.flipY = false
-        this.art0Texture.colorSpace = THREE.SRGBColorSpace
+        this.art0Texture.colorSpace = SRGBColorSpace
 
         this.art1Texture = this.resources.items.artImage1
         this.art1Texture.flipY = false
-        this.art1Texture.colorSpace = THREE.SRGBColorSpace
+        this.art1Texture.colorSpace = SRGBColorSpace
 
         this.art2Texture = this.resources.items.artImage2
         this.art2Texture.flipY = false
-        this.art2Texture.colorSpace = THREE.SRGBColorSpace
+        this.art2Texture.colorSpace = SRGBColorSpace
 
         this.art3Texture = this.resources.items.artImage3
         this.art3Texture.flipY = false
-        this.art3Texture.colorSpace = THREE.SRGBColorSpace
+        this.art3Texture.colorSpace = SRGBColorSpace
 
         this.art4Texture = this.resources.items.artImage4
         this.art4Texture.flipY = false
-        this.art4Texture.colorSpace = THREE.SRGBColorSpace
+        this.art4Texture.colorSpace = SRGBColorSpace
 
         this.art5Texture = this.resources.items.artImage5
         this.art5Texture.flipY = false
-        this.art5Texture.colorSpace = THREE.SRGBColorSpace
+        this.art5Texture.colorSpace = SRGBColorSpace
     }
 
     setMaterials() {
-        this.roomPatternMaterial = new THREE.MeshBasicMaterial({
+        this.roomPatternMaterial = new MeshBasicMaterial({
             map: this.roomPatternTexture,
         })
         this.uniformsPattern = addTextureTransition(this.roomPatternMaterial)
 
-        this.roomPlainMaterial = new THREE.MeshBasicMaterial({
+        this.roomPlainMaterial = new MeshBasicMaterial({
             map: this.roomPlainTexture,
             transparent: true,
         })
@@ -103,38 +103,38 @@ export default class Room {
             type: EMISSIVE_TYPE.LINEAR,
         })
 
-        this.recordMaterial = new THREE.MeshBasicMaterial({
+        this.recordMaterial = new MeshBasicMaterial({
             color: '#7e8385',
             transparent: true,
             opacity: 0.5,
         })
 
-        this.art0Material = new THREE.MeshBasicMaterial({
+        this.art0Material = new MeshBasicMaterial({
             map: this.art0Texture,
             transparent: true,
         })
 
-        this.art1Material = new THREE.MeshBasicMaterial({
+        this.art1Material = new MeshBasicMaterial({
             map: this.art1Texture,
             transparent: true,
         })
 
-        this.art2Material = new THREE.MeshBasicMaterial({
+        this.art2Material = new MeshBasicMaterial({
             map: this.art2Texture,
             transparent: true,
         })
 
-        this.art3Material = new THREE.MeshBasicMaterial({
+        this.art3Material = new MeshBasicMaterial({
             map: this.art3Texture,
             transparent: true,
         })
 
-        this.art4Material = new THREE.MeshBasicMaterial({
+        this.art4Material = new MeshBasicMaterial({
             map: this.art4Texture,
             transparent: true,
         })
 
-        this.art5Material = new THREE.MeshBasicMaterial({
+        this.art5Material = new MeshBasicMaterial({
             map: this.art5Texture,
             transparent: true,
         })

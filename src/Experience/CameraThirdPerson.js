@@ -21,14 +21,12 @@ export default class CameraThirdPerson {
         this.distance = 6 // how far the camera stays from the player
         this.phi = Math.PI * 0.45 // vertical angle (elevation)
         this.theta = -Math.PI * 0.25 // horizontal angle (azimuth)
-        this.aboveOffset = 1 // how much above the player the camera looks
+        this.aboveOffset = 0.5 // how much above the player the camera looks
         this.phiLimits = { min: 0.1, max: Math.PI - 0.1 }
         this.up = new Vector3(0, 1, 0) // Camera +y up-axis
 
+        this.smoothFactor = 0.1 // smooth camera movement
         this.smoothCameraPosition = new Vector3()
-        this.smoothCameraTarget = new Vector3()
-
-        this.lerping = 0.02 // smoothing factor for camera movement
     }
 
     update() {
@@ -81,10 +79,11 @@ export default class CameraThirdPerson {
             this.position.y = elevation + 0.2
         }
 
-        // Lerping OFF when pointer is down
-        if (this.pointer.down) this.lerping = 1.0
+        // Lerping OFF when pointer is down to prevent jitterimg
+        if (this.pointer.down) this.smoothFactor = 1.0
+
         //  🕹️ Smooth Camera Movement
-        this.smoothCameraPosition.lerp(this.position, this.lerping)
+        this.smoothCameraPosition.lerp(this.position, this.smoothFactor)
 
         // Update camera position and rotation
         this.camera.position.copy(this.smoothCameraPosition)

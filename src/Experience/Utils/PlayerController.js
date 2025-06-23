@@ -8,15 +8,17 @@ export default class PlayerController {
         this.controls = this.experience.controls
         this.time = this.experience.time
         this.sfx = this.experience.sfx
+        this.debug = this.experience.debug
 
         this.rigidBody = body
         this.collider = collider
 
         // Movement settings
         this.speed = 0.3
-        this.jumpStrength = 0.03
-        this.gravity = 0.005
+        this.jumpStrength = 0.02
+        this.gravity = 0.05
         this.moveDelta = 0.0005 * this.time.delta
+        this.decaySpeed = 24
 
         // Movement state
         this.movementDirection = { x: 0, y: 0, z: 0 }
@@ -24,6 +26,7 @@ export default class PlayerController {
         this.direction = new THREE.Vector3()
 
         this.setController()
+        this.setDebug()
     }
 
     setController() {
@@ -46,9 +49,8 @@ export default class PlayerController {
         const { forward, backward, left, right, jump } = this.controls.keys.down
 
         // Friction - movement decay to a stop slowly
-        this.velocity.x -= this.velocity.x * 24 * this.moveDelta
-        this.velocity.z -= this.velocity.z * 24 * this.moveDelta
-        this.velocity.y = -this.gravity
+        this.velocity.x -= this.velocity.x * this.decaySpeed * this.moveDelta
+        this.velocity.z -= this.velocity.z * this.decaySpeed * this.moveDelta
 
         // // Direction
         this.direction.z = forward - backward
@@ -68,20 +70,27 @@ export default class PlayerController {
         const isMoving = forward || backward || left || right
 
         if (isMoving) {
-            this.sfx.playWalkingSound()
+            if (this.controller.computedGrounded()) this.sfx.playWalkingSound()
         } else {
             this.sfx.stopWalkingSound()
         }
 
-        console.log('jumping', jump)
-        if (jump) {
-            // ⛰️ Jump only if player is on the ground
-            // if (this.controller.computedGrounded()) {
-            this.sfx.playJumpSound()
-            this.velocity.y = this.jumpStrength
-            // }
+        // Player is grounded
+        if (this.controller.computedGrounded()) {
+            if (jump) {
+                // ⛰️ Jump only if player is on the ground
+                this.sfx.playJumpSound()
+                this.velocity.y = this.jumpStrength
+            } else {
+                // Reset vertical velocity when grounded
+                this.velocity.y = 0
+            }
+        } else {
+            // Apply gravity if in air
+            this.velocity.y -= this.gravity * this.moveDelta
         }
 
+        console.log('velocity', this.velocity)
         this.updateController()
     }
 
@@ -97,5 +106,16 @@ export default class PlayerController {
         newPos.y += movement.y
         newPos.z += movement.z
         this.rigidBody.setNextKinematicTranslation(newPos)
+    }
+
+    setDebug() {
+        if (!this.debug.active) return
+
+        this.debugFolder = this.debug.ui.addFolder('🕹️Player Controller')
+        this.debugFolder.add(this, 'speed', 0, 1.0, 0.0001).name('Speed')
+        this.debugFolder.add(this, 'gravity', 0, 0.1, 0.0001).name('Gravity')
+        this.debugFolder
+            .add(this, 'jumpStrength', 0, 0.1, 0.0001)
+            .name('Jump Strength')
     }
 }

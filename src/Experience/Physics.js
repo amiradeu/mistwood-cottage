@@ -86,10 +86,11 @@ export default class Physics {
         this.world.createCollider(colliderDesc, rigidBody)
     }
 
-    addObject(mesh, body) {
+    addObject(mesh, body, offset = 0) {
         this.objectsToUpdate.push({
             visual: mesh,
             physical: body,
+            offset: offset,
         })
     }
 
@@ -98,7 +99,8 @@ export default class Physics {
         this.world.step()
 
         for (const object of this.objectsToUpdate) {
-            object.visual.position.copy(object.physical.translation())
+            const { x, y, z } = object.physical.translation()
+            object.visual.position.set(x, y + object.offset, z)
             object.visual.quaternion.copy(object.physical.rotation())
         }
     }

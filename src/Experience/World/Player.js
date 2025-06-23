@@ -111,7 +111,7 @@ export default class Player {
             this.rigidBody
         )
 
-        this.physics.addObject(this.mesh, this.rigidBody)
+        this.physics.addObject(this.mesh, this.rigidBody, 0.1)
     }
 
     setCharacterController() {

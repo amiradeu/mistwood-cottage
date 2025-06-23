@@ -60,7 +60,7 @@ export default class Terrain {
          */
         this.physics.glbToTrimesh(this.items.Land)
         this.physics.glbToTrimesh(this.items.PondGround)
-        this.physics.glbToConvexHull(this.items.Mountain)
+        this.physics.glbToTrimesh(this.items.Mountain)
 
         /**
          * Surrounding Borders

@@ -20,7 +20,7 @@ export default class DayCycle extends EventEmitter {
         this.currentCycleIndex = 0
         this.currentCycle = this.cycleSequence[this.currentCycleIndex]
 
-        this.duration = 10 // how long each cycle last (seconds)
+        this.duration = 30 // how long each cycle last (seconds)
         this.triggerTime = this.duration
 
         this.setTextures()

@@ -21,10 +21,13 @@ export default class Room {
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
         this.states = this.experience.states.instance
+        this.physics = this.experience.physics
 
         this.setTextures()
         this.setMaterials()
         this.setModel()
+
+        this.setPhysics()
         this.setDebug()
     }
 
@@ -160,15 +163,28 @@ export default class Room {
         this.setEmissions()
     }
 
+    setPhysics() {
+        this.physics.glbToConvexHull(this.items.PhysicsDeskPattern)
+        this.physics.glbToConvexHull(this.items.PhysicsChairPattern)
+        this.physics.glbToConvexHull(this.items.PhysicsKitchenPattern)
+        this.physics.glbToConvexHull(this.items.PhysicsBedPlain)
+    }
+
     setBaked() {
         this.items.RoomPatternMerged.material = this.roomPatternMaterial
+        this.items.PhysicsDeskPattern.material = this.roomPatternMaterial
+        this.items.PhysicsChairPattern.material = this.roomPatternMaterial
+        this.items.PhysicsKitchenPattern.material = this.roomPatternMaterial
+
         this.items.RoomPlainMerged.material = this.roomPlainMaterial
+        this.items.PhysicsBedPlain.material = this.roomPlainMaterial
         this.items.bedemission.material = this.roomPlainMaterial
         this.items.bedsideemission.material = this.roomPlainMaterial
         this.items.deskemission.material = this.roomPlainMaterial
         this.items.kitchenemission.material = this.roomPlainMaterial
         this.items.roomemission.material = this.roomPlainMaterial
         this.items.recorddisk.material = this.roomPlainMaterial
+
         this.items.pictureframes.material = this.pictureframesMaterial
     }
 

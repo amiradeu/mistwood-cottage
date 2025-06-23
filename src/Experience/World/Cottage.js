@@ -21,6 +21,7 @@ export default class Cottage extends EventEmitter {
         this.sceneGroup = this.experience.sceneGroup
         this.sceneCycle = this.experience.cycles
         this.resources = this.experience.resources
+        this.physics = this.experience.physics
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
         this.states = this.experience.states.instance
@@ -28,6 +29,9 @@ export default class Cottage extends EventEmitter {
         this.setTextures()
         this.setMaterials()
         this.setModel()
+
+        this.setPhysics()
+
         this.setDebug()
     }
 
@@ -73,10 +77,19 @@ export default class Cottage extends EventEmitter {
         this.setEmissions()
     }
 
+    setPhysics() {
+        this.physics.glbToTrimesh(this.items.PhysicsCottageMainMerged)
+        this.physics.glbToTrimesh(this.items.PhysicsCottageLeftMerged)
+        this.physics.glbToTrimesh(this.items.PhysicsCottageFrontMerged)
+    }
+
     setBaked() {
         this.items.CottageMainMerged.material = this.material
+        this.items.PhysicsCottageMainMerged.material = this.material
         this.items.CottageLeftMerged.material = this.materialLeft
+        this.items.PhysicsCottageLeftMerged.material = this.materialLeft
         this.items.CottageFrontMerged.material = this.materialFront
+        this.items.PhysicsCottageFrontMerged.material = this.materialFront
         this.items.dooremissionfront.material = this.materialFront
         this.items.dooremissionback.material = this.material
     }

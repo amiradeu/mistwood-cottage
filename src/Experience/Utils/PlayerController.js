@@ -20,8 +20,8 @@ export default class PlayerController {
 
         // Movement settings
         this.speed = 0.3
-        this.jumpStrength = 0.02
-        this.gravity = 0.05
+        this.jumpStrength = 0.04
+        this.gravity = 0.1
         this.moveDelta = 0.0005 * this.time.delta
         this.decaySpeed = 24
 
@@ -143,7 +143,7 @@ export default class PlayerController {
 
         this.debugFolder = this.debug.ui.addFolder('🕹️Player Controller')
         this.debugFolder.add(this, 'speed', 0, 1.0, 0.0001).name('Speed')
-        this.debugFolder.add(this, 'gravity', 0, 0.1, 0.0001).name('Gravity')
+        this.debugFolder.add(this, 'gravity', 0, 1.0, 0.0001).name('Gravity')
         this.debugFolder
             .add(this, 'jumpStrength', 0, 0.1, 0.0001)
             .name('Jump Strength')

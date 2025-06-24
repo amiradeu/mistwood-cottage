@@ -99,7 +99,7 @@ export default class Controls {
             this.pointer.down = false
             // console.log('pointerup')
 
-            document.body.style.cursor = `url('/image/hand_point.svg'), auto`
+            document.body.style.cursor = `revert`
         })
     }
 

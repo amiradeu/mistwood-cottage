@@ -1,5 +1,10 @@
+import Experience from '../Experience'
+
 export default class Controls {
     constructor() {
+        this.experience = new Experience()
+        this.sizes = this.experience.sizes
+
         this.setKeys()
         this.setPointer()
     }
@@ -75,6 +80,7 @@ export default class Controls {
     setPointer() {
         this.pointer = {}
         this.pointer.down = false
+        this.pointer.coordinate = { x: 0, y: 0 }
         this.pointer.deltaTemp = { x: 0, y: 0 }
         this.pointer.delta = { x: 0, y: 0 }
 
@@ -83,21 +89,27 @@ export default class Controls {
 
     addPointerEventListener() {
         window.addEventListener('pointerdown', (event) => {
-            this.pointer.down = true
             // console.log('pointerdown')
+            this.pointer.down = true
 
             document.body.style.cursor = `url('/image/hand_closed.svg'), auto`
         })
 
         window.addEventListener('pointermove', (event) => {
+            // console.log('pointermove')
             this.pointer.deltaTemp.x += event.movementX
             this.pointer.deltaTemp.y += event.movementY
-            // console.log('pointermove')
+
+            // [-1, 1]
+            this.pointer.coordinate.x =
+                (event.clientX / this.sizes.width) * 2 - 1
+            this.pointer.coordinate.y =
+                -(event.clientY / this.sizes.height) * 2 + 1
         })
 
         window.addEventListener('pointerup', () => {
-            this.pointer.down = false
             // console.log('pointerup')
+            this.pointer.down = false
 
             document.body.style.cursor = `revert`
         })
@@ -110,5 +122,7 @@ export default class Controls {
 
         this.pointer.deltaTemp.x = 0
         this.pointer.deltaTemp.y = 0
+
+        // console.log(this.pointer.coordinate.x, this.pointer.coordinate.y)
     }
 }

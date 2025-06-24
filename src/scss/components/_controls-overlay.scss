@@ -1,0 +1,60 @@
+.controls-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+
+    > .container {
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: start;
+        gap: 2px;
+
+        padding-inline-start: 12px;
+        padding-block-end: 12px;
+
+        .keys {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 24px;
+            height: 24px;
+
+            border-radius: 2px;
+            text-align: center;
+
+            font-size: 12px;
+            color: white;
+            border: 1px solid white;
+
+            grid-row: 2 / 3;
+
+            &.active,
+            &:hover {
+                background-color: #7894937e;
+                cursor: pointer;
+            }
+        }
+
+        .keyW {
+            grid-row: 1;
+            grid-column: 2;
+        }
+
+        .keySpace {
+            width: 96px;
+        }
+
+        .action {
+            display: flex;
+            align-items: center;
+            padding-inline: 4px 8px;
+
+            font-size: 12px;
+            color: white;
+
+            grid-row: 2 / 3;
+        }
+    }
+}

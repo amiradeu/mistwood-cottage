@@ -18,6 +18,7 @@ import SceneGroup from './Utils/SceneGroup.js'
 import Controls from './Utils/Controls.js'
 import CyclesUI from './Components/CyclesUI.js'
 import SoundEffects from './Utils/SoundEffects.js'
+import ControlsOverlay from './Components/ControlsOverlay.js'
 
 // Singleton
 let instance = null
@@ -47,6 +48,7 @@ export default class Experience {
         // UI
         this.cyclesUI = new CyclesUI()
         this.overlay = new Overlay()
+        this.controlsOverlay = new ControlsOverlay()
 
         this.scene = new Scene()
         this.sceneGroup = new SceneGroup()
@@ -90,6 +92,8 @@ export default class Experience {
         this.physics.update()
         this.cycles.update()
         this.controls.update()
+
+        this.controlsOverlay.update()
 
         if (this.physicsDebug) this.physicsDebug.update()
         this.world.update()

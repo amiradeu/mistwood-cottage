@@ -8,7 +8,6 @@
     display: flex;
     justify-content: center;
     padding-block: 12px;
-    gap: 16px;
 
     > .container {
         display: flex;
@@ -16,13 +15,24 @@
         > .cycles-item-button {
             position: relative;
 
-            color: #7c7c95;
-            padding: 8px;
+            color: white;
+            padding: 12px 8px;
 
             word-spacing: -6px;
 
-            :hover {
-                color: #b6b6c0;
+            .background {
+                padding-inline: 4px;
+            }
+
+            &:hover,
+            &.active {
+                color: blue;
+
+                .background {
+                    transition: background-color 0.4s ease-in-out;
+                    color: blue;
+                    background-color: white;
+                }
             }
         }
 
@@ -32,10 +42,6 @@
             &::after {
                 content: '';
             }
-        }
-
-        .active {
-            color: blue;
         }
     }
 

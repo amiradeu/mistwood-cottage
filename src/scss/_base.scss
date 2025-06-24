@@ -3,6 +3,7 @@
 /* BASE STYLES */
 body {
     font-family: $family-serif;
+    cursor: url('/image/hand_point.svg'), auto;
 }
 
 h1,
@@ -28,7 +29,8 @@ button {
     border: none;
 
     background: transparent;
-    cursor: pointer;
+    // cursor: pointer;
+    cursor: url('/image/hand_point.svg'), auto;
     font: inherit;
     color: inherit;
 }

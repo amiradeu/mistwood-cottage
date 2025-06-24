@@ -85,6 +85,8 @@ export default class Controls {
         window.addEventListener('pointerdown', (event) => {
             this.pointer.down = true
             // console.log('pointerdown')
+
+            document.body.style.cursor = `url('/image/hand_closed.svg'), auto`
         })
 
         window.addEventListener('pointermove', (event) => {
@@ -96,6 +98,8 @@ export default class Controls {
         window.addEventListener('pointerup', () => {
             this.pointer.down = false
             // console.log('pointerup')
+
+            document.body.style.cursor = `url('/image/hand_point.svg'), auto`
         })
     }
 

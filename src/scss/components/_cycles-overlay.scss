@@ -26,6 +26,7 @@
 
             &:hover,
             &.active {
+                cursor: url('/image/drawing_brush.svg'), auto;
                 color: blue;
 
                 .background {

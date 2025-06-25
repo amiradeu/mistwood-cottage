@@ -24,7 +24,8 @@ export default class Cottage extends EventEmitter {
         this.physics = this.experience.physics
         this.sizes = this.experience.sizes
         this.debug = this.experience.debug
-        this.states = this.experience.states.instance
+        this.states = this.experience.states
+        this.camera = this.experience.camera.instance
 
         this.setTextures()
         this.setMaterials()
@@ -156,11 +157,11 @@ export default class Cottage extends EventEmitter {
     toggleLeft() {
         toggleFade(
             this.items.CottageLeftMerged.material,
-            this.states.leftVisibility
+            this.states.instance.leftVisibility
         )
         toggleFade(
             this.items.leftwindow.material,
-            this.states.leftVisibility,
+            this.states.instance.leftVisibility,
             this.leftwindow.options.opacity
         )
     }
@@ -168,16 +169,16 @@ export default class Cottage extends EventEmitter {
     toggleFront() {
         toggleFade(
             this.items.CottageFrontMerged.material,
-            this.states.frontVisibility
+            this.states.instance.frontVisibility
         )
         toggleFade(
             this.items.frontwindows.material,
-            this.states.frontVisibility,
+            this.states.instance.frontVisibility,
             this.frontwindows.options.opacity
         )
         toggleFade(
             this.items.dooremissionfront.material,
-            this.states.frontVisibility
+            this.states.instance.frontVisibility
         )
     }
 

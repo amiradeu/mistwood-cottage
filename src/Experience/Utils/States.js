@@ -15,6 +15,25 @@ export default class States extends EventEmitter {
         this.setDebug()
     }
 
+    /**
+     * Used by UI
+     * Set state value
+     * Trigger event action
+     */
+    toggleLeftVisbility() {
+        this.instance.leftVisibility = !this.instance.leftVisibility
+        this.trigger('toggleLeft')
+    }
+
+    toggleFrontVisbility() {
+        this.instance.frontVisibility = !this.instance.frontVisibility
+        this.trigger('toggleFront')
+    }
+
+    /**
+     * Used by debug
+     * Trigger event action
+     */
     toggleLeft() {
         this.trigger('toggleLeft')
     }

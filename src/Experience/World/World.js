@@ -8,6 +8,7 @@ import Background from './Background.js'
 import FogAmbient from './Fog.js'
 import Bloom from './Bloom.js'
 import Player from './Player.js'
+import Cursor from '../Utils/Cursor.js'
 
 export default class World {
     constructor() {
@@ -32,6 +33,8 @@ export default class World {
             this.terrain = new Terrain()
 
             this.player = new Player()
+
+            this.cursor = new Cursor()
         })
 
         this.sceneCycle.on('cycleChanged', () => {

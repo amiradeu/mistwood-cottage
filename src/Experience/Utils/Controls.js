@@ -1,7 +1,9 @@
 import Experience from '../Experience'
+import EventEmitter from './EventEmitter'
 
-export default class Controls {
+export default class Controls extends EventEmitter {
     constructor() {
+        super()
         this.experience = new Experience()
         this.sizes = this.experience.sizes
 
@@ -92,7 +94,7 @@ export default class Controls {
             // console.log('pointerdown')
             this.pointer.down = true
 
-            document.body.style.cursor = `url('/image/hand_closed.svg'), auto`
+            this.trigger('pointerdown')
         })
 
         window.addEventListener('pointermove', (event) => {
@@ -105,13 +107,15 @@ export default class Controls {
                 (event.clientX / this.sizes.width) * 2 - 1
             this.pointer.coordinate.y =
                 -(event.clientY / this.sizes.height) * 2 + 1
+
+            this.trigger('pointermove')
         })
 
         window.addEventListener('pointerup', () => {
             // console.log('pointerup')
             this.pointer.down = false
 
-            document.body.style.cursor = `revert`
+            this.trigger('pointerup')
         })
     }
 
@@ -123,6 +127,6 @@ export default class Controls {
         this.pointer.deltaTemp.x = 0
         this.pointer.deltaTemp.y = 0
 
-        // console.log(this.pointer.coordinate.x, this.pointer.coordinate.y)
+        // console.log(this.pointer.delta.x, this.pointer.delta.y)
     }
 }

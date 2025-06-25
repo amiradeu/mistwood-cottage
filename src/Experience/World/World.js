@@ -57,6 +57,7 @@ export default class World {
         if (this.environment) this.environment.update()
         if (this.terrain) this.terrain.update()
         if (this.player) this.player.update()
+        if (this.cursor) this.cursor.update()
     }
 
     // Update based on day cycle

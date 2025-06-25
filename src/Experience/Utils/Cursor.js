@@ -10,6 +10,7 @@ export default class Cursor {
         this.states = this.experience.states
 
         this.raycaster = new Raycaster()
+        this.raycastObjects = null
 
         // Object involved with cursor interaction
         this.cottage = this.experience.world.cottage
@@ -17,23 +18,16 @@ export default class Cursor {
 
         // Trigger events
         this.controls.on('pointerdown', () => {
-            this.checkCottage()
+            this.toggleCottageVisibility()
         })
 
+        // Reduce raycasting by checking only when cursor moves
         this.controls.on('pointermove', () => {
-            this.checkRaycastObjects()
-
-            if (this.controls.pointer.down) {
-                console.log('dragging')
-                this.grabHand()
-            }
-        })
-
-        this.controls.on('pointerup', () => {
-            this.openHand()
+            this.updateRaycastObjects()
         })
     }
 
+    // Cursor styles
     openHand() {
         document.body.style.cursor = `url('/image/hand_open.svg'), auto`
     }
@@ -61,65 +55,76 @@ export default class Cursor {
         ]
     }
 
-    checkRaycastObjects() {
+    updateRaycastObjects() {
         this.raycaster.setFromCamera(
             this.controls.pointer.coordinate,
             this.camera
         )
 
-        this.intersects = this.raycaster.intersectObjects([
+        const intersects = this.raycaster.intersectObjects([
             ...this.frontObjects,
             ...this.leftObjects,
         ])
 
-        this.openHand()
+        this.raycastObjects = intersects[0]?.object || null
+    }
 
-        // Cursor change icon
-        if (this.intersects.length) {
-            // Check if the front cottage
-            if (
-                this.frontObjects.find(
-                    (item) => item.name === this.intersects[0].object.name
-                )
-            ) {
-                if (this.states.instance.frontVisibility) this.pointHand()
-                else this.lookEye()
-            }
+    toggleCottageVisibility() {
+        if (!this.raycastObjects) {
+            return
+        }
 
-            if (
-                this.leftObjects.find(
-                    (item) => item.name === this.intersects[0].object.name
-                )
-            ) {
-                if (this.states.instance.leftVisibility) this.pointHand()
-                else this.lookEye()
-            }
+        // Toggle front cottage
+        if (
+            this.frontObjects.find(
+                (item) => item.name === this.raycastObjects.name
+            )
+        ) {
+            // console.log('Front cottage clicked')
+            this.states.toggleFrontVisbility()
+        }
+
+        // Toggle left cottage
+        if (
+            this.leftObjects.find(
+                (item) => item.name === this.raycastObjects.name
+            )
+        ) {
+            // console.log('Left cottage clicked')
+            this.states.toggleLeftVisbility()
         }
     }
 
-    checkCottage() {
-        if (this.intersects.length) {
-            // console.log('Front raycast hit:', this.intersects[0])
-
-            // Check if the front cottage is clicked
-            if (
-                this.frontObjects.find(
-                    (item) => item.name === this.intersects[0].object.name
-                )
-            ) {
-                console.log('Front cottage clicked')
-                this.states.toggleFrontVisbility()
+    update() {
+        if (!this.raycastObjects) {
+            if (this.controls.pointer.down) {
+                // console.log('dragging')
+                this.grabHand()
+            } else {
+                this.openHand()
             }
+            return
+        }
 
-            // Check if the left cottage is clicked
-            if (
-                this.leftObjects.find(
-                    (item) => item.name === this.intersects[0].object.name
-                )
-            ) {
-                console.log('Left cottage clicked')
-                this.states.toggleLeftVisbility()
-            }
+        /**
+         * Cursor hovering over objects
+         */
+        if (
+            this.frontObjects.find(
+                (item) => item.name === this.raycastObjects.name
+            )
+        ) {
+            if (this.states.instance.frontVisibility) this.pointHand()
+            else this.lookEye()
+        }
+
+        if (
+            this.leftObjects.find(
+                (item) => item.name === this.raycastObjects.name
+            )
+        ) {
+            if (this.states.instance.leftVisibility) this.pointHand()
+            else this.lookEye()
         }
     }
 }

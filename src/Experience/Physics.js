@@ -95,7 +95,7 @@ export default class Physics {
     }
 
     update() {
-        this.world.timestep = this.time.delta / 1000
+        this.world.timestep = this.time.delta
         this.world.step()
 
         for (const object of this.objectsToUpdate) {

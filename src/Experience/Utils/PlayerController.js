@@ -19,10 +19,9 @@ export default class PlayerController {
         this.collider = collider
 
         // Movement settings
-        this.speed = 0.3
-        this.jumpStrength = 0.04
+        this.speed = 0.5
+        this.jumpStrength = 5.0
         this.gravity = 0.1
-        this.moveDelta = 0.0005 * this.time.delta
         this.decaySpeed = 24
 
         // Camera direction
@@ -61,8 +60,8 @@ export default class PlayerController {
         // console.log(this.cameraForward)
 
         // Friction - movement decay to a stop slowly
-        this.velocity.x -= this.velocity.x * this.decaySpeed * this.moveDelta
-        this.velocity.z -= this.velocity.z * this.decaySpeed * this.moveDelta
+        this.velocity.x -= this.velocity.x * this.decaySpeed * this.time.delta
+        this.velocity.z -= this.velocity.z * this.decaySpeed * this.time.delta
 
         // Get right vector by rotating forward vector 90° counterclockwise
         this.cameraRight
@@ -86,8 +85,8 @@ export default class PlayerController {
             .normalize()
 
         // Apply acceleration
-        this.velocity.x += moveDir.x * this.speed * this.moveDelta
-        this.velocity.z += moveDir.z * this.speed * this.moveDelta
+        this.velocity.x += moveDir.x * this.speed * this.time.delta
+        this.velocity.z += moveDir.z * this.speed * this.time.delta
 
         this.handleSFX()
 
@@ -96,7 +95,7 @@ export default class PlayerController {
             if (jump) {
                 // ⛰️ Jump only if player is on the ground
                 this.sfx.playJumpSound()
-                this.velocity.y = this.jumpStrength
+                this.velocity.y = this.jumpStrength * this.time.delta
             } else {
                 // Reset vertical velocity when grounded
                 // ⭐️ Prevents controller from getting stuck with small obstacles
@@ -104,7 +103,7 @@ export default class PlayerController {
             }
         } else {
             // Apply gravity if in air
-            this.velocity.y -= this.gravity * this.moveDelta
+            this.velocity.y -= this.gravity * this.time.delta
         }
 
         // console.log('velocity', this.velocity)
@@ -142,10 +141,10 @@ export default class PlayerController {
         if (!this.debug.active) return
 
         this.debugFolder = this.debug.ui.addFolder('🕹️Player Controller')
-        this.debugFolder.add(this, 'speed', 0, 1.0, 0.0001).name('Speed')
-        this.debugFolder.add(this, 'gravity', 0, 1.0, 0.0001).name('Gravity')
+        this.debugFolder.add(this, 'speed', 0, 2.0, 0.01).name('Speed')
+        this.debugFolder.add(this, 'gravity', 0, 2.0, 0.01).name('Gravity')
         this.debugFolder
-            .add(this, 'jumpStrength', 0, 0.1, 0.0001)
+            .add(this, 'jumpStrength', 0, 10, 0.01)
             .name('Jump Strength')
     }
 }

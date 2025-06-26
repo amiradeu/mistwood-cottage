@@ -5,11 +5,11 @@ export default class Time extends EventEmitter {
         super()
 
         // Setup
-        this.start = Date.now()
+        this.start = Date.now() / 1000
         this.current = this.start
         this.elapsed = 0
-        //💡 in 60fps, roughly the time between frame
-        this.delta = 16
+        this.delta = 16 / 1000
+        this.fixedDelta = 1 / 60 // 60fps
 
         // 💡 wait 1 frame
         window.requestAnimationFrame(() => {
@@ -18,11 +18,19 @@ export default class Time extends EventEmitter {
     }
 
     tick() {
-        const currentTime = Date.now()
+        const currentTime = Date.now() / 1000
+
         this.delta = currentTime - this.current
         this.current = currentTime
-        this.elapsed = (this.current - this.start) * 0.001
+        this.elapsed = this.current - this.start
 
+        /**
+         * Semi-fixed timestamp
+         * https://gafferongames.com/post/fix_your_timestep/
+         * */
+        if (this.delta > this.fixedDelta) {
+            this.delta = this.fixedDelta
+        }
         this.trigger('tick')
 
         window.requestAnimationFrame(() => {

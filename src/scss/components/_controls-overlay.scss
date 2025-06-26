@@ -3,6 +3,7 @@
     bottom: 0;
     left: 0;
     z-index: 1;
+    font-size: 12px;
 
     > .container {
         display: grid;
@@ -24,7 +25,6 @@
             border-radius: 2px;
             text-align: center;
 
-            font-size: 12px;
             color: white;
             border: 1px solid white;
 
@@ -53,7 +53,79 @@
             font-size: 12px;
             color: white;
 
-            grid-row: 2 / 3;
+            grid-row: 2;
         }
+    }
+}
+
+$slider-width: 120px;
+$slider-height: 32px;
+$slider-track-height: 2px;
+$slider-thumb-height: 22px;
+$slider-thumb-width: 6px;
+$slider-thumb-border-radius: 4px;
+
+.slider-container {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-inline-end: 8px;
+
+    grid-row: 2;
+
+    width: 100%;
+
+    .slider-input {
+        min-width: 24px;
+        height: $slider-height;
+        position: relative;
+
+        appearance: none;
+        background: transparent;
+        cursor: url('/image/hand_point.svg'), auto;
+
+        // Webkit-based browser (Chrome, Safari)
+        &::-webkit-slider-runnable-track {
+            width: 100%;
+            height: $slider-track-height;
+            background: white;
+
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        &::-webkit-slider-thumb {
+            width: $slider-thumb-width;
+            height: $slider-thumb-height;
+
+            /* Center thumb with the track */
+            margin-top: calc(
+                ($slider-thumb-height - $slider-track-height) / -2
+            );
+
+            appearance: none;
+            border-radius: $slider-thumb-border-radius;
+            background: white;
+        }
+
+        // Firefox
+        &::-moz-range-track {
+            height: $slider-track-height;
+            border: none;
+            background: white;
+        }
+
+        &::-moz-range-thumb {
+            width: $slider-thumb-width;
+            height: $slider-thumb-height;
+            border: none;
+            border-radius: $slider-thumb-border-radius;
+            background: white;
+        }
+    }
+
+    .slider-value {
     }
 }

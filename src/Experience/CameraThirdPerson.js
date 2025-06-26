@@ -5,6 +5,7 @@
  */
 import { Vector3, Quaternion, Matrix4 } from 'three'
 import Experience from './Experience'
+import Slider from './Components/Slider'
 
 export default class CameraThirdPerson {
     constructor(player) {
@@ -29,7 +30,14 @@ export default class CameraThirdPerson {
         this.smoothFactor = 0.1 // smooth camera movement
         this.smoothCameraPosition = new Vector3()
 
+        // UI
+        this.ui = new Slider(this)
+
         this.setDebug()
+    }
+
+    updateCameraDistance() {
+        // this.distance =
     }
 
     update() {

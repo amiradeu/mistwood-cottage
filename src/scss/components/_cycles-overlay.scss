@@ -20,6 +20,8 @@
 
             word-spacing: -6px;
 
+            text-shadow: 1px -1px 6px #6962c578, -1px 1px 6px #6962c578;
+
             .background {
                 padding-inline: 4px;
             }
@@ -27,6 +29,7 @@
             &:hover,
             &.active {
                 color: blue;
+                text-shadow: none;
 
                 .background {
                     transition: background-color 0.4s ease-in-out;

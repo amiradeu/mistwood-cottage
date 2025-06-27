@@ -42,6 +42,9 @@ export default class Pond {
             troughTransition: 0.15,
             fresnelScale: 0.8,
             fresnelPower: 0.5,
+
+            name: '🌊 Pond',
+            debug: null,
         }
 
         this.options = {
@@ -114,145 +117,144 @@ export default class Pond {
     }
 
     setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🌊 Pond').close()
+        if (!this.debug.active) return
 
-            this.debugFolder
-                .add(this.material.uniforms.uOpacity, 'value')
-                .min(0)
-                .max(1)
-                .step(0.1)
-                .name('opacity')
+        if (this.options.debug)
+            this.debugFolder = this.options.debug
+                .addFolder(this.options.name)
+                .close()
+        else
+            this.debugFolder = this.debug.ui
+                .addFolder(this.options.name)
+                .close()
 
-            this.debugFolder
-                .addColor(this.options, 'troughColor')
-                .onChange(() => {
-                    this.material.uniforms.uTroughColor.value.set(
-                        this.options.troughColor
-                    )
-                })
-            this.debugFolder
-                .addColor(this.options, 'surfaceColor')
-                .onChange(() => {
-                    this.material.uniforms.uSurfaceColor.value.set(
-                        this.options.surfaceColor
-                    )
-                })
-            this.debugFolder
-                .addColor(this.options, 'peakColor')
-                .onChange(() => {
-                    this.material.uniforms.uPeakColor.value.set(
-                        this.options.peakColor
-                    )
-                })
+        this.debugFolder
+            .add(this.material.uniforms.uOpacity, 'value')
+            .min(0)
+            .max(1)
+            .step(0.1)
+            .name('opacity')
 
-            this.debugFolder
-                .add(this.material.uniforms.uWavesAmplitude, 'value')
-                .min(0)
-                .max(0.1)
-                .step(0.001)
-                .name('amplitude')
-            this.debugFolder
-                .add(this.material.uniforms.uWavesFrequency, 'value')
-                .min(0.1)
-                .max(10)
-                .step(0.001)
-                .name('frequency')
-            this.debugFolder
-                .add(this.material.uniforms.uWavesPersistence, 'value')
-                .min(0)
-                .max(1)
-                .step(0.001)
-                .name('persistence')
-            this.debugFolder
-                .add(this.material.uniforms.uWavesLacunarity, 'value')
-                .min(0)
-                .max(3)
-                .step(0.001)
-                .name('lacunarity')
-            this.debugFolder
-                .add(this.material.uniforms.uWavesIterations, 'value')
-                .min(1)
-                .max(10)
-                .step(1)
-                .name('iterations')
-            this.debugFolder
-                .add(this.material.uniforms.uWavesSpeed, 'value')
-                .min(0)
-                .max(1)
-                .step(0.001)
-                .name('speed')
+        this.debugFolder.addColor(this.options, 'troughColor').onChange(() => {
+            this.material.uniforms.uTroughColor.value.set(
+                this.options.troughColor
+            )
+        })
+        this.debugFolder.addColor(this.options, 'surfaceColor').onChange(() => {
+            this.material.uniforms.uSurfaceColor.value.set(
+                this.options.surfaceColor
+            )
+        })
+        this.debugFolder.addColor(this.options, 'peakColor').onChange(() => {
+            this.material.uniforms.uPeakColor.value.set(this.options.peakColor)
+        })
 
-            this.debugFolder
-                .add(this.material.uniforms.uPeakThreshold, 'value')
-                .min(0)
-                .max(0.5)
-                .step(0.001)
-                .name('threshold')
-            this.debugFolder
-                .add(this.material.uniforms.uPeakTransition, 'value')
-                .min(0)
-                .max(0.5)
-                .step(0.001)
-                .name('PeakTransition')
-            this.debugFolder
-                .add(this.material.uniforms.uTroughThreshold, 'value')
-                .min(-0.5)
-                .max(0)
-                .step(0.001)
-                .name('TroughThreshold')
-            this.debugFolder
-                .add(this.material.uniforms.uTroughTransition, 'value')
-                .min(0)
-                .max(0.5)
-                .step(0.001)
-                .name('TroughTransition')
-            this.debugFolder
-                .add(this.material.uniforms.uFresnelScale, 'value')
-                .min(0)
-                .max(1)
-                .step(0.001)
-                .name('FresnelScale')
-            this.debugFolder
-                .add(this.material.uniforms.uFresnelPower, 'value')
-                .min(0)
-                .max(3)
-                .step(0.001)
-                .name('FresnelPower')
+        this.debugFolder
+            .add(this.material.uniforms.uWavesAmplitude, 'value')
+            .min(0)
+            .max(0.1)
+            .step(0.001)
+            .name('amplitude')
+        this.debugFolder
+            .add(this.material.uniforms.uWavesFrequency, 'value')
+            .min(0.1)
+            .max(10)
+            .step(0.001)
+            .name('frequency')
+        this.debugFolder
+            .add(this.material.uniforms.uWavesPersistence, 'value')
+            .min(0)
+            .max(1)
+            .step(0.001)
+            .name('persistence')
+        this.debugFolder
+            .add(this.material.uniforms.uWavesLacunarity, 'value')
+            .min(0)
+            .max(3)
+            .step(0.001)
+            .name('lacunarity')
+        this.debugFolder
+            .add(this.material.uniforms.uWavesIterations, 'value')
+            .min(1)
+            .max(10)
+            .step(1)
+            .name('iterations')
+        this.debugFolder
+            .add(this.material.uniforms.uWavesSpeed, 'value')
+            .min(0)
+            .max(1)
+            .step(0.001)
+            .name('speed')
 
-            this.positionFolder = this.debugFolder.addFolder('Position').close()
-            this.positionFolder
-                .add(this.water.position, 'x')
-                .min(-100)
-                .max(100)
-                .step(0.1)
-                .name('x')
-            this.positionFolder
-                .add(this.water.position, 'z')
-                .min(-100)
-                .max(100)
-                .step(0.1)
-                .name('z')
-            this.positionFolder
-                .add(this.water.position, 'y')
-                .min(-100)
-                .max(100)
-                .step(0.1)
-                .name('y')
+        this.debugFolder
+            .add(this.material.uniforms.uPeakThreshold, 'value')
+            .min(0)
+            .max(0.5)
+            .step(0.001)
+            .name('threshold')
+        this.debugFolder
+            .add(this.material.uniforms.uPeakTransition, 'value')
+            .min(0)
+            .max(0.5)
+            .step(0.001)
+            .name('PeakTransition')
+        this.debugFolder
+            .add(this.material.uniforms.uTroughThreshold, 'value')
+            .min(-0.5)
+            .max(0)
+            .step(0.001)
+            .name('TroughThreshold')
+        this.debugFolder
+            .add(this.material.uniforms.uTroughTransition, 'value')
+            .min(0)
+            .max(0.5)
+            .step(0.001)
+            .name('TroughTransition')
+        this.debugFolder
+            .add(this.material.uniforms.uFresnelScale, 'value')
+            .min(0)
+            .max(1)
+            .step(0.001)
+            .name('FresnelScale')
+        this.debugFolder
+            .add(this.material.uniforms.uFresnelPower, 'value')
+            .min(0)
+            .max(3)
+            .step(0.001)
+            .name('FresnelPower')
 
-            this.scaleFolder = this.debugFolder.addFolder('Scale').close()
-            this.scaleFolder
-                .add(this.water.scale, 'x')
-                .min(1)
-                .max(300)
-                .step(0.1)
-                .name('x')
-            this.scaleFolder
-                .add(this.water.scale, 'y')
-                .min(1)
-                .max(300)
-                .step(0.1)
-                .name('y')
-        }
+        this.positionFolder = this.debugFolder.addFolder('Position').close()
+        this.positionFolder
+            .add(this.water.position, 'x')
+            .min(-100)
+            .max(100)
+            .step(0.1)
+            .name('x')
+        this.positionFolder
+            .add(this.water.position, 'z')
+            .min(-100)
+            .max(100)
+            .step(0.1)
+            .name('z')
+        this.positionFolder
+            .add(this.water.position, 'y')
+            .min(-100)
+            .max(100)
+            .step(0.1)
+            .name('y')
+
+        this.scaleFolder = this.debugFolder.addFolder('Scale').close()
+        this.scaleFolder
+            .add(this.water.scale, 'x')
+            .min(1)
+            .max(300)
+            .step(0.1)
+            .name('x')
+        this.scaleFolder
+            .add(this.water.scale, 'y')
+            .min(1)
+            .max(300)
+            .step(0.1)
+            .name('y')
     }
 }

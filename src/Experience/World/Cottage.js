@@ -9,7 +9,7 @@ import {
     animateTextureChange,
 } from '../Shaders/addTextureTransition.js'
 import Emissive from '../Objects/Emissive.js'
-import DustyGlass from '../Objects/DustyGlass.js'
+import Window from '../Objects/Window.js'
 import { toggleFade } from '../Utils/Animation.js'
 import Fireflies from './Fireflies.js'
 
@@ -30,10 +30,12 @@ export default class Cottage extends EventEmitter {
         this.setTextures()
         this.setMaterials()
         this.setModel()
+        this.setDebug()
+
+        this.setCustom()
+        this.setEmission()
 
         this.setPhysics()
-
-        this.setDebug()
     }
 
     setTextures() {
@@ -53,14 +55,6 @@ export default class Cottage extends EventEmitter {
         this.uniforms = addTextureTransition(this.material)
         this.uniformsLeft = addTextureTransition(this.materialLeft)
         this.uniformsFront = addTextureTransition(this.materialFront)
-
-        this.emissions = new Emissive({
-            name: '💡 Cottage Emissive',
-            colorA: '#d8d284',
-            colorB: '#be731c',
-            radius: 0.8,
-            power: 0.8,
-        })
     }
 
     setModel() {
@@ -74,8 +68,6 @@ export default class Cottage extends EventEmitter {
         })
 
         this.setBaked()
-        this.setCustom()
-        this.setEmissions()
     }
 
     setPhysics() {
@@ -97,24 +89,42 @@ export default class Cottage extends EventEmitter {
 
     setCustom() {
         this.roofGlass = new RoofGlass(this.items.roofglass)
-        this.windows = new DustyGlass(this.items.windows, {
+        this.windows = new Window(this.items.windows, {
             name: '🪟 Back Windows',
+            debug: this.debugFolder,
         })
-        this.leftwindow = new DustyGlass(this.items.leftwindow, {
+        this.leftwindow = new Window(this.items.leftwindow, {
             name: '🪟 Left Window',
+            debug: this.debugFolder,
         })
-        this.frontwindows = new DustyGlass(this.items.frontwindows, {
+        this.frontwindows = new Window(this.items.frontwindows, {
             name: '🪟 Front Windows',
+            debug: this.debugFolder,
         })
         this.firefliesFront = new Fireflies({
             positions: this.items.dooremissionfront.position,
+            debug: this.debugFolder,
         })
         this.firefliesBack = new Fireflies({
             positions: this.items.dooremissionback.position,
+            debug: this.debugFolder,
         })
     }
 
-    setEmissions() {
+    setEmission() {
+        this.emissions = new Emissive({
+            name: '💡 Cottage Emissive',
+            colorA: '#d8d284',
+            colorB: '#be731c',
+            radius: 0.8,
+            power: 0.8,
+            debug: this.debugFolder,
+        })
+
+        this.updateEmission()
+    }
+
+    updateEmission() {
         this.emissionState =
             CycleEmissions[this.sceneCycle.currentCycle].cottage
 
@@ -147,7 +157,7 @@ export default class Cottage extends EventEmitter {
         this.setTextures()
         this.updateMaterials()
         this.setBaked()
-        this.setEmissions()
+        this.updateEmission()
 
         animateTextureChange(this.uniforms.uMixProgress)
         animateTextureChange(this.uniformsFront.uMixProgress)
@@ -182,14 +192,14 @@ export default class Cottage extends EventEmitter {
         )
     }
 
-    setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🏡 Cottage').close()
-        }
-    }
-
     update() {
         if (this.firefliesFront) this.firefliesFront.update()
         if (this.firefliesBack) this.firefliesBack.update()
+    }
+
+    setDebug() {
+        if (!this.debug.active) return
+
+        this.debugFolder = this.debug.ui.addFolder('🏡 Cottage').close()
     }
 }

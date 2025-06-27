@@ -22,6 +22,7 @@ export default class Emissive {
             radius: 0.6,
             power: 0.6,
             type: EMISSIVE_TYPE.RADIAL,
+            debug: null,
         }
 
         this.options = {
@@ -70,33 +71,38 @@ export default class Emissive {
     }
 
     setDebug() {
-        if (this.debug.active) {
+        if (!this.debug.active) return
+
+        if (this.options.debug)
+            this.debugFolder = this.options.debug
+                .addFolder(this.options.name)
+                .close()
+        else
             this.debugFolder = this.debug.ui
                 .addFolder(this.options.name)
                 .close()
 
-            this.debugFolder.addColor(this.options, 'colorA').onChange(() => {
-                this.material.uniforms.uColorA.value.set(this.options.colorA)
-            })
+        this.debugFolder.addColor(this.options, 'colorA').onChange(() => {
+            this.material.uniforms.uColorA.value.set(this.options.colorA)
+        })
 
-            this.debugFolder.addColor(this.options, 'colorB').onChange(() => {
-                this.material.uniforms.uColorB.value.set(this.options.colorB)
-            })
+        this.debugFolder.addColor(this.options, 'colorB').onChange(() => {
+            this.material.uniforms.uColorB.value.set(this.options.colorB)
+        })
 
-            this.debugFolder
-                .add(this.material.uniforms.uRadius, 'value')
-                .min(0)
-                .max(1)
-                .step(0.01)
-                .name('radius')
+        this.debugFolder
+            .add(this.material.uniforms.uRadius, 'value')
+            .min(0)
+            .max(1)
+            .step(0.01)
+            .name('radius')
 
-            this.debugFolder
-                .add(this.material.uniforms.uPower, 'value')
-                .min(0)
-                .max(2)
-                .step(0.01)
-                .name('power')
-        }
+        this.debugFolder
+            .add(this.material.uniforms.uPower, 'value')
+            .min(0)
+            .max(2)
+            .step(0.01)
+            .name('power')
     }
 
     registerEmissive(mesh) {

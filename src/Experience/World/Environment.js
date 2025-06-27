@@ -18,18 +18,17 @@ export default class Environment {
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
-        this.emissions = new Emissive({
-            name: '💡 Environment Emissive',
-            colorA: '#ffaf3c',
-            colorB: '#dd3c00',
-            radius: 0.8,
-            power: 1.2,
-        })
-
+        // GLB Model
         this.setTextures()
         this.setMaterials()
         this.setModel()
         this.setDebug()
+
+        // Custom & Lights
+        this.setCustom()
+        this.setEmission()
+
+        // Physics mechanism
         this.setPhysics()
     }
 
@@ -62,8 +61,6 @@ export default class Environment {
         })
 
         this.setBaked()
-        this.setEmission()
-        this.setCustom()
     }
 
     setBaked() {
@@ -74,6 +71,19 @@ export default class Environment {
     }
 
     setEmission() {
+        this.emissions = new Emissive({
+            name: '💡 Environment Emissive',
+            colorA: '#ffaf3c',
+            colorB: '#dd3c00',
+            radius: 0.8,
+            power: 1.2,
+            debug: this.debugFolder,
+        })
+
+        this.updateEmission()
+    }
+
+    updateEmission() {
         this.emissionState =
             CycleEmissions[this.sceneCycle.currentCycle].environment
 
@@ -96,18 +106,14 @@ export default class Environment {
             count: 500,
             radius: 50,
             size: 100,
+
+            debug: this.debugFolder,
         })
     }
 
     setPhysics() {
         this.physics.glbToTrimesh(this.items.EnvironmentMerged)
         this.physics.glbToConvexHull(this.items.Well)
-    }
-
-    setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🌳 Environment').close()
-        }
     }
 
     updateCycle() {
@@ -119,12 +125,17 @@ export default class Environment {
         this.material.needsUpdate = true
 
         this.setBaked()
-        this.setEmission()
+        this.updateEmission()
 
         animateTextureChange(this.uniforms.uMixProgress)
     }
 
     update() {
         if (this.fireflies) this.fireflies.update()
+    }
+
+    setDebug() {
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('🌳 Environment').close()
     }
 }

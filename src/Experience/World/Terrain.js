@@ -25,12 +25,17 @@ export default class Terrain {
         this.debug = this.experience.debug
         this.physics = this.experience.physics
 
-        // Setup
+        // GLB Model
         this.setTextures()
         this.setMaterials()
         this.setModel()
-        this.setPhysics()
         this.setDebug()
+
+        // Custom & lights
+        this.setCustom()
+
+        // Physics
+        this.setPhysics()
     }
 
     setTextures() {
@@ -58,7 +63,6 @@ export default class Terrain {
         })
 
         this.setBaked()
-        this.setCustom()
     }
 
     setPhysics() {
@@ -108,9 +112,13 @@ export default class Terrain {
     }
 
     setCustom() {
-        this.pond = new Pond(this.items.Water)
+        this.pond = new Pond(this.items.Water, {
+            debug: this.debugFolder,
+        })
+
         this.pondGround = new CausticsFloor(this.items.PondGround, {
             texture: this.texture,
+            debug: this.debugFolder,
         })
     }
 
@@ -155,18 +163,7 @@ export default class Terrain {
     }
 
     setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('⛰️ Terrain').close()
-
-            // this.debugFolder
-            //     .add(this.test, 'rotation', -Math.PI, Math.PI, 0.01)
-            //     .name('Collider Rotation')
-            //     .onChange(() => {
-            //         this.physics.world.setColliderRotation(
-            //             this.test,
-            //             new RAPIER.Vector3(0, 0, this.test.rotation)
-            //         )
-            //     })
-        }
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('⛰️ Terrain').close()
     }
 }

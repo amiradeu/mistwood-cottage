@@ -47,15 +47,14 @@ export default class Player {
         this.setMaterial()
         this.setGeometry()
         this.setMesh()
+        this.setDebug()
 
         // Physics
         this.setPhysics()
+        this.setController()
 
         // Third Person Camera
-        this.cameraPOV = new CameraThirdPerson(this.mesh)
-
-        // Debug
-        this.setDebug()
+        this.cameraPOV = new CameraThirdPerson(this.mesh, this.debugFolder)
     }
 
     setTexture() {
@@ -114,11 +113,14 @@ export default class Player {
 
         // Physics update pipeline
         this.physics.addDynamicObject(this.mesh, this.rigidBody, 0.1)
+    }
 
+    setController() {
         // Character Controller
         this.playerController = new PlayerController(
             this.rigidBody,
-            this.collider
+            this.collider,
+            this.debugFolder
         )
     }
 
@@ -148,25 +150,22 @@ export default class Player {
         this.material.uniforms.uColor.value.set(
             CyclesSettings[this.cycle.currentCycle].playerColor
         )
-
-        // if (this.debug.active) this.debugFolder.updateDisplay()
     }
 
     setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🕴🏻Player')
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('🕴🏻Player').close()
 
-            this.debugFolder.addColor(this.options, 'color').onChange(() => {
-                this.material.uniforms.uColor.value.set(this.options.color)
+        this.debugFolder.addColor(this.options, 'color').onChange(() => {
+            this.material.uniforms.uColor.value.set(this.options.color)
+        })
+
+        this.debugFolder
+            .addColor(this.options, 'sunShadeColor')
+            .onChange(() => {
+                this.material.uniforms.uSunShadeColor.value.set(
+                    this.options.sunShadeColor
+                )
             })
-
-            this.debugFolder
-                .addColor(this.options, 'sunShadeColor')
-                .onChange(() => {
-                    this.material.uniforms.uSunShadeColor.value.set(
-                        this.options.sunShadeColor
-                    )
-                })
-        }
     }
 }

@@ -26,6 +26,9 @@ export default class CausticsFloor {
             causticsSpeed: 0.5,
             causticsThickness: 0.3,
             causticsOffset: 0.75,
+
+            name: '🌊 Caustics',
+            debug: null,
         }
 
         this.options = {
@@ -87,58 +90,65 @@ export default class CausticsFloor {
     }
 
     setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🌊 Caustics')
+        if (!this.debug.active) return
 
-            this.debugFolder
-                .add(this.material.uniforms.uOpacity, 'value')
-                .min(0)
-                .max(1)
-                .step(0.01)
-                .name('opacity')
+        if (this.options.debug)
+            this.debugFolder = this.options.debug
+                .addFolder(this.options.name)
+                .close()
+        else
+            this.debugFolder = this.debug.ui
+                .addFolder(this.options.name)
+                .close()
 
-            this.debugFolder
-                .addColor(this.options, 'causticsColor')
-                .onChange(() => {
-                    this.material.uniforms.uCausticsColor.value.set(
-                        this.options.causticsColor
-                    )
-                })
+        this.debugFolder
+            .add(this.material.uniforms.uOpacity, 'value')
+            .min(0)
+            .max(1)
+            .step(0.01)
+            .name('opacity')
 
-            this.debugFolder
-                .add(this.material.uniforms.uCausticsIntensity, 'value')
-                .min(0)
-                .max(2)
-                .step(0.001)
-                .name('intensity')
+        this.debugFolder
+            .addColor(this.options, 'causticsColor')
+            .onChange(() => {
+                this.material.uniforms.uCausticsColor.value.set(
+                    this.options.causticsColor
+                )
+            })
 
-            this.debugFolder
-                .add(this.material.uniforms.uCausticsScale, 'value')
-                .min(0)
-                .max(200)
-                .step(1)
-                .name('scale')
+        this.debugFolder
+            .add(this.material.uniforms.uCausticsIntensity, 'value')
+            .min(0)
+            .max(2)
+            .step(0.001)
+            .name('intensity')
 
-            this.debugFolder
-                .add(this.material.uniforms.uCausticsSpeed, 'value')
-                .min(0)
-                .max(1)
-                .step(0.01)
-                .name('speed')
+        this.debugFolder
+            .add(this.material.uniforms.uCausticsScale, 'value')
+            .min(0)
+            .max(200)
+            .step(1)
+            .name('scale')
 
-            this.debugFolder
-                .add(this.material.uniforms.uCausticsThickness, 'value')
-                .min(0)
-                .max(2)
-                .step(0.01)
-                .name('thickness')
+        this.debugFolder
+            .add(this.material.uniforms.uCausticsSpeed, 'value')
+            .min(0)
+            .max(1)
+            .step(0.01)
+            .name('speed')
 
-            this.debugFolder
-                .add(this.material.uniforms.uCausticsOffset, 'value')
-                .min(0)
-                .max(1)
-                .step(0.01)
-                .name('offset')
-        }
+        this.debugFolder
+            .add(this.material.uniforms.uCausticsThickness, 'value')
+            .min(0)
+            .max(2)
+            .step(0.01)
+            .name('thickness')
+
+        this.debugFolder
+            .add(this.material.uniforms.uCausticsOffset, 'value')
+            .min(0)
+            .max(1)
+            .step(0.01)
+            .name('offset')
     }
 }

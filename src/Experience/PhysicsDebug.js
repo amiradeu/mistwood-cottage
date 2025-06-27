@@ -55,7 +55,7 @@ export default class PhysicsDebug {
     setDebug() {
         if (!this.debug.active) return
 
-        this.debugFolder = this.debug.ui.addFolder('🏄 Physics')
+        this.debugFolder = this.debug.ui.addFolder('🏄 Physics').close()
         this.debugFolder.add(this.lineSegments.material, 'visible')
     }
 }

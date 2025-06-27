@@ -9,11 +9,8 @@ export default class Background {
         this.resources = this.experience.resources
         this.debug = this.experience.debug
 
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('☁️ Sky')
-        }
-
         this.setBackground()
+        this.setDebug()
         // this.setEnvironmentMap()
     }
 
@@ -23,15 +20,6 @@ export default class Background {
         }
 
         this.scene.background = new Color(this.options.color)
-
-        if (this.debug.active) {
-            this.debugFolder
-                .addColor(this.options, 'color')
-                .onChange(() => {
-                    this.scene.background.set(this.options.color)
-                })
-                .name('background')
-        }
     }
 
     setTextures() {
@@ -58,5 +46,17 @@ export default class Background {
                 0.01
             )
         }
+    }
+
+    setDebug() {
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('☁️ Sky').close()
+
+        this.debugFolder
+            .addColor(this.options, 'color')
+            .onChange(() => {
+                this.scene.background.set(this.options.color)
+            })
+            .name('background')
     }
 }

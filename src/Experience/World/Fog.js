@@ -11,7 +11,7 @@ export default class FogAmbient {
         this.cycles = this.experience.cycles
 
         this.addFog()
-        this.setupDebug()
+        this.setDebug()
     }
 
     addFog() {
@@ -30,16 +30,15 @@ export default class FogAmbient {
         this.scene.fog = this.fog
     }
 
-    setupDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('💨 Fog')
+    setDebug() {
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('💨 Fog').close()
 
-            this.debugFolder.addColor(this.options, 'color').onChange(() => {
-                this.fog.color.set(this.options.color)
-            })
-            this.debugFolder.add(this.fog, 'near', -30, 10, 0.01)
-            this.debugFolder.add(this.fog, 'far', 5, 100, 0.001)
-        }
+        this.debugFolder.addColor(this.options, 'color').onChange(() => {
+            this.fog.color.set(this.options.color)
+        })
+        this.debugFolder.add(this.fog, 'near', -30, 10, 0.01)
+        this.debugFolder.add(this.fog, 'far', 5, 100, 0.001)
     }
 
     updateCycle() {

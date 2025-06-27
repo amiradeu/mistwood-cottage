@@ -26,9 +26,12 @@ export default class Room {
         this.setTextures()
         this.setMaterials()
         this.setModel()
+        this.setDebug()
+
+        this.setCustom()
+        this.setEmission()
 
         this.setPhysics()
-        this.setDebug()
     }
 
     update() {
@@ -89,20 +92,6 @@ export default class Room {
             this.pictureframesMaterial
         )
 
-        this.whiteEmission = new Emissive({
-            name: '💡 Room White Bulbs',
-            colorA: '#ffeab6',
-            colorB: '#fccf5b',
-        })
-
-        this.orangeEmission = new Emissive({
-            name: '💡 Room Orange Bulbs',
-            colorA: '#d86d1a', // '#e67830'
-            colorB: '#de3000',
-            power: 0.8,
-            type: EMISSIVE_TYPE.LINEAR,
-        })
-
         this.recordMaterial = new MeshBasicMaterial({
             color: '#7e8385',
             transparent: true,
@@ -158,16 +147,7 @@ export default class Room {
             repeat: -1,
         })
 
-        this.setCustom()
         this.setBaked()
-        this.setEmissions()
-    }
-
-    setPhysics() {
-        this.physics.glbToConvexHull(this.items.PhysicsDeskPattern)
-        this.physics.glbToConvexHull(this.items.PhysicsChairPattern)
-        this.physics.glbToConvexHull(this.items.PhysicsKitchenPattern)
-        this.physics.glbToConvexHull(this.items.PhysicsBedPlain)
     }
 
     setBaked() {
@@ -202,10 +182,39 @@ export default class Room {
         this.items.smallart004.material = this.art5Material
 
         // Smokes
-        this.teasmoke = new TeaSmoke(this.items.teawater)
+        this.teasmoke = new TeaSmoke(this.items.teawater, {
+            debug: this.debugFolder,
+        })
     }
 
-    setEmissions() {
+    setEmission() {
+        this.whiteEmission = new Emissive({
+            name: '💡 Room White Bulbs',
+            colorA: '#ffeab6',
+            colorB: '#fccf5b',
+            debug: this.debugFolder,
+        })
+
+        this.orangeEmission = new Emissive({
+            name: '💡 Room Orange Bulbs',
+            colorA: '#d86d1a', // '#e67830'
+            colorB: '#de3000',
+            power: 0.8,
+            type: EMISSIVE_TYPE.LINEAR,
+            debug: this.debugFolder,
+        })
+
+        this.updateEmission()
+    }
+
+    setPhysics() {
+        this.physics.glbToConvexHull(this.items.PhysicsDeskPattern)
+        this.physics.glbToConvexHull(this.items.PhysicsChairPattern)
+        this.physics.glbToConvexHull(this.items.PhysicsKitchenPattern)
+        this.physics.glbToConvexHull(this.items.PhysicsBedPlain)
+    }
+
+    updateEmission() {
         this.emissionState = CycleEmissions[this.cycles.currentCycle].room
 
         this.items.bulbemissions.material = this.orangeEmission
@@ -266,7 +275,7 @@ export default class Room {
         this.setTextures()
         this.updateMaterials()
         this.setBaked()
-        this.setEmissions()
+        this.updateEmission()
 
         animateTextureChange(this.uniformsPattern.uMixProgress)
         animateTextureChange(this.uniformsPlain.uMixProgress)
@@ -274,8 +283,7 @@ export default class Room {
     }
 
     setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🛋️ Room').close()
-        }
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('🛋️ Room').close()
     }
 }

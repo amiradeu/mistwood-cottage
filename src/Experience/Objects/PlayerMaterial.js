@@ -33,20 +33,19 @@ export default class PlayerMaterial {
     }
 
     setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🕴🏻Player')
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('🕴🏻Player')
 
-            this.debugFolder.addColor(this.options, 'color').onChange(() => {
-                this.material.uniforms.uColor.value.set(this.options.color)
+        this.debugFolder.addColor(this.options, 'color').onChange(() => {
+            this.material.uniforms.uColor.value.set(this.options.color)
+        })
+
+        this.debugFolder
+            .addColor(this.options, 'sunShadeColor')
+            .onChange(() => {
+                this.material.uniforms.uSunShadeColor.value.set(
+                    this.options.sunShadeColor
+                )
             })
-
-            this.debugFolder
-                .addColor(this.options, 'sunShadeColor')
-                .onChange(() => {
-                    this.material.uniforms.uSunShadeColor.value.set(
-                        this.options.sunShadeColor
-                    )
-                })
-        }
     }
 }

@@ -8,7 +8,7 @@ import Experience from './Experience'
 import Slider from './Components/Slider'
 
 export default class CameraThirdPerson {
-    constructor(player) {
+    constructor(player, debug = null) {
         this.experience = new Experience()
         this.camera = this.experience.camera.instance
         this.pointer = this.experience.controls.pointer
@@ -19,6 +19,8 @@ export default class CameraThirdPerson {
         this.target = new Vector3()
         this.position = new Vector3()
         this.quaternion = new Quaternion()
+
+        this.debugFolder = debug
 
         this.distance = 4 // how far the camera stays from the player
         this.phi = Math.PI * 0.45 // vertical angle (elevation)
@@ -103,7 +105,12 @@ export default class CameraThirdPerson {
 
     setDebug() {
         if (!this.debug.active) return
-        this.debugFolder = this.debug.ui.addFolder('📹 Camera Third Person')
+
+        const name = '📹 Camera Third Person'
+        if (this.debugFolder)
+            this.debugFolder = this.debugFolder.addFolder(name).close()
+        else this.debugFolder = this.debug.ui.addFolder(name).close()
+
         this.debugFolder
             .add(this, 'distance', 0, 20.0, 0.01)
             .name('Camera Distance')

@@ -36,6 +36,9 @@ export default class TeaSmoke {
             twistSpeed: 0.03,
             windStrength: 10.0,
             windSpeed: 0.01,
+
+            name: '☕️ Tea Smoke',
+            debug: null,
         }
 
         this.options = {
@@ -110,75 +113,61 @@ export default class TeaSmoke {
     }
 
     setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('☕️ Tea Smoke').close()
+        if (!this.debug.active) return
 
-            this.debugFolder.add(this.smokeMaterial, 'wireframe')
-            this.debugFolder
-                .add(this.smoke.rotation, 'y', 0, Math.PI * 2.0)
-                .name('Rotation')
+        if (this.options.debug)
+            this.debugFolder = this.options.debug
+                .addFolder(this.options.name)
+                .close()
+        else
+            this.debugFolder = this.debug.ui
+                .addFolder(this.options.name)
+                .close()
 
-            this.debugFolder
-                .addColor(this.options, 'waterColor')
-                .onChange(() => {
-                    this.waterMaterial.color.set(this.options.waterColor)
-                })
+        this.debugFolder.add(this.smokeMaterial, 'wireframe')
+        this.debugFolder
+            .add(this.smoke.rotation, 'y', 0, Math.PI * 2.0)
+            .name('Rotation')
 
-            this.debugFolder
-                .addColor(this.options, 'smokeColor')
-                .onChange(() => {
-                    this.smokeMaterial.uniforms.uSmokeColor.value.set(
-                        this.options.smokeColor
-                    )
-                })
-            this.debugFolder
-                .add(
-                    this.smokeMaterial.uniforms.uSmokeStretchX,
-                    'value',
-                    0,
-                    2,
-                    0.1
-                )
-                .name('Smoke Stretch X')
-            this.debugFolder
-                .add(
-                    this.smokeMaterial.uniforms.uSmokeStretchY,
-                    'value',
-                    0,
-                    2,
-                    0.1
-                )
-                .name('Smoke Stretch Y')
-            this.debugFolder
-                .add(
-                    this.smokeMaterial.uniforms.uSmokeSpeed,
-                    'value',
-                    0,
-                    0.1,
-                    0.001
-                )
-                .name('Smoke Speed')
+        this.debugFolder.addColor(this.options, 'waterColor').onChange(() => {
+            this.waterMaterial.color.set(this.options.waterColor)
+        })
 
-            this.debugFolder
-                .add(this.smokeMaterial.uniforms.uTwistFrequency, 'value', 0, 1)
-                .name('Twist Frequency')
-            this.debugFolder
-                .add(
-                    this.smokeMaterial.uniforms.uTwistIntensity,
-                    'value',
-                    0,
-                    20
-                )
-                .name('Twist Intensity')
-            this.debugFolder
-                .add(this.smokeMaterial.uniforms.uTwistSpeed, 'value', 0, 0.1)
-                .name('Twist Speed')
-            this.debugFolder
-                .add(this.smokeMaterial.uniforms.uWindStrength, 'value', 0, 20)
-                .name('Wind Strength')
-            this.debugFolder
-                .add(this.smokeMaterial.uniforms.uWindSpeed, 'value', 0, 0.1)
-                .name('Wind Speed')
-        }
+        this.debugFolder.addColor(this.options, 'smokeColor').onChange(() => {
+            this.smokeMaterial.uniforms.uSmokeColor.value.set(
+                this.options.smokeColor
+            )
+        })
+        this.debugFolder
+            .add(this.smokeMaterial.uniforms.uSmokeStretchX, 'value', 0, 2, 0.1)
+            .name('Smoke Stretch X')
+        this.debugFolder
+            .add(this.smokeMaterial.uniforms.uSmokeStretchY, 'value', 0, 2, 0.1)
+            .name('Smoke Stretch Y')
+        this.debugFolder
+            .add(
+                this.smokeMaterial.uniforms.uSmokeSpeed,
+                'value',
+                0,
+                0.1,
+                0.001
+            )
+            .name('Smoke Speed')
+
+        this.debugFolder
+            .add(this.smokeMaterial.uniforms.uTwistFrequency, 'value', 0, 1)
+            .name('Twist Frequency')
+        this.debugFolder
+            .add(this.smokeMaterial.uniforms.uTwistIntensity, 'value', 0, 20)
+            .name('Twist Intensity')
+        this.debugFolder
+            .add(this.smokeMaterial.uniforms.uTwistSpeed, 'value', 0, 0.1)
+            .name('Twist Speed')
+        this.debugFolder
+            .add(this.smokeMaterial.uniforms.uWindStrength, 'value', 0, 20)
+            .name('Wind Strength')
+        this.debugFolder
+            .add(this.smokeMaterial.uniforms.uWindSpeed, 'value', 0, 0.1)
+            .name('Wind Speed')
     }
 }

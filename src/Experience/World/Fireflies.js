@@ -60,6 +60,9 @@ export default class Fireflies {
             // Flicker
             flickerSpeed: 1.8,
             flickerSync: 80,
+
+            name: '🐞 Fireflies',
+            debug: null,
         }
 
         this.options = {
@@ -175,123 +178,127 @@ export default class Fireflies {
     }
 
     setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🐞 Fireflies').close()
+        if (!this.debug.active) return
 
-            this.debugFolder.addColor(this.options, 'color').onChange(() => {
-                this.material.uniforms.uColor.value.set(this.options.color)
+        if (this.options.debug)
+            this.debugFolder = this.options.debug
+                .addFolder(this.options.name)
+                .close()
+        else
+            this.debugFolder = this.debug.ui
+                .addFolder(this.options.name)
+                .close()
+
+        this.debugFolder.addColor(this.options, 'color').onChange(() => {
+            this.material.uniforms.uColor.value.set(this.options.color)
+        })
+        this.debugFolder
+            .add(this.options, 'count')
+            .min(1)
+            .max(1000)
+            .step(1)
+            .onChange((ev) => {
+                // if (ev.last) generateFireflies()
             })
-            this.debugFolder
-                .add(this.options, 'count')
-                .min(1)
-                .max(1000)
-                .step(1)
-                .onChange((ev) => {
-                    // if (ev.last) generateFireflies()
-                })
-            this.debugFolder
-                .add(this.options, 'radius')
-                .name('radius')
-                .min(0.1)
-                .max(5)
-                .step(0.01)
-                .onChange((ev) => {
-                    // if (ev.last) generateFireflies()
-                })
-            this.debugFolder
-                .add(this.options, 'fillRadius')
-                .name('fill inside')
-                .min(0.0)
-                .max(5)
-                .step(0.01)
-                .onChange((ev) => {
-                    // if (ev.last) generateFireflies()
-                })
-            this.debugFolder
-                .add(this.options, 'size')
-                .name('Size')
-                .min(1)
-                .max(100)
-                .step(1)
-                .onChange(() => {
-                    this.material.uniforms.uSize.value = this.options.size
-                })
+        this.debugFolder
+            .add(this.options, 'radius')
+            .name('radius')
+            .min(0.1)
+            .max(5)
+            .step(0.01)
+            .onChange((ev) => {
+                // if (ev.last) generateFireflies()
+            })
+        this.debugFolder
+            .add(this.options, 'fillRadius')
+            .name('fill inside')
+            .min(0.0)
+            .max(5)
+            .step(0.01)
+            .onChange((ev) => {
+                // if (ev.last) generateFireflies()
+            })
+        this.debugFolder
+            .add(this.options, 'size')
+            .name('Size')
+            .min(1)
+            .max(100)
+            .step(1)
+            .onChange(() => {
+                this.material.uniforms.uSize.value = this.options.size
+            })
 
-            // Movement
-            this.moveGUI = this.debugFolder.addFolder('Movement')
-            this.moveGUI
-                .add(this.options, 'moveRatio')
-                .name('move ratio')
-                .min(0)
-                .max(1)
-                .step(0.1)
-                .onChange(() => {
-                    this.material.uniforms.uMoveRatio.value =
-                        this.options.moveRatio
-                })
-            this.moveGUI
-                .add(this.options, 'moveSpeed')
-                .name('speed')
-                .min(0)
-                .max(1)
-                .step(0.01)
-                .onChange(() => {
-                    this.material.uniforms.uMoveSpeed.value =
-                        this.options.moveSpeed
-                })
-            this.moveGUI
-                .add(this.options, 'pathSize')
-                .name('path size')
-                .min(0)
-                .max(5)
-                .step(0.01)
-                .onChange(() => {
-                    this.material.uniforms.uPathSize.value =
-                        this.options.pathSize
-                })
-            this.moveGUI
-                .add(this.options, 'frequencyA')
-                .name('Freq A')
-                .min(1)
-                .max(10)
-                .step(1)
-                .onChange(() => {
-                    this.material.uniforms.uFrequencyA.value =
-                        this.options.frequencyA
-                })
-            this.moveGUI
-                .add(this.options, 'frequencyB')
-                .name('Freq B')
-                .min(1)
-                .max(10)
-                .step(1)
-                .onChange(() => {
-                    this.material.uniforms.uFrequencyB.value =
-                        this.options.frequencyB
-                })
+        // Movement
+        this.moveGUI = this.debugFolder.addFolder('Movement')
+        this.moveGUI
+            .add(this.options, 'moveRatio')
+            .name('move ratio')
+            .min(0)
+            .max(1)
+            .step(0.1)
+            .onChange(() => {
+                this.material.uniforms.uMoveRatio.value = this.options.moveRatio
+            })
+        this.moveGUI
+            .add(this.options, 'moveSpeed')
+            .name('speed')
+            .min(0)
+            .max(1)
+            .step(0.01)
+            .onChange(() => {
+                this.material.uniforms.uMoveSpeed.value = this.options.moveSpeed
+            })
+        this.moveGUI
+            .add(this.options, 'pathSize')
+            .name('path size')
+            .min(0)
+            .max(5)
+            .step(0.01)
+            .onChange(() => {
+                this.material.uniforms.uPathSize.value = this.options.pathSize
+            })
+        this.moveGUI
+            .add(this.options, 'frequencyA')
+            .name('Freq A')
+            .min(1)
+            .max(10)
+            .step(1)
+            .onChange(() => {
+                this.material.uniforms.uFrequencyA.value =
+                    this.options.frequencyA
+            })
+        this.moveGUI
+            .add(this.options, 'frequencyB')
+            .name('Freq B')
+            .min(1)
+            .max(10)
+            .step(1)
+            .onChange(() => {
+                this.material.uniforms.uFrequencyB.value =
+                    this.options.frequencyB
+            })
 
-            // Flicker
-            this.flickerGUI = this.debugFolder.addFolder('Flicker')
-            this.flickerGUI
-                .add(this.options, 'flickerSpeed')
-                .name('Speed')
-                .min(0)
-                .max(5)
-                .step(0.01)
-                .onChange(() => {
-                    this.material.uniforms.uFlickerSpeed.value =
-                        this.options.flickerSpeed
-                })
-            this.flickerGUI
-                .add(this.options, 'flickerSync')
-                .name('Sync')
-                .min(0)
-                .max(200)
-                .step(1)
-                .onChange(() => {
-                    this.material.uniforms.uFlickerSync.value =
-                        this.options.flickerSync
-                })
-        }
+        // Flicker
+        this.flickerGUI = this.debugFolder.addFolder('Flicker')
+        this.flickerGUI
+            .add(this.options, 'flickerSpeed')
+            .name('Speed')
+            .min(0)
+            .max(5)
+            .step(0.01)
+            .onChange(() => {
+                this.material.uniforms.uFlickerSpeed.value =
+                    this.options.flickerSpeed
+            })
+        this.flickerGUI
+            .add(this.options, 'flickerSync')
+            .name('Sync')
+            .min(0)
+            .max(200)
+            .step(1)
+            .onChange(() => {
+                this.material.uniforms.uFlickerSync.value =
+                    this.options.flickerSync
+            })
     }
 }

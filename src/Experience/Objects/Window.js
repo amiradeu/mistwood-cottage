@@ -2,7 +2,7 @@ import { RepeatWrapping, MeshBasicMaterial, DoubleSide } from 'three'
 
 import Experience from '../Experience'
 
-export default class DustyGlass {
+export default class Window {
     constructor(mesh, options = {}) {
         this.experience = new Experience()
         this.scene = this.experience.scene
@@ -16,6 +16,7 @@ export default class DustyGlass {
             opacity: 0.8,
             color: '#464851',
             name: '🪟 Window',
+            debug: null,
         }
 
         this.options = {
@@ -62,30 +63,35 @@ export default class DustyGlass {
     }
 
     setDebug() {
-        if (this.debug.active) {
+        if (!this.debug.active) return
+
+        if (this.options.debug)
+            this.debugFolder = this.options.debug
+                .addFolder(this.options.name)
+                .close()
+        else
             this.debugFolder = this.debug.ui
                 .addFolder(this.options.name)
                 .close()
 
-            this.debugFolder
-                .add(this.options, 'opacity', 0, 1, 0.01)
-                .onChange(() => {
-                    this.material.opacity = this.options.opacity
-                })
-
-            this.debugFolder.addColor(this.options, 'color').onChange(() => {
-                this.material.color.set(this.options.color)
+        this.debugFolder
+            .add(this.options, 'opacity', 0, 1, 0.01)
+            .onChange(() => {
+                this.material.opacity = this.options.opacity
             })
 
-            this.debugFolder
-                .add(this.options, 'scale', 0, 2.0, 0.01)
-                .onChange(() => {
-                    this.texture.repeat.x = this.options.scale
-                    this.texture.repeat.y = this.options.scale
+        this.debugFolder.addColor(this.options, 'color').onChange(() => {
+            this.material.color.set(this.options.color)
+        })
 
-                    this.textureNormal.repeat.x = this.options.scale
-                    this.textureNormal.repeat.y = this.options.scale
-                })
-        }
+        this.debugFolder
+            .add(this.options, 'scale', 0, 2.0, 0.01)
+            .onChange(() => {
+                this.texture.repeat.x = this.options.scale
+                this.texture.repeat.y = this.options.scale
+
+                this.textureNormal.repeat.x = this.options.scale
+                this.textureNormal.repeat.y = this.options.scale
+            })
     }
 }

@@ -6,7 +6,7 @@ import { Vector3 } from 'three'
 import Experience from '../Experience'
 
 export default class PlayerController {
-    constructor(body, collider) {
+    constructor(body, collider, debug = null) {
         this.experience = new Experience()
         this.camera = this.experience.camera.instance
         this.controls = this.experience.controls
@@ -17,6 +17,7 @@ export default class PlayerController {
 
         this.rigidBody = body
         this.collider = collider
+        this.debugFolder = debug
 
         // Movement settings
         this.speed = 0.5
@@ -140,7 +141,11 @@ export default class PlayerController {
     setDebug() {
         if (!this.debug.active) return
 
-        this.debugFolder = this.debug.ui.addFolder('🕹️Player Controller')
+        const name = '🕹️Player Controller'
+        if (this.debugFolder)
+            this.debugFolder = this.debugFolder.addFolder(name).close()
+        else this.debugFolder = this.debug.ui.addFolder(name).close()
+
         this.debugFolder.add(this, 'speed', 0, 2.0, 0.01).name('Speed')
         this.debugFolder.add(this, 'gravity', 0, 2.0, 0.01).name('Gravity')
         this.debugFolder

@@ -43,22 +43,21 @@ export default class States extends EventEmitter {
     }
 
     setDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('🗂️ States')
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('🗂️ States').close()
 
-            this.debugFolder
-                .add(this.instance, 'leftVisibility')
-                .name('left visibility')
-                .onChange(() => {
-                    this.toggleLeft()
-                })
+        this.debugFolder
+            .add(this.instance, 'leftVisibility')
+            .name('left visibility')
+            .onChange(() => {
+                this.toggleLeft()
+            })
 
-            this.debugFolder
-                .add(this.instance, 'frontVisibility')
-                .name('front visibility')
-                .onChange(() => {
-                    this.toggleFront()
-                })
-        }
+        this.debugFolder
+            .add(this.instance, 'frontVisibility')
+            .name('front visibility')
+            .onChange(() => {
+                this.toggleFront()
+            })
     }
 }

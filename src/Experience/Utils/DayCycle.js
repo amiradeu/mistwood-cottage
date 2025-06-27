@@ -116,7 +116,7 @@ export default class DayCycle extends EventEmitter {
     setDebug() {
         if (!this.debug.active) return
 
-        this.debugFolder = this.debug.ui.addFolder('🌞 Day Cycles')
+        this.debugFolder = this.debug.ui.addFolder('🌞 Day Cycles').close()
         this.debugFolder
             .add(this, 'currentCycle')
             .options(CycleNames)

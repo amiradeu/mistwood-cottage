@@ -21,7 +21,7 @@ export default class Bloom {
 
         this.setLayer()
         this.setBloom()
-        this.addDebug()
+        this.setDebug()
     }
 
     setLayer() {
@@ -47,25 +47,16 @@ export default class Bloom {
         mesh.layers.enable(BLOOM_SCENE)
     }
 
-    addDebug() {
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('✨ Bloom')
+    setDebug() {
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder('✨ Bloom')
 
-            this.debugFolder.add(this.pass, 'enabled')
+        this.debugFolder.add(this.pass, 'enabled')
 
-            this.debugFolder
-                .add(this.pass, 'strength')
-                .min(0)
-                .max(2)
-                .step(0.001)
+        this.debugFolder.add(this.pass, 'strength').min(0).max(2).step(0.001)
 
-            this.debugFolder.add(this.pass, 'radius').min(0).max(2).step(0.001)
+        this.debugFolder.add(this.pass, 'radius').min(0).max(2).step(0.001)
 
-            this.debugFolder
-                .add(this.pass, 'threshold')
-                .min(0)
-                .max(1)
-                .step(0.001)
-        }
+        this.debugFolder.add(this.pass, 'threshold').min(0).max(1).step(0.001)
     }
 }

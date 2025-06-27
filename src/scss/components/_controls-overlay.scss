@@ -1,60 +1,73 @@
+@use '../abstract/variables' as *;
+@use '../abstract/mixin' as *;
+
 .controls-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     z-index: 1;
     font-size: 12px;
+    width: 100%;
 
-    > .container {
-        display: grid;
-        grid-auto-flow: column;
-        justify-content: start;
-        gap: 2px;
+    .wrapper {
+        display: flex;
+        align-items: end;
+    }
+}
 
-        padding-inline-start: 12px;
-        padding-block-end: 12px;
+.keys-container {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: start;
+    gap: 2px;
 
-        .keys {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    padding-inline-start: 12px;
+    padding-block-end: 12px;
 
-            width: 24px;
-            height: 24px;
+    .keys {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-            border-radius: 2px;
-            text-align: center;
+        width: 24px;
+        height: 24px;
 
-            color: white;
-            border: 1px solid white;
+        border-radius: 2px;
+        text-align: center;
 
-            grid-row: 2 / 3;
+        color: white;
+        border: 1px solid white;
 
-            &.active,
-            &:hover {
-                background-color: #7894937e;
-            }
+        grid-row: 2 / 3;
+
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+
+        &.active,
+        &:hover {
+            background-color: #7894937e;
         }
+    }
 
-        .keyW {
-            grid-row: 1;
-            grid-column: 2;
-        }
+    .keyW {
+        grid-row: 1;
+        grid-column: 2;
+    }
 
-        .keySpace {
-            width: 96px;
-        }
+    .keySpace {
+        width: 96px;
+    }
 
-        .action {
-            display: flex;
-            align-items: center;
-            padding-inline: 4px 8px;
+    .action {
+        display: flex;
+        align-items: center;
+        padding-inline: 4px 8px;
 
-            font-size: 12px;
-            color: white;
+        font-size: 12px;
+        color: white;
 
-            grid-row: 2;
-        }
+        grid-row: 2;
     }
 }
 
@@ -75,6 +88,7 @@ $slider-thumb-border-radius: 4px;
     grid-row: 2;
 
     width: 100%;
+    padding-block-end: 8px;
 
     .slider-input {
         min-width: 24px;
@@ -127,5 +141,30 @@ $slider-thumb-border-radius: 4px;
     }
 
     .slider-value {
+        width: 16px;
+    }
+}
+
+@include phoneAndSmaller {
+    .controls-overlay {
+        .wrapper {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .keys-container {
+        .keys {
+            width: 44px;
+            height: 44px;
+        }
+
+        .keySpace {
+            width: 124px;
+        }
+    }
+
+    .slider-container {
+        justify-content: center;
     }
 }

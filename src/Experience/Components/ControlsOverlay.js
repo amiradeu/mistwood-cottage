@@ -7,11 +7,50 @@ export default class ControlsOverlay {
         this.experience = new Experience()
         this.controls = this.experience.controls
 
+        this.map = [
+            {
+                ui: document.querySelector('.keyW'),
+                name: this.controls.keys.map[0].name,
+            },
+            {
+                ui: document.querySelector('.keyS'),
+                name: this.controls.keys.map[1].name,
+            },
+            {
+                ui: document.querySelector('.keyA'),
+                name: this.controls.keys.map[2].name,
+            },
+            {
+                ui: document.querySelector('.keyD'),
+                name: this.controls.keys.map[3].name,
+            },
+            {
+                ui: document.querySelector('.keySpace'),
+                name: this.controls.keys.map[4].name,
+            },
+        ]
         this.keyW = document.querySelector('.keyW')
         this.keyA = document.querySelector('.keyA')
         this.keyS = document.querySelector('.keyS')
         this.keyD = document.querySelector('.keyD')
         this.keySpace = document.querySelector('.keySpace')
+
+        this.setEventListeners()
+    }
+
+    setEventListeners() {
+        this.map.forEach((item) => {
+            item.ui.addEventListener('pointerdown', () => {
+                console.log(item.name)
+                this.controls.keys.down[item.name] = true
+            })
+        })
+        this.map.forEach((item) => {
+            item.ui.addEventListener('pointerup', () => {
+                console.log(item.name)
+                this.controls.keys.down[item.name] = false
+            })
+        })
     }
 
     update() {

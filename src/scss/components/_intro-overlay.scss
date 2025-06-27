@@ -1,4 +1,5 @@
-@use '../variables' as *;
+@use '../abstract/variables' as *;
+@use '../abstract/mixin' as *;
 
 /* OVERLAY */
 .overlay {

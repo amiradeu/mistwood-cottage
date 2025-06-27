@@ -40,10 +40,6 @@
 
         grid-row: 2 / 3;
 
-        -webkit-user-select: none; /* Safari */
-        -ms-user-select: none; /* IE 10 and IE 11 */
-        user-select: none; /* Standard syntax */
-
         &.active,
         &:hover {
             background-color: #7894937e;
@@ -142,6 +138,19 @@ $slider-thumb-border-radius: 4px;
 
     .slider-value {
         width: 16px;
+    }
+}
+
+// Prevent select text from disturbing scene
+// especially on mobile
+.controls-overlay {
+    .keys,
+    .action,
+    .slider-value,
+    .slider-info {
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
     }
 }
 

@@ -8,42 +8,42 @@ export default [
     {
         name: 'roomPlainTextureSunrise',
         type: 'texture',
-        path: 'models/Room/RoomPlain-sunrise.jpg',
+        path: 'models/Room/RoomPlain-sunrise.webp',
     },
     {
         name: 'roomPlainTextureDaylight',
         type: 'texture',
-        path: 'models/Room/RoomPlain-daylight.jpg',
+        path: 'models/Room/RoomPlain-daylight.webp',
     },
     {
         name: 'roomPlainTextureSunset',
         type: 'texture',
-        path: 'models/Room/RoomPlain-sunset.jpg',
+        path: 'models/Room/RoomPlain-sunset.webp',
     },
     {
         name: 'roomPlainTextureNight',
         type: 'texture',
-        path: 'models/Room/RoomPlain-night.jpg',
+        path: 'models/Room/RoomPlain-night.webp',
     },
     {
         name: 'roomPatternTextureSunrise',
         type: 'texture',
-        path: 'models/Room/RoomPattern-sunrise.jpg',
+        path: 'models/Room/RoomPattern-sunrise.webp',
     },
     {
         name: 'roomPatternTextureDaylight',
         type: 'texture',
-        path: 'models/Room/RoomPattern-daylight.jpg',
+        path: 'models/Room/RoomPattern-daylight.webp',
     },
     {
         name: 'roomPatternTextureSunset',
         type: 'texture',
-        path: 'models/Room/RoomPattern-sunset.jpg',
+        path: 'models/Room/RoomPattern-sunset.webp',
     },
     {
         name: 'roomPatternTextureNight',
         type: 'texture',
-        path: 'models/Room/RoomPattern-night.jpg',
+        path: 'models/Room/RoomPattern-night.webp',
     },
 
     // Cottage
@@ -55,22 +55,22 @@ export default [
     {
         name: 'cottageTextureSunrise',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottage-sunrise.jpg',
+        path: 'models/Cottage/MoonlitCottage-sunrise.webp',
     },
     {
         name: 'cottageTextureDaylight',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottage-daylight.jpg',
+        path: 'models/Cottage/MoonlitCottage-daylight.webp',
     },
     {
         name: 'cottageTextureSunset',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottage-sunset.jpg',
+        path: 'models/Cottage/MoonlitCottage-sunset.webp',
     },
     {
         name: 'cottageTextureNight',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottage-night.jpg',
+        path: 'models/Cottage/MoonlitCottage-night.webp',
     },
 
     // Environment
@@ -82,22 +82,22 @@ export default [
     {
         name: 'environmentTextureSunrise',
         type: 'texture',
-        path: 'models/Environment/Environment-sunrise.jpg',
+        path: 'models/Environment/Environment-sunrise.webp',
     },
     {
         name: 'environmentTextureDaylight',
         type: 'texture',
-        path: 'models/Environment/Environment-daylight.jpg',
+        path: 'models/Environment/Environment-daylight.webp',
     },
     {
         name: 'environmentTextureSunset',
         type: 'texture',
-        path: 'models/Environment/Environment-sunset.jpg',
+        path: 'models/Environment/Environment-sunset.webp',
     },
     {
         name: 'environmentTextureNight',
         type: 'texture',
-        path: 'models/Environment/Environment-night.jpg',
+        path: 'models/Environment/Environment-night.webp',
     },
 
     // Terrain
@@ -109,22 +109,22 @@ export default [
     {
         name: 'terrainTextureSunrise',
         type: 'texture',
-        path: 'models/Terrain/Terrain-sunrise.jpg',
+        path: 'models/Terrain/Terrain-sunrise.webp',
     },
     {
         name: 'terrainTextureDaylight',
         type: 'texture',
-        path: 'models/Terrain/Terrain-daylight.jpg',
+        path: 'models/Terrain/Terrain-daylight.webp',
     },
     {
         name: 'terrainTextureNight',
         type: 'texture',
-        path: 'models/Terrain/Terrain-night.jpg',
+        path: 'models/Terrain/Terrain-night.webp',
     },
     {
         name: 'terrainTextureSunset',
         type: 'texture',
-        path: 'models/Terrain/Terrain-sunset.jpg',
+        path: 'models/Terrain/Terrain-sunset.webp',
     },
 
     // Other Textures
@@ -157,11 +157,6 @@ export default [
         name: 'perlinNoiseTexture',
         type: 'texture',
         path: 'textures/Noise/perlin.png',
-    },
-    {
-        name: 'playerTexture',
-        type: 'texture',
-        path: 'textures/fabric.jpg',
     },
 
     // Images to fill Room Wall Frames

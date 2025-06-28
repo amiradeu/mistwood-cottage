@@ -43,7 +43,6 @@ export default class Player {
         }
 
         // Visual
-        this.setTexture()
         this.setMaterial()
         this.setGeometry()
         this.setMesh()
@@ -55,12 +54,6 @@ export default class Player {
 
         // Third Person Camera
         this.cameraPOV = new CameraThirdPerson(this.mesh, this.debugFolder)
-    }
-
-    setTexture() {
-        this.texture = this.resources.items.playerTexture
-        this.texture.flipY = false
-        this.texture.colorSpace = SRGBColorSpace
     }
 
     setMaterial() {

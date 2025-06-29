@@ -54,7 +54,9 @@ export default class Physics {
         // Collider
         const colliderDesc = RAPIER.ColliderDesc.trimesh(verticesArray, indices)
         colliderDesc.setFriction(0.5) // Friction
-        this.world.createCollider(colliderDesc, rigidBody)
+        const collider = this.world.createCollider(colliderDesc, rigidBody)
+
+        return { collider, colliderDesc, rigidBody }
     }
 
     glbToConvexHull(mesh) {

@@ -8,12 +8,16 @@ export default class Cursor {
         this.controls = this.experience.controls
         this.camera = this.experience.camera.instance
         this.states = this.experience.states
+        this.physics = this.experience.physics
 
         this.raycaster = new Raycaster()
         this.raycastObjects = null
 
         // Object involved with cursor interaction
         this.cottage = this.experience.world.cottage
+        this.wallFront = this.cottage.physicsFront
+        this.wallLeft = this.cottage.physicsLeft
+
         this.setCottageObjects()
 
         // Trigger events
@@ -82,6 +86,7 @@ export default class Cursor {
         ) {
             // console.log('Front cottage clicked')
             this.states.toggleFrontVisbility()
+            this.updatePhysicsFront()
         }
 
         // Toggle left cottage
@@ -92,6 +97,31 @@ export default class Cursor {
         ) {
             // console.log('Left cottage clicked')
             this.states.toggleLeftVisbility()
+            this.updatePhysicsLeft()
+        }
+    }
+
+    updatePhysicsLeft() {
+        if (!this.states.instance.leftVisibility) {
+            this.physics.world.removeCollider(this.wallLeft.collider)
+            // console.log('remove left')
+        } else {
+            this.wallLeft.collider = this.physics.world.createCollider(
+                this.wallLeft.colliderDesc,
+                this.wallLeft.rigidBody
+            )
+            // console.log('add left')
+        }
+    }
+
+    updatePhysicsFront() {
+        if (!this.states.instance.frontVisibility) {
+            this.physics.world.removeCollider(this.wallFront.collider)
+        } else {
+            this.wallFront.collider = this.physics.world.createCollider(
+                this.wallFront.colliderDesc,
+                this.wallFront.rigidBody
+            )
         }
     }
 

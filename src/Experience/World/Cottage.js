@@ -72,8 +72,12 @@ export default class Cottage extends EventEmitter {
 
     setPhysics() {
         this.physics.glbToTrimesh(this.items.PhysicsCottageMainMerged)
-        this.physics.glbToTrimesh(this.items.PhysicsCottageLeftMerged)
-        this.physics.glbToTrimesh(this.items.PhysicsCottageFrontMerged)
+        this.physicsLeft = this.physics.glbToTrimesh(
+            this.items.PhysicsCottageLeftMerged
+        )
+        this.physicsFront = this.physics.glbToTrimesh(
+            this.items.PhysicsCottageFrontMerged
+        )
     }
 
     setBaked() {

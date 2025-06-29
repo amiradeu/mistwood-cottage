@@ -1,4 +1,4 @@
-import { Raycaster } from 'three'
+import { Box3, Vector3, Raycaster } from 'three'
 
 import Experience from '../Experience'
 
@@ -17,6 +17,7 @@ export default class Cursor {
         this.cottage = this.experience.world.cottage
         this.wallFront = this.cottage.physicsFront
         this.wallLeft = this.cottage.physicsLeft
+        this.player = this.experience.world.player
 
         this.setCottageObjects()
 
@@ -49,6 +50,7 @@ export default class Cursor {
     }
 
     setCottageObjects() {
+        // Wall Meshes
         this.frontObjects = [
             this.cottage.items.CottageFrontMerged,
             this.cottage.items.PhysicsCottageFrontMerged,
@@ -57,6 +59,11 @@ export default class Cursor {
             this.cottage.items.CottageLeftMerged,
             this.cottage.items.PhysicsCottageLeftMerged,
         ]
+
+        // Cottage bounding box
+        this.cottageBox = new Box3().setFromObject(
+            this.cottage.items.PhysicsCottageMainMerged
+        )
     }
 
     updateRaycastObjects() {
@@ -75,6 +82,12 @@ export default class Cursor {
 
     toggleCottageVisibility() {
         if (!this.raycastObjects) {
+            return
+        }
+
+        // Disable toggle if player is within cottage bounding box
+        if (this.cottageBox.containsPoint(this.player.mesh.position)) {
+            // console.log('Player is inside the cottage!')
             return
         }
 
@@ -127,6 +140,17 @@ export default class Cursor {
 
     update() {
         if (!this.raycastObjects) {
+            if (this.controls.pointer.down) {
+                // console.log('dragging')
+                this.grabHand()
+            } else {
+                this.openHand()
+            }
+            return
+        }
+
+        // Disable cursor changes when player inside cottage boundary box
+        if (this.cottageBox.containsPoint(this.player.mesh.position)) {
             if (this.controls.pointer.down) {
                 // console.log('dragging')
                 this.grabHand()

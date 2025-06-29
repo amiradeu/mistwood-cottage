@@ -1,4 +1,4 @@
-import { Vector3 } from 'three'
+import { Vector3, Box3 } from 'three'
 import RAPIER from '@dimforge/rapier3d'
 
 import Experience from './Experience.js'
@@ -84,6 +84,36 @@ export default class Physics {
         const colliderDesc = RAPIER.ColliderDesc.convexHull(verticesArray)
         colliderDesc.setFriction(0.5) // Friction
         this.world.createCollider(colliderDesc, rigidBody)
+    }
+
+    glbToCuboid(mesh) {
+        // Compute bounding box
+        const box = new Box3().setFromObject(mesh)
+        const size = new Vector3()
+        const center = new Vector3()
+        box.getSize(size)
+        box.getCenter(center)
+
+        // Rapier expects half extents
+        const halfExtents = {
+            x: size.x / 2,
+            y: size.y / 2,
+            z: size.z / 2,
+        }
+
+        const bodyDesc = RAPIER.RigidBodyDesc.fixed().setTranslation(
+            center.x,
+            center.y,
+            center.z
+        )
+        const body = this.world.createRigidBody(bodyDesc)
+
+        const colliderDesc = RAPIER.ColliderDesc.cuboid(
+            halfExtents.x,
+            halfExtents.y,
+            halfExtents.z
+        )
+        this.world.createCollider(colliderDesc, body)
     }
 
     addDynamicObject(mesh, body, offset = 0) {

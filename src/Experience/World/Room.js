@@ -155,6 +155,7 @@ export default class Room {
         this.items.PhysicsDeskPattern.material = this.roomPatternMaterial
         this.items.PhysicsChairPattern.material = this.roomPatternMaterial
         this.items.PhysicsKitchenPattern.material = this.roomPatternMaterial
+        this.items.PhysicsFloor.material = this.roomPatternMaterial
 
         this.items.RoomPlainMerged.material = this.roomPlainMaterial
         this.items.PhysicsBedPlain.material = this.roomPlainMaterial
@@ -208,9 +209,10 @@ export default class Room {
     }
 
     setPhysics() {
-        this.physics.glbToConvexHull(this.items.PhysicsDeskPattern)
-        this.physics.glbToConvexHull(this.items.PhysicsChairPattern)
-        this.physics.glbToConvexHull(this.items.PhysicsKitchenPattern)
+        this.physics.glbToCuboid(this.items.PhysicsDeskPattern)
+        this.physics.glbToCuboid(this.items.PhysicsChairPattern)
+        this.physics.glbToCuboid(this.items.PhysicsKitchenPattern)
+        this.physics.glbToCuboid(this.items.PhysicsFloor)
         this.physics.glbToConvexHull(this.items.PhysicsBedPlain)
     }
 

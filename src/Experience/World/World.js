@@ -9,6 +9,7 @@ import FogAmbient from './Fog.js'
 import Bloom from './Bloom.js'
 import Player from './Player.js'
 import Cursor from '../Utils/Cursor.js'
+import Coins from './Coins.js'
 import Lights from '../Utils/Lights.js'
 
 export default class World {
@@ -35,7 +36,7 @@ export default class World {
             this.terrain = new Terrain()
 
             this.player = new Player()
-
+            this.coins = new Coins()
             this.cursor = new Cursor()
         })
 

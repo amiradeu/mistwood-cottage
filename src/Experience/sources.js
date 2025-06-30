@@ -127,6 +127,18 @@ export default [
         path: 'models/Terrain/Terrain-sunset.webp',
     },
 
+    // Coins
+    {
+        name: 'coinModel',
+        type: 'gltfModel',
+        path: 'models/Coin/Coin.glb',
+    },
+    {
+        name: 'specialCoinModel',
+        type: 'gltfModel',
+        path: 'models/Coin/SpecialCoin.glb',
+    },
+
     // Other Textures
     {
         name: 'glassTexture',

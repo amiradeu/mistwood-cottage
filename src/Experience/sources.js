@@ -190,4 +190,41 @@ export default [
         type: 'texture',
         path: 'textures/Arts/5.jpg',
     },
+
+    // Sound Effects
+    {
+        name: 'jumpSound',
+        type: 'audio',
+        path: './audio/jump.mp3',
+    },
+    {
+        name: 'walkOnGrassSound',
+        type: 'audio',
+        path: './audio/walk-on-grass.mp3',
+    },
+    {
+        name: 'walkOnWoodSound',
+        type: 'audio',
+        path: './audio/walk-on-wood.mp3',
+    },
+    {
+        name: 'swimSound',
+        type: 'audio',
+        path: './audio/swim.mp3',
+    },
+    {
+        name: 'underwaterSound',
+        type: 'audio',
+        path: './audio/underwater.mp3',
+    },
+    {
+        name: 'insectSound',
+        type: 'audio',
+        path: './audio/summer-insects.mp3',
+    },
+    {
+        name: 'jazzSound',
+        type: 'audio',
+        path: './audio/jazz-piano.mp3',
+    },
 ]

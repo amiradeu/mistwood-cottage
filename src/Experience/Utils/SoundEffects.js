@@ -4,6 +4,7 @@ export default class SoundEffects {
     constructor() {
         this.experience = new Experience()
         this.overlay = this.experience.overlay
+        this.resources = this.experience.resources
 
         this.setSounds()
 
@@ -14,27 +15,27 @@ export default class SoundEffects {
     }
 
     setSounds() {
-        this.jumpSound = new Audio('./audio/jump.mp3')
+        this.jumpSound = this.resources.items.jumpSound
         this.jumpSound.volume = 0.3
 
-        this.walkOnGrassSound = new Audio('./audio/walk-on-grass.mp3')
+        this.walkOnGrassSound = this.resources.items.walkOnGrassSound
         this.walkOnGrassSound.volume = 0.8
 
-        this.walkOnWoodSound = new Audio('./audio/walk-on-wood.mp3')
+        this.walkOnWoodSound = this.resources.items.walkOnWoodSound
         this.walkOnWoodSound.volume = 1.0
 
-        this.swimSound = new Audio('./audio/swim.mp3')
+        this.swimSound = this.resources.items.swimSound
         this.swimSound.volume = 0.8
 
-        this.underwaterSound = new Audio('./audio/underwater.mp3')
+        this.underwaterSound = this.resources.items.underwaterSound
         this.underwaterSound.volume = 0.8
         this.underwaterSound.loop = true
 
-        this.insectSound = new Audio('./audio/summer-insects.mp3')
+        this.insectSound = this.resources.items.insectSound
         this.insectSound.volume = 0.8
         this.insectSound.loop = true
 
-        this.jazzSound = new Audio('./audio/jazz-piano.mp3')
+        this.jazzSound = this.resources.items.jazzSound
         this.jazzSound.volume = 0.6
         this.jazzSound.loop = true
     }
@@ -66,8 +67,8 @@ export default class SoundEffects {
         // play only when it's not already
         if (this.walkOnWoodSound.paused || this.walkOnWoodSound.ended) {
             // console.log('Play walking sound')
-            // 0 - 10
-            this.walkOnWoodSound.currentTime = Math.random() * 10
+            // 0 - 8s
+            this.walkOnWoodSound.currentTime = Math.random() * 8
             this.walkOnWoodSound.play()
         }
     }

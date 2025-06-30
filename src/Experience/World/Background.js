@@ -10,8 +10,9 @@ export default class Background {
         this.debug = this.experience.debug
 
         this.setBackground()
-        this.setDebug()
         // this.setEnvironmentMap()
+
+        this.setDebug()
     }
 
     setBackground() {
@@ -30,26 +31,14 @@ export default class Background {
     setEnvironmentMap() {
         this.setTextures()
 
-        this.scene.environment = this.environmentMapTexture
-        this.scene.background = this.environmentMapTexture
+        this.scene.environment = this.environmentMaaspTexture
+        // this.scene.background = this.environmentMapTexture
         this.scene.backgroundRotation.y = 3.12
-
-        if (this.debug.active) {
-            this.debugFolder.add(this.scene, 'environmentIntensity', 0, 1, 0.1)
-            this.debugFolder.add(this.scene, 'backgroundIntensity', 0, 1, 0.1)
-
-            this.debugFolder.add(
-                this.scene.backgroundRotation,
-                'y',
-                0,
-                Math.PI * 2.0,
-                0.01
-            )
-        }
     }
 
     setDebug() {
         if (!this.debug.active) return
+
         this.debugFolder = this.debug.ui.addFolder('☁️ Sky').close()
 
         this.debugFolder
@@ -58,5 +47,16 @@ export default class Background {
                 this.scene.background.set(this.options.color)
             })
             .name('background')
+
+        this.debugFolder.add(this.scene, 'environmentIntensity', 0, 1, 0.1)
+        this.debugFolder.add(this.scene, 'backgroundIntensity', 0, 1, 0.1)
+
+        this.debugFolder.add(
+            this.scene.backgroundRotation,
+            'y',
+            0,
+            Math.PI * 2.0,
+            0.01
+        )
     }
 }

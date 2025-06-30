@@ -9,6 +9,7 @@ import FogAmbient from './Fog.js'
 import Bloom from './Bloom.js'
 import Player from './Player.js'
 import Cursor from '../Utils/Cursor.js'
+import Lights from '../Utils/Lights.js'
 
 export default class World {
     constructor() {
@@ -26,6 +27,7 @@ export default class World {
             // this.bloom = new Bloom()
             this.fog = new FogAmbient()
             this.background = new Background()
+            this.lights = new Lights()
 
             this.room = new Room()
             this.cottage = new Cottage()

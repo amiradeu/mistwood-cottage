@@ -15,6 +15,7 @@ import {
 } from '../Shaders/addTextureTransition'
 import Pond from '../Objects/Pond'
 import CausticsFloor from '../Objects/CausticsFloor'
+import Boundary from '../Utils/Boundary'
 
 export default class Terrain {
     constructor() {
@@ -30,6 +31,7 @@ export default class Terrain {
         this.setMaterials()
         this.setModel()
         this.setDebug()
+        this.setBoundary()
 
         // Custom & lights
         this.setCustom()
@@ -63,6 +65,10 @@ export default class Terrain {
         })
 
         this.setBaked()
+    }
+
+    setBoundary() {
+        this.pondArea = new Boundary(this.items.PondGround)
     }
 
     setPhysics() {
@@ -103,6 +109,10 @@ export default class Terrain {
         this.physics.world
             .createCollider(colliderDesc)
             .setTranslation({ x: 0, y: 5, z: 12 })
+    }
+
+    calculateWaterBoundary() {
+        this.waterBoundary = new Boundary(this.items.PondGround)
     }
 
     setBaked() {

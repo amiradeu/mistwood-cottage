@@ -15,14 +15,28 @@ export default class SoundEffects {
 
     setSounds() {
         this.jumpSound = new Audio('./audio/jump.mp3')
-        this.jumpSound.volume = 0.4
+        this.jumpSound.volume = 0.3
 
-        this.walkingSound = new Audio('./audio/walking-through-grass.mp3')
-        this.walkingSound.volume = 0.8
+        this.walkOnGrassSound = new Audio('./audio/walk-on-grass.mp3')
+        this.walkOnGrassSound.volume = 0.8
+
+        this.walkOnWoodSound = new Audio('./audio/walk-on-wood.mp3')
+        this.walkOnWoodSound.volume = 1.0
+
+        this.swimSound = new Audio('./audio/swim.mp3')
+        this.swimSound.volume = 0.8
+
+        this.underwaterSound = new Audio('./audio/underwater.mp3')
+        this.underwaterSound.volume = 0.8
+        this.underwaterSound.loop = true
 
         this.insectSound = new Audio('./audio/summer-insects.mp3')
-        this.insectSound.volume = 1.0
+        this.insectSound.volume = 0.8
         this.insectSound.loop = true
+
+        this.jazzSound = new Audio('./audio/jazz-piano.mp3')
+        this.jazzSound.volume = 0.6
+        this.jazzSound.loop = true
     }
 
     playJumpSound() {
@@ -33,18 +47,52 @@ export default class SoundEffects {
 
     playWalkingSound() {
         // play only when it's not already
-        if (this.walkingSound.paused || this.walkingSound.ended) {
+        if (this.walkOnGrassSound.paused || this.walkOnGrassSound.ended) {
             // console.log('Play walking sound')
-            // 2 - 12
-            this.walkingSound.currentTime = Math.random() * 10 + 2
-            this.walkingSound.play()
+            // 0 - 10
+            this.walkOnGrassSound.currentTime = Math.random() * 10
+            this.walkOnGrassSound.play()
         }
     }
 
     stopWalkingSound() {
-        if (!this.walkingSound.paused) {
+        if (!this.walkOnGrassSound.paused) {
             // console.log('Stop walking sound')
-            this.walkingSound.pause()
+            this.walkOnGrassSound.pause()
+        }
+    }
+
+    playWalkOnWoodSound() {
+        // play only when it's not already
+        if (this.walkOnWoodSound.paused || this.walkOnWoodSound.ended) {
+            // console.log('Play walking sound')
+            // 0 - 10
+            this.walkOnWoodSound.currentTime = Math.random() * 10
+            this.walkOnWoodSound.play()
+        }
+    }
+
+    stopWalkOnWoodSound() {
+        if (!this.walkOnWoodSound.paused) {
+            // console.log('Stop walking sound')
+            this.walkOnWoodSound.pause()
+        }
+    }
+
+    playSwimSound() {
+        // play only when it's not already
+        if (this.swimSound.paused || this.swimSound.ended) {
+            // console.log('Play walking sound')
+            // 0 - 10
+            this.swimSound.currentTime = Math.random() * 10
+            this.swimSound.play()
+        }
+    }
+
+    stopSwimSound() {
+        if (!this.swimSound.paused) {
+            // console.log('Stop walking sound')
+            this.swimSound.pause()
         }
     }
 
@@ -53,6 +101,42 @@ export default class SoundEffects {
             // console.log('Play insect sound')
             this.insectSound.currentTime = 0
             this.insectSound.play()
+        }
+    }
+
+    stopInsectSound() {
+        if (!this.insectSound.paused) {
+            // console.log('Stop insect sound')
+            this.insectSound.pause()
+        }
+    }
+
+    playUnderwaterSound() {
+        if (this.underwaterSound.paused || this.underwaterSound.ended) {
+            // console.log('Play underwater sound')
+            this.underwaterSound.play()
+        }
+    }
+
+    stopUnderwaterSound() {
+        if (!this.underwaterSound.paused) {
+            // console.log('Stop underwater sound')
+            this.underwaterSound.pause()
+        }
+    }
+
+    playJazzSound() {
+        if (this.jazzSound.paused || this.jazzSound.ended) {
+            // console.log('Play jazz sound')
+            this.jazzSound.currentTime = 0
+            this.jazzSound.play()
+        }
+    }
+
+    stopJazzSound() {
+        if (!this.jazzSound.paused) {
+            // console.log('Stop jazz sound')
+            this.jazzSound.pause()
         }
     }
 }

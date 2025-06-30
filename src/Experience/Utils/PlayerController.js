@@ -6,7 +6,7 @@ import { Vector3 } from 'three'
 import Experience from '../Experience'
 
 export default class PlayerController {
-    constructor(body, collider, debug = null) {
+    constructor(player) {
         this.experience = new Experience()
         this.camera = this.experience.camera.instance
         this.controls = this.experience.controls
@@ -15,9 +15,16 @@ export default class PlayerController {
         this.sfx = this.experience.sfx
         this.time = this.experience.time
 
-        this.rigidBody = body
-        this.collider = collider
-        this.debugFolder = debug
+        // Player
+        this.player = player
+        this.rigidBody = this.player.rigidBody
+        this.collider = this.player.collider
+        this.mesh = this.player.mesh
+        this.debugFolder = this.player.debugFolder
+
+        // Interaction with other models
+        this.terrain = this.experience.world.terrain
+        this.cottage = this.experience.world.cottage
 
         // Movement settings
         this.speed = 0.5
@@ -118,8 +125,25 @@ export default class PlayerController {
         const isMoving = forward || backward || left || right
 
         if (isMoving) {
-            if (this.controller.computedGrounded()) this.sfx.playWalkingSound()
+            if (this.controller.computedGrounded()) {
+                // this.sfx.playWalkingSound()
+                if (this.cottage.cottageArea.isInside(this.mesh)) {
+                    this.sfx.stopWalkingSound()
+                    this.sfx.stopSwimSound()
+                    this.sfx.playWalkOnWoodSound()
+                } else if (this.terrain.pondArea.isInside(this.mesh)) {
+                    this.sfx.stopWalkingSound()
+                    this.sfx.stopWalkOnWoodSound()
+                    this.sfx.playSwimSound()
+                } else {
+                    this.sfx.stopWalkOnWoodSound()
+                    this.sfx.stopSwimSound()
+                    this.sfx.playWalkingSound()
+                }
+            }
         } else {
+            this.sfx.stopWalkOnWoodSound()
+            this.sfx.stopSwimSound()
             this.sfx.stopWalkingSound()
         }
     }

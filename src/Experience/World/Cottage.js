@@ -12,6 +12,7 @@ import Emissive from '../Objects/Emissive.js'
 import Window from '../Objects/Window.js'
 import { toggleFade } from '../Utils/Animation.js'
 import Fireflies from './Fireflies.js'
+import Boundary from '../Utils/Boundary.js'
 
 export default class Cottage extends EventEmitter {
     constructor() {
@@ -27,14 +28,20 @@ export default class Cottage extends EventEmitter {
         this.states = this.experience.states
         this.camera = this.experience.camera.instance
 
+        // GLB Model
         this.setTextures()
         this.setMaterials()
         this.setModel()
         this.setDebug()
 
+        // Cottage area
+        this.setBoundary()
+
+        // Custom materials & Lights
         this.setCustom()
         this.setEmission()
 
+        // Physics
         this.setPhysics()
     }
 
@@ -68,6 +75,11 @@ export default class Cottage extends EventEmitter {
         })
 
         this.setBaked()
+    }
+
+    setBoundary() {
+        // Cottage bounding box
+        this.cottageArea = new Boundary(this.items.PhysicsCottageMainMerged)
     }
 
     setPhysics() {

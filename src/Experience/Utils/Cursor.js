@@ -59,11 +59,6 @@ export default class Cursor {
             this.cottage.items.CottageLeftMerged,
             this.cottage.items.PhysicsCottageLeftMerged,
         ]
-
-        // Cottage bounding box
-        this.cottageBox = new Box3().setFromObject(
-            this.cottage.items.PhysicsCottageMainMerged
-        )
     }
 
     updateRaycastObjects() {
@@ -86,7 +81,7 @@ export default class Cursor {
         }
 
         // Disable toggle if player is within cottage bounding box
-        if (this.cottageBox.containsPoint(this.player.mesh.position)) {
+        if (this.cottage.cottageArea.isInside(this.player.mesh)) {
             // console.log('Player is inside the cottage!')
             return
         }
@@ -150,7 +145,7 @@ export default class Cursor {
         }
 
         // Disable cursor changes when player inside cottage boundary box
-        if (this.cottageBox.containsPoint(this.player.mesh.position)) {
+        if (this.cottage.cottageArea.isInside(this.player.mesh)) {
             if (this.controls.pointer.down) {
                 // console.log('dragging')
                 this.grabHand()

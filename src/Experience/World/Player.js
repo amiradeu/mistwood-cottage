@@ -29,6 +29,11 @@ export default class Player {
         this.debug = this.experience.debug
         this.cycle = this.experience.cycles
         this.sfx = this.experience.sfx
+        this.overlay = this.experience.overlay
+
+        // Interaction with other models
+        this.terrain = this.experience.world.terrain
+        this.cottage = this.experience.world.cottage
 
         // Visual
         this.options = {
@@ -54,6 +59,11 @@ export default class Player {
 
         // Third Person Camera
         this.cameraPOV = new CameraThirdPerson(this.mesh, this.debugFolder)
+
+        this.soundReady = false
+        this.overlay.on('enter', () => {
+            this.soundReady = true
+        })
     }
 
     setMaterial() {
@@ -110,11 +120,7 @@ export default class Player {
 
     setController() {
         // Character Controller
-        this.playerController = new PlayerController(
-            this.rigidBody,
-            this.collider,
-            this.debugFolder
-        )
+        this.playerController = new PlayerController(this)
     }
 
     update() {
@@ -130,6 +136,25 @@ export default class Player {
          */
         if (this.playerController) {
             this.playerController.update()
+        }
+
+        /**
+         * Background Sound
+         */
+        if (this.soundReady) {
+            if (this.cottage.cottageArea.isInside(this.mesh)) {
+                this.sfx.stopInsectSound()
+                this.sfx.stopUnderwaterSound()
+                this.sfx.playJazzSound()
+            } else if (this.terrain.pondArea.isInside(this.mesh)) {
+                this.sfx.stopInsectSound()
+                this.sfx.stopJazzSound()
+                this.sfx.playUnderwaterSound()
+            } else {
+                this.sfx.stopJazzSound()
+                this.sfx.stopUnderwaterSound()
+                this.sfx.playInsectSound()
+            }
         }
     }
 

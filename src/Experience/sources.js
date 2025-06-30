@@ -227,4 +227,9 @@ export default [
         type: 'audio',
         path: './audio/jazz-piano.mp3',
     },
+    {
+        name: 'selectSound',
+        type: 'audio',
+        path: './audio/select.mp3',
+    },
 ]

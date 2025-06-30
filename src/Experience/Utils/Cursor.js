@@ -9,6 +9,7 @@ export default class Cursor {
         this.camera = this.experience.camera.instance
         this.states = this.experience.states
         this.physics = this.experience.physics
+        this.sfx = this.experience.sfx
 
         this.raycaster = new Raycaster()
         this.raycastObjects = null
@@ -85,6 +86,8 @@ export default class Cursor {
             // console.log('Player is inside the cottage!')
             return
         }
+
+        this.sfx.playSelectSound()
 
         // Toggle front cottage
         if (

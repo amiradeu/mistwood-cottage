@@ -15,6 +15,7 @@ export default class SoundEffects {
     }
 
     setSounds() {
+        // Interactions
         this.jumpSound = this.resources.items.jumpSound
         this.jumpSound.volume = 0.3
 
@@ -27,6 +28,7 @@ export default class SoundEffects {
         this.swimSound = this.resources.items.swimSound
         this.swimSound.volume = 0.8
 
+        // Background
         this.underwaterSound = this.resources.items.underwaterSound
         this.underwaterSound.volume = 0.8
         this.underwaterSound.loop = true
@@ -38,6 +40,9 @@ export default class SoundEffects {
         this.jazzSound = this.resources.items.jazzSound
         this.jazzSound.volume = 0.6
         this.jazzSound.loop = true
+
+        // UI
+        this.selectSound = this.resources.items.selectSound
     }
 
     playJumpSound() {
@@ -139,5 +144,9 @@ export default class SoundEffects {
             // console.log('Stop jazz sound')
             this.jazzSound.pause()
         }
+    }
+
+    playSelectSound() {
+        this.selectSound.play()
     }
 }

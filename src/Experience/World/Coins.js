@@ -3,8 +3,9 @@ import {
     Euler,
     InstancedMesh,
     Matrix4,
+    Mesh,
+    Object3D,
     Quaternion,
-    Vector3,
 } from 'three'
 
 import Experience from '../Experience'
@@ -17,10 +18,14 @@ export default class Coins {
         this.scene = this.experience.scene
         this.debug = this.experience.debug
 
-        this.count = 200
-        this.items = {}
-
         this.terrain = this.experience.world.terrain
+
+        this.items = {}
+        this.count = 100
+        this.scale = 40
+        this.dummy = new Object3D()
+        this.matrix4 = new Matrix4()
+        this.instanceRotations = []
 
         this.setCoin()
         this.setDebug()
@@ -42,33 +47,39 @@ export default class Coins {
         this.coin1 = new InstancedMesh(_geometry1, _material1, this.count)
         this.coin2 = new InstancedMesh(_geometry2, _material2, this.count)
 
-        // // Matrix
-        const matrix = new Matrix4()
-        const position = new Vector3()
-        const quaternion = new Quaternion()
-        const scale = new Vector3()
+        // Matrix
         const euler = new Euler()
-        const _scale = 50
 
         for (let i = 0; i < this.count; i++) {
-            position.x = (Math.random() - 0.5) * 10
-            position.z = (Math.random() - 0.5) * 10
-            position.y = 1
+            // Positions
+            this.dummy.position.x = (Math.random() - 0.5) * 10
+            this.dummy.position.z = (Math.random() - 0.5) * 10
+            this.dummy.position.y = 1
 
+            // Rotations
             euler.x = Math.PI * 0.5
             euler.y = 0
             euler.z = (Math.random() - 0.5) * Math.PI * 2
-            quaternion.setFromEuler(euler)
+            this.dummy.setRotationFromEuler(euler)
 
-            scale.x = scale.y = scale.z = _scale
+            // Store Rotation
+            this.instanceRotations.push(euler.clone())
 
-            matrix.makeRotationFromQuaternion(quaternion)
-            matrix.setPosition(position)
-            matrix.scale(scale)
+            // Scale
+            this.dummy.scale.x =
+                this.dummy.scale.y =
+                this.dummy.scale.z =
+                    this.scale
 
-            this.coin1.setMatrixAt(i, matrix)
-            this.coin2.setMatrixAt(i, matrix)
+            // Update changes on Matrix
+            this.dummy.updateMatrix()
+
+            // Apply Matrix on Meshes
+            this.coin1.setMatrixAt(i, this.dummy.matrix)
+            this.coin2.setMatrixAt(i, this.dummy.matrix)
         }
+
+        console.log(this.instanceRotations)
 
         this.coin1.instanceMatrix.setUsage(DynamicDrawUsage)
         this.coin2.instanceMatrix.setUsage(DynamicDrawUsage)
@@ -79,6 +90,30 @@ export default class Coins {
 
     update() {
         // Update meshes
+        for (let i = 0; i < this.count; i++) {
+            this.updateMatrix(i)
+        }
+
+        this.coin1.instanceMatrix.needsUpdate = true
+        this.coin2.instanceMatrix.needsUpdate = true
+    }
+
+    updateMatrix(index) {
+        this.coin1.getMatrixAt(index, this.matrix4)
+        this.matrix4.decompose(
+            this.dummy.position,
+            this.dummy.quaternion,
+            this.dummy.scale
+        )
+
+        // Rotate on world's y-axis line
+        this.instanceRotations[index].z += 0.01
+        this.dummy.quaternion.setFromEuler(this.instanceRotations[index])
+
+        this.dummy.updateMatrix()
+
+        this.coin1.setMatrixAt(index, this.dummy.matrix)
+        this.coin2.setMatrixAt(index, this.dummy.matrix)
     }
 
     setDebug() {

@@ -1,7 +1,13 @@
-import gsap from 'gsap'
+import {
+    DynamicDrawUsage,
+    Euler,
+    InstancedMesh,
+    Matrix4,
+    Quaternion,
+    Vector3,
+} from 'three'
 
 import Experience from '../Experience'
-import { Euler, Mesh, Quaternion } from 'three'
 
 export default class Coins {
     constructor() {
@@ -11,7 +17,7 @@ export default class Coins {
         this.scene = this.experience.scene
         this.debug = this.experience.debug
 
-        this.count = 1
+        this.count = 200
         this.items = {}
 
         this.terrain = this.experience.world.terrain
@@ -21,100 +27,59 @@ export default class Coins {
     }
 
     setCoin() {
-        const _scale = 100
-
         this.coin = this.resources.items.coinModel.scene
-        this.scene.add(this.coin)
+        this.coin.traverse((child) => (this.items[child.name] = child))
 
-        this.coin.position.set(0, 1, 3)
-        // this.coin.scale.set(_scale, _scale, _scale)
-
-        this.coin.traverse((child) => {
-            console.log(
-                child.name,
-                child.type,
-                child.scale,
-                child.rotation,
-                child.position
-            )
-            this.items[child.name] = child
-        })
-
-        // console.log(this.items.Coin_1.material)
-
-        // rotate the record disk
-        // gsap.to(this.coin.rotation, {
-        //     y: -Math.PI * 2,
-        //     duration: 8,
-        //     ease: 'none',
-        //     repeat: -1,
-        // })
-
+        // Extract geometries & materials
         const _geometry1 = this.items.Coin_1.geometry.clone()
         const _geometry2 = this.items.Coin_2.geometry.clone()
-
         const _material1 = this.items.Coin_1.material
         const _material2 = this.items.Coin_2.material
 
-        const _mesh1 = new Mesh(_geometry1, _material1)
-        const _mesh2 = new Mesh(_geometry2, _material2)
+        /**
+         * Instanced Mesh
+         */
+        this.coin1 = new InstancedMesh(_geometry1, _material1, this.count)
+        this.coin2 = new InstancedMesh(_geometry2, _material2, this.count)
 
-        const options = {
-            x: Math.PI * 0.5,
-            y: 0,
-            z: 0,
+        // // Matrix
+        const matrix = new Matrix4()
+        const position = new Vector3()
+        const quaternion = new Quaternion()
+        const scale = new Vector3()
+        const euler = new Euler()
+        const _scale = 50
+
+        for (let i = 0; i < this.count; i++) {
+            position.x = (Math.random() - 0.5) * 10
+            position.z = (Math.random() - 0.5) * 10
+            position.y = 1
+
+            euler.x = Math.PI * 0.5
+            euler.y = 0
+            euler.z = (Math.random() - 0.5) * Math.PI * 2
+            quaternion.setFromEuler(euler)
+
+            scale.x = scale.y = scale.z = _scale
+
+            matrix.makeRotationFromQuaternion(quaternion)
+            matrix.setPosition(position)
+            matrix.scale(scale)
+
+            this.coin1.setMatrixAt(i, matrix)
+            this.coin2.setMatrixAt(i, matrix)
         }
-        const _euler = new Euler(options.x, options.y, options.z)
-        const _quaternion = new Quaternion()
-        _quaternion.setFromEuler(_euler)
 
-        _mesh1.setRotationFromQuaternion(_quaternion)
-        _mesh2.setRotationFromQuaternion(_quaternion)
-        _mesh1.scale.set(_scale, _scale, _scale)
-        _mesh2.scale.set(_scale, _scale, _scale)
-        _mesh1.position.set(0, 1, 4)
-        _mesh2.position.set(0, 1, 4)
+        this.coin1.instanceMatrix.setUsage(DynamicDrawUsage)
+        this.coin2.instanceMatrix.setUsage(DynamicDrawUsage)
 
-        this.scene.add(_mesh1)
-        this.scene.add(_mesh2)
-
-        if (this.debug.active) {
-            this.debug.ui
-                .add(options, 'x', -Math.PI, Math.PI, 0.01)
-                .onChange(() => {
-                    const _euler = new Euler(options.x, options.y, options.z)
-                    const _quaternion = new Quaternion()
-                    _quaternion.setFromEuler(_euler)
-
-                    _mesh1.setRotationFromQuaternion(_quaternion)
-                    _mesh2.setRotationFromQuaternion(_quaternion)
-                })
-
-            this.debug.ui
-                .add(options, 'y', -Math.PI, Math.PI, 0.01)
-                .onChange(() => {
-                    const _euler = new Euler(options.x, options.y, options.z)
-                    const _quaternion = new Quaternion()
-                    _quaternion.setFromEuler(_euler)
-
-                    _mesh1.setRotationFromQuaternion(_quaternion)
-                    _mesh2.setRotationFromQuaternion(_quaternion)
-                })
-
-            this.debug.ui
-                .add(options, 'z', -Math.PI, Math.PI, 0.01)
-                .onChange(() => {
-                    const _euler = new Euler(options.x, options.y, options.z)
-                    const _quaternion = new Quaternion()
-                    _quaternion.setFromEuler(_euler)
-
-                    _mesh1.setRotationFromQuaternion(_quaternion)
-                    _mesh2.setRotationFromQuaternion(_quaternion)
-                })
-        }
+        this.scene.add(this.coin1)
+        this.scene.add(this.coin2)
     }
 
-    update() {}
+    update() {
+        // Update meshes
+    }
 
     setDebug() {
         if (!this.debug.active) return

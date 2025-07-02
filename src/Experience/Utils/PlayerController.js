@@ -4,9 +4,11 @@
  */
 import { Vector3 } from 'three'
 import Experience from '../Experience'
+import EventEmitter from './EventEmitter'
 
-export default class PlayerController {
-    constructor(player) {
+export default class PlayerControllern extends EventEmitter {
+    constructor() {
+        super()
         this.experience = new Experience()
         this.camera = this.experience.camera.instance
         this.controls = this.experience.controls
@@ -16,7 +18,7 @@ export default class PlayerController {
         this.time = this.experience.time
 
         // Player
-        this.player = player
+        this.player = this.experience.world.player
         this.rigidBody = this.player.rigidBody
         this.collider = this.player.collider
         this.mesh = this.player.mesh

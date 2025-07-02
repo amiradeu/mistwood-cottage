@@ -1,6 +1,5 @@
 import {
     Vector3,
-    SRGBColorSpace,
     Uniform,
     Color,
     ShaderMaterial,
@@ -16,6 +15,7 @@ import playerFragmentShader from '../Shaders/Player/fragment.glsl'
 import { CyclesSettings } from '../Constants.js'
 import CameraThirdPerson from '../CameraThirdPerson.js'
 import PlayerController from '../Utils/PlayerController.js'
+import Boundary from '../Utils/Boundary.js'
 
 export default class Player {
     constructor() {
@@ -51,11 +51,11 @@ export default class Player {
         this.setMaterial()
         this.setGeometry()
         this.setMesh()
+        this.setBoundary()
         this.setDebug()
 
         // Physics
         this.setPhysics()
-        this.setController()
 
         // Third Person Camera
         this.cameraPOV = new CameraThirdPerson(this.mesh, this.debugFolder)
@@ -99,6 +99,10 @@ export default class Player {
         this.scene.add(this.mesh)
     }
 
+    setBoundary() {
+        this.playerBox = new Boundary(this.mesh)
+    }
+
     setPhysics() {
         const { x, y, z } = this.options.initPosition
 
@@ -118,24 +122,12 @@ export default class Player {
         this.physics.addDynamicObject(this.mesh, this.rigidBody, 0.1)
     }
 
-    setController() {
-        // Character Controller
-        this.playerController = new PlayerController(this)
-    }
-
     update() {
         /**
          * Camera Follow
          */
         if (this.cameraPOV) {
             this.cameraPOV.update()
-        }
-
-        /**
-         * Player movement and sound
-         */
-        if (this.playerController) {
-            this.playerController.update()
         }
 
         /**

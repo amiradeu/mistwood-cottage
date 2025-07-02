@@ -11,6 +11,7 @@ import Player from './Player.js'
 import Cursor from '../Utils/Cursor.js'
 import Coins from './Coins.js'
 import Lights from '../Utils/Lights.js'
+import PlayerController from '../Utils/PlayerController.js'
 
 export default class World {
     constructor() {
@@ -36,6 +37,8 @@ export default class World {
             this.terrain = new Terrain()
 
             this.player = new Player()
+            this.playerController = new PlayerController()
+
             this.coins = new Coins()
             this.cursor = new Cursor()
         })
@@ -60,6 +63,7 @@ export default class World {
         if (this.environment) this.environment.update()
         if (this.terrain) this.terrain.update()
         if (this.player) this.player.update()
+        if (this.playerController) this.playerController.update()
         if (this.cursor) this.cursor.update()
         if (this.coins) this.coins.update()
     }

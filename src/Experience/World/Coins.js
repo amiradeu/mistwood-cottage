@@ -2,10 +2,9 @@ import {
     DynamicDrawUsage,
     Euler,
     InstancedMesh,
+    MathUtils,
     Matrix4,
-    Mesh,
     Object3D,
-    Quaternion,
 } from 'three'
 
 import Experience from '../Experience'
@@ -21,7 +20,7 @@ export default class Coins {
         this.terrain = this.experience.world.terrain
 
         this.items = {}
-        this.count = 100
+        this.count = 200
         this.scale = 40
         this.dummy = new Object3D()
         this.matrix4 = new Matrix4()
@@ -50,11 +49,24 @@ export default class Coins {
         // Matrix
         const euler = new Euler()
 
+        const { x: minX, z: minZ } = this.terrain.terrainArea.min
+        const { x: maxX, z: maxZ } = this.terrain.terrainArea.max
+
+        // console.log(minX, maxX)
+        // console.log(minZ, maxZ)
+
         for (let i = 0; i < this.count; i++) {
             // Positions
-            this.dummy.position.x = (Math.random() - 0.5) * 10
-            this.dummy.position.z = (Math.random() - 0.5) * 10
-            this.dummy.position.y = 1
+            this.dummy.position.x = MathUtils.lerp(minX, maxX, Math.random())
+            this.dummy.position.z = MathUtils.lerp(minZ, maxZ, Math.random())
+
+            const elevation = this.terrain.getElevationFromTerrain(
+                this.dummy.position.x,
+                this.dummy.position.z
+            )
+
+            // land position + [0.5-1.5]
+            this.dummy.position.y = elevation + Math.random() * 0.5 + 0.5
 
             // Rotations
             euler.x = Math.PI * 0.5
@@ -78,8 +90,6 @@ export default class Coins {
             this.coin1.setMatrixAt(i, this.dummy.matrix)
             this.coin2.setMatrixAt(i, this.dummy.matrix)
         }
-
-        console.log(this.instanceRotations)
 
         this.coin1.instanceMatrix.setUsage(DynamicDrawUsage)
         this.coin2.instanceMatrix.setUsage(DynamicDrawUsage)

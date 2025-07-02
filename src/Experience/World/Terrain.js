@@ -38,6 +38,10 @@ export default class Terrain {
 
         // Physics
         this.setPhysics()
+
+        this.raycaster = new Raycaster()
+        this.downDirection = new Vector3(0, -1, 0)
+        this.originRay = new Vector3(0, 1000, 0) // shoot ray from high above
     }
 
     setTextures() {
@@ -153,13 +157,11 @@ export default class Terrain {
 
     // Calculate object elevation from terrain with raycasting
     getElevationFromTerrain(x, z) {
-        const raycaster = new Raycaster()
-        const downDirection = new Vector3(0, -1, 0)
+        this.originRay.x = x
+        this.originRay.z = z
+        this.raycaster.set(this.originRay, this.downDirection)
 
-        const origin = new Vector3(x, 1000, z) // shoot ray from high above
-        raycaster.set(origin, downDirection)
-
-        const intersects = raycaster.intersectObject(this.items.Land, true)
+        const intersects = this.raycaster.intersectObject(this.items.Land, true)
         if (intersects.length > 0) {
             return intersects[0].point.y // This is the elevation
         }

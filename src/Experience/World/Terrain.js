@@ -73,6 +73,7 @@ export default class Terrain {
 
     setBoundary() {
         this.pondArea = new Boundary(this.items.PondGround)
+        this.terrainArea = new Boundary(this.items.Land)
     }
 
     setPhysics() {
@@ -81,7 +82,6 @@ export default class Terrain {
          */
         this.physics.glbToTrimesh(this.items.Land)
         this.physics.glbToTrimesh(this.items.PondGround)
-        this.physics.glbToTrimesh(this.items.Mountain)
 
         /**
          * Surrounding Borders
@@ -115,14 +115,9 @@ export default class Terrain {
             .setTranslation({ x: 0, y: 5, z: 12 })
     }
 
-    calculateWaterBoundary() {
-        this.waterBoundary = new Boundary(this.items.PondGround)
-    }
-
     setBaked() {
         this.items.Land.material = this.material
         this.items.LandBase.material = this.material
-        this.items.Mountain.material = this.material
     }
 
     setCustom() {
@@ -161,7 +156,10 @@ export default class Terrain {
         this.originRay.z = z
         this.raycaster.set(this.originRay, this.downDirection)
 
-        const intersects = this.raycaster.intersectObject(this.items.Land, true)
+        const intersects = this.raycaster.intersectObjects(
+            [this.items.Land, this.items.PondGround],
+            true
+        )
         if (intersects.length > 0) {
             return intersects[0].point.y // This is the elevation
         }

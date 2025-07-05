@@ -13,8 +13,13 @@ export default class States extends EventEmitter {
         }
 
         // Collect Coins Game
-        this.coinsCollected = 0
         this.totalCoins = 200
+        this.coinsCollected = 0
+
+        this.counter = document.querySelector('.coins-overlay .counter')
+        this.total = document.querySelector('.coins-overlay .total')
+
+        this.total.innerHTML = this.totalCoins
 
         this.setDebug()
     }
@@ -44,6 +49,14 @@ export default class States extends EventEmitter {
 
     toggleFront() {
         this.trigger('toggleFront')
+    }
+
+    /**
+     * Coins
+     */
+    incrementCollectedCoins() {
+        this.coinsCollected += 1
+        this.counter.innerHTML = this.coinsCollected
     }
 
     setDebug() {

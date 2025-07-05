@@ -38,7 +38,7 @@ export default class SoundEffects {
         this.underwaterSound.loop = true
 
         this.insectSound = this.resources.items.insectSound
-        this.insectSound.volume = 0.8
+        this.insectSound.volume = 1.0
         this.insectSound.loop = true
 
         this.jazzSound = this.resources.items.jazzSound

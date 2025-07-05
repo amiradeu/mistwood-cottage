@@ -180,6 +180,9 @@ export default class Coins {
 
         // Move coin box also to prevent re-triggering
         this.coinBoxes[index].position.copy(new Vector3(9999, 9999, 9999))
+
+        // Add coins to counter
+        this.states.incrementCollectedCoins()
     }
 
     setDebug() {

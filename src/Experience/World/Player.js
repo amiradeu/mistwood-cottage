@@ -100,7 +100,6 @@ export default class Player {
 
     setBoundary() {
         this.playerBox = new Boundary(this.mesh)
-        this.scene.add(this.playerBox.boxHelper)
     }
 
     setPhysics() {
@@ -150,7 +149,7 @@ export default class Player {
         }
 
         /**
-         * Box Helper
+         * Player Box
          */
         if (this.playerBox) this.playerBox.update()
     }
@@ -169,6 +168,8 @@ export default class Player {
 
     setDebug() {
         if (!this.debug.active) return
+
+        // Debug
         this.debugFolder = this.debug.ui.addFolder('🕴🏻Player').close()
 
         this.debugFolder.addColor(this.options, 'color').onChange(() => {
@@ -182,5 +183,8 @@ export default class Player {
                     this.options.sunShadeColor
                 )
             })
+
+        // Helpers
+        this.scene.add(this.playerBox.boxHelper)
     }
 }

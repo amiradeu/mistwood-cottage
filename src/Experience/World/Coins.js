@@ -33,6 +33,7 @@ export default class Coins {
         this.scale = 40
         this.dummy = new Object3D()
         this.matrix4 = new Matrix4()
+        this.offScreenMatrix = new Matrix4().makeTranslation(9999, 9999, 9999)
         this.instanceRotations = []
         this.coinBoxes = []
 
@@ -41,7 +42,7 @@ export default class Coins {
 
         // Perform checking only when player moves
         this.playerController.on('playerMoving', () => {
-            console.log('moving')
+            // console.log('moving')
             this.checkCoins()
         })
     }
@@ -114,7 +115,7 @@ export default class Coins {
 
             const coinBox = new Boundary(_coin1)
             this.coinBoxes.push(coinBox)
-            this.scene.add(coinBox.boxHelper)
+            // this.scene.add(coinBox.boxHelper)
         }
 
         this.coin1.instanceMatrix.setUsage(DynamicDrawUsage)
@@ -173,7 +174,12 @@ export default class Coins {
         // Play sound
         this.sfx.playCoinSound()
 
-        // Move to far
+        // Move model to off screen value
+        this.coin1.setMatrixAt(index, this.offScreenMatrix)
+        this.coin2.setMatrixAt(index, this.offScreenMatrix)
+
+        // Move coin box also to prevent re-triggering
+        this.coinBoxes[index].position.copy(new Vector3(9999, 9999, 9999))
     }
 
     setDebug() {

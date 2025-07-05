@@ -14,7 +14,6 @@ import playerVertexShader from '../Shaders/Player/vertex.glsl'
 import playerFragmentShader from '../Shaders/Player/fragment.glsl'
 import { CyclesSettings } from '../Constants.js'
 import CameraThirdPerson from '../CameraThirdPerson.js'
-import PlayerController from '../Utils/PlayerController.js'
 import Boundary from '../Utils/Boundary.js'
 
 export default class Player {
@@ -101,6 +100,7 @@ export default class Player {
 
     setBoundary() {
         this.playerBox = new Boundary(this.mesh)
+        this.scene.add(this.playerBox.boxHelper)
     }
 
     setPhysics() {
@@ -148,6 +148,11 @@ export default class Player {
                 this.sfx.playInsectSound()
             }
         }
+
+        /**
+         * Box Helper
+         */
+        if (this.playerBox) this.playerBox.update()
     }
 
     updateCycle() {

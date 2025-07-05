@@ -19,6 +19,10 @@ export default class SoundEffects {
         this.jumpSound = this.resources.items.jumpSound
         this.jumpSound.volume = 0.3
 
+        this.coinSound = this.resources.items.coinSound
+        this.coinSound.volume = 1.0
+
+        // Moving
         this.walkOnGrassSound = this.resources.items.walkOnGrassSound
         this.walkOnGrassSound.volume = 0.8
 
@@ -49,6 +53,12 @@ export default class SoundEffects {
         // console.log('Play jump sound')
         this.jumpSound.currentTime = 0
         this.jumpSound.play()
+    }
+
+    playCoinSound() {
+        // console.log('Play coin sound')
+        this.coinSound.currentTime = 0
+        this.coinSound.play()
     }
 
     playWalkingSound() {

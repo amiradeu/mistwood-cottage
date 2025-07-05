@@ -210,6 +210,11 @@ export default [
         path: './audio/jump.mp3',
     },
     {
+        name: 'coinSound',
+        type: 'audio',
+        path: './audio/coin.mp3',
+    },
+    {
         name: 'walkOnGrassSound',
         type: 'audio',
         path: './audio/walk-on-grass.mp3',

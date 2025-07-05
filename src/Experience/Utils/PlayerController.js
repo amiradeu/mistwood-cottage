@@ -6,7 +6,7 @@ import { Vector3 } from 'three'
 import Experience from '../Experience'
 import EventEmitter from './EventEmitter'
 
-export default class PlayerControllern extends EventEmitter {
+export default class PlayerController extends EventEmitter {
     constructor() {
         super()
         this.experience = new Experience()
@@ -127,6 +127,7 @@ export default class PlayerControllern extends EventEmitter {
         const isMoving = forward || backward || left || right
 
         if (isMoving) {
+            this.trigger('playerMoving')
             if (this.controller.computedGrounded()) {
                 // this.sfx.playWalkingSound()
                 if (this.cottage.cottageArea.isInside(this.mesh)) {

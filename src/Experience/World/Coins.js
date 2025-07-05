@@ -1,13 +1,17 @@
 import {
+    Box3,
     DynamicDrawUsage,
     Euler,
     InstancedMesh,
     MathUtils,
     Matrix4,
+    Mesh,
     Object3D,
+    Vector3,
 } from 'three'
 
 import Experience from '../Experience'
+import Boundary from '../Utils/Boundary'
 
 export default class Coins {
     constructor() {
@@ -16,18 +20,30 @@ export default class Coins {
         this.sceneGroup = this.experience.sceneGroup
         this.scene = this.experience.scene
         this.debug = this.experience.debug
+        this.states = this.experience.states
+        this.sfx = this.experience.sfx
 
         this.terrain = this.experience.world.terrain
+        this.playerController = this.experience.world.playerController
+        this.playerBox = this.experience.world.player.playerBox
+        this.playerPosition = this.experience.world.player.mesh.position
 
         this.items = {}
-        this.count = 200
+        this.count = this.states.totalCoins
         this.scale = 40
         this.dummy = new Object3D()
         this.matrix4 = new Matrix4()
         this.instanceRotations = []
+        this.coinBoxes = []
 
         this.setCoin()
         this.setDebug()
+
+        // Perform checking only when player moves
+        this.playerController.on('playerMoving', () => {
+            console.log('moving')
+            this.checkCoins()
+        })
     }
 
     setCoin() {
@@ -89,6 +105,16 @@ export default class Coins {
             // Apply Matrix on Meshes
             this.coin1.setMatrixAt(i, this.dummy.matrix)
             this.coin2.setMatrixAt(i, this.dummy.matrix)
+
+            // Box
+            const _coin1 = new Mesh(_geometry1, _material1)
+            _coin1.position.copy(this.dummy.position)
+            _coin1.scale.copy(this.dummy.scale)
+            _coin1.quaternion.copy(this.dummy.quaternion)
+
+            const coinBox = new Boundary(_coin1)
+            this.coinBoxes.push(coinBox)
+            this.scene.add(coinBox.boxHelper)
         }
 
         this.coin1.instanceMatrix.setUsage(DynamicDrawUsage)
@@ -124,6 +150,30 @@ export default class Coins {
 
         this.coin1.setMatrixAt(index, this.dummy.matrix)
         this.coin2.setMatrixAt(index, this.dummy.matrix)
+    }
+
+    checkCoins() {
+        for (let i = 0; i < this.count; i++) {
+            // 🌞 Broad-phase detection
+            // Skip checking coins that are far away from player
+            if (
+                this.playerPosition.distanceToSquared(
+                    this.coinBoxes[i].position
+                ) > 4.0
+            )
+                continue
+
+            // Check if coin & player intersects
+            if (this.coinBoxes[i].intersectsBox(this.playerBox))
+                this.onCoinCollected(i)
+        }
+    }
+
+    onCoinCollected(index) {
+        // Play sound
+        this.sfx.playCoinSound()
+
+        // Move to far
     }
 
     setDebug() {

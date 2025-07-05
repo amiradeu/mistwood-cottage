@@ -12,6 +12,10 @@ export default class States extends EventEmitter {
             frontVisibility: true,
         }
 
+        // Collect Coins Game
+        this.coinsCollected = 0
+        this.totalCoins = 200
+
         this.setDebug()
     }
 

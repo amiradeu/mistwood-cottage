@@ -4,14 +4,15 @@ import Experience from '../Experience'
 export default class Slider {
     constructor(element) {
         this.experience = new Experience()
+        this.states = this.experience.states
 
         this.camera = element
 
         this.slider = document.querySelector('.slider-input')
         this.sliderValue = document.querySelector('.slider-value')
 
-        const minDistance = 1
-        const maxDistance = 30
+        const minDistance = this.states.minDistance
+        const maxDistance = this.states.maxDistance
         const stepDistance = 0.001
 
         // Value

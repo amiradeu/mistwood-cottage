@@ -7,12 +7,13 @@ export default class States extends EventEmitter {
         this.experience = new Experience()
         this.debug = this.experience.debug
 
+        // 🏡 Cottage Walls
         this.instance = {
             leftVisibility: true,
             frontVisibility: true,
         }
 
-        // Collect Coins Game
+        // 🪙 Coins Game
         this.totalCoins = 200
         this.coinsCollected = 0
 
@@ -20,6 +21,10 @@ export default class States extends EventEmitter {
         this.total = document.querySelector('.coins-overlay .total')
 
         this.total.innerHTML = this.totalCoins
+
+        // 📷 Camera Distance
+        this.minDistance = 1
+        this.maxDistance = 30
 
         this.setDebug()
     }

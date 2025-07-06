@@ -92,13 +92,16 @@ export default class Terrain {
         let colliderDesc = RAPIER.ColliderDesc.cuboid(width, height, length)
         colliderDesc.setFriction(0.5)
 
+        const { x: minX, z: minZ } = this.terrainArea.min
+        const { x: maxX, z: maxZ } = this.terrainArea.max
+
         // right, left
         this.physics.world
             .createCollider(colliderDesc)
-            .setTranslation({ x: 16, y: 5, z: -4 })
+            .setTranslation({ x: maxX, y: 5, z: -4 })
         this.physics.world
             .createCollider(colliderDesc)
-            .setTranslation({ x: -17, y: 5, z: -4 })
+            .setTranslation({ x: minX, y: 5, z: -4 })
 
         // rotate collider
         const rotation = new Quaternion().setFromEuler(
@@ -109,10 +112,10 @@ export default class Terrain {
         // front, back
         this.physics.world
             .createCollider(colliderDesc)
-            .setTranslation({ x: 0, y: 5, z: -20 })
+            .setTranslation({ x: 0, y: 5, z: minZ })
         this.physics.world
             .createCollider(colliderDesc)
-            .setTranslation({ x: 0, y: 5, z: 12 })
+            .setTranslation({ x: 0, y: 5, z: maxZ })
     }
 
     setBaked() {

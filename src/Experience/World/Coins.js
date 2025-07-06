@@ -1,5 +1,4 @@
 import {
-    Box3,
     DynamicDrawUsage,
     Euler,
     InstancedMesh,
@@ -68,14 +67,23 @@ export default class Coins {
 
         const { x: minX, z: minZ } = this.terrain.terrainArea.min
         const { x: maxX, z: maxZ } = this.terrain.terrainArea.max
+        const padding = 1
 
         // console.log(minX, maxX)
         // console.log(minZ, maxZ)
 
         for (let i = 0; i < this.count; i++) {
             // Positions
-            this.dummy.position.x = MathUtils.lerp(minX, maxX, Math.random())
-            this.dummy.position.z = MathUtils.lerp(minZ, maxZ, Math.random())
+            this.dummy.position.x = MathUtils.lerp(
+                minX + padding,
+                maxX - padding,
+                Math.random()
+            )
+            this.dummy.position.z = MathUtils.lerp(
+                minZ + padding,
+                maxZ - padding,
+                Math.random()
+            )
 
             const elevation = this.terrain.getElevationFromTerrain(
                 this.dummy.position.x,

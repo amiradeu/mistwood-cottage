@@ -86,6 +86,10 @@ export default class Controls extends EventEmitter {
         this.pointer.deltaTemp = { x: 0, y: 0 }
         this.pointer.delta = { x: 0, y: 0 }
 
+        // used to check if dragging happens
+        this.pointer.start = { x: 0, y: 0 }
+        this.pointer.end = { x: 0, y: 0 }
+
         this.addPointerEventListener()
     }
 
@@ -93,6 +97,9 @@ export default class Controls extends EventEmitter {
         window.addEventListener('pointerdown', (event) => {
             // console.log('pointerdown')
             this.pointer.down = true
+
+            this.pointer.start.x = event.clientX
+            this.pointer.start.y = event.clientY
 
             this.trigger('pointerdown')
         })
@@ -111,9 +118,12 @@ export default class Controls extends EventEmitter {
             this.trigger('pointermove')
         })
 
-        window.addEventListener('pointerup', () => {
+        window.addEventListener('pointerup', (event) => {
             // console.log('pointerup')
             this.pointer.down = false
+
+            this.pointer.end.x = event.clientX
+            this.pointer.end.y = event.clientY
 
             this.trigger('pointerup')
         })

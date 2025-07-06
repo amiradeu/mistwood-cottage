@@ -23,8 +23,11 @@ export default class Cursor {
         this.setCottageObjects()
 
         // Trigger events
-        this.controls.on('pointerdown', () => {
-            this.toggleCottageVisibility()
+        this.controls.on('pointerup', () => {
+            const { start, end } = this.controls.pointer
+
+            if (start.x === end.x && start.y === end.y)
+                this.toggleCottageVisibility()
         })
 
         // Reduce raycasting by checking only when cursor moves

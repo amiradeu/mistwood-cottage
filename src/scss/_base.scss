@@ -19,7 +19,6 @@ h7 {
 
 p {
     max-width: 60ch;
-    font-size: 1.2rem;
 }
 
 button {
@@ -36,10 +35,5 @@ button {
 
 a {
     color: inherit;
-    text-decoration: none;
-}
-
-ol,
-ul {
-    list-style: none;
+    cursor: url('/image/hand_point.svg'), auto;
 }

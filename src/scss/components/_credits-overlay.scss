@@ -1,0 +1,36 @@
+.credits-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+
+    height: 100%;
+    padding-inline-end: 16px;
+    padding-block-start: 16px;
+
+    .wrapper {
+        height: 70%;
+        padding: 20px;
+
+        background-color: #566095;
+        color: white;
+        font-size: 12px;
+
+        overflow-y: scroll;
+
+        .content {
+        }
+
+        .section {
+            padding-block-end: 8px;
+        }
+
+        .credit-button {
+            padding: 12px;
+        }
+
+        ul > li {
+            margin-inline-start: 8px;
+        }
+    }
+}

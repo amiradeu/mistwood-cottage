@@ -207,46 +207,46 @@ export default [
     {
         name: 'jumpSound',
         type: 'audio',
-        path: './audio/jump.mp3',
+        path: './sounds/jump.mp3',
     },
     {
         name: 'coinSound',
         type: 'audio',
-        path: './audio/coin.mp3',
+        path: './sounds/coin.mp3',
     },
     {
         name: 'walkOnGrassSound',
         type: 'audio',
-        path: './audio/walk-on-grass.mp3',
+        path: './sounds/walk-on-grass.mp3',
     },
     {
         name: 'walkOnWoodSound',
         type: 'audio',
-        path: './audio/walk-on-wood.mp3',
+        path: './sounds/walk-on-wood.mp3',
     },
     {
         name: 'swimSound',
         type: 'audio',
-        path: './audio/swim.mp3',
+        path: './sounds/swim.mp3',
     },
     {
         name: 'underwaterSound',
         type: 'audio',
-        path: './audio/underwater.mp3',
+        path: './sounds/underwater.mp3',
     },
     {
         name: 'insectSound',
         type: 'audio',
-        path: './audio/summer-insects.mp3',
+        path: './sounds/summer-insects.mp3',
     },
     {
         name: 'jazzSound',
         type: 'audio',
-        path: './audio/jazz-piano.mp3',
+        path: './sounds/jazz-piano.mp3',
     },
     {
         name: 'selectSound',
         type: 'audio',
-        path: './audio/select.mp3',
+        path: './sounds/select.mp3',
     },
 ]

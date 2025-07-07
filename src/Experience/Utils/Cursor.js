@@ -38,19 +38,19 @@ export default class Cursor {
 
     // Cursor styles
     openHand() {
-        document.body.style.cursor = `url('/image/hand_open.svg'), auto`
+        document.body.style.cursor = `url('/icons/hand_open.svg'), auto`
     }
 
     grabHand() {
-        document.body.style.cursor = `url('/image/hand_closed.svg'), auto`
+        document.body.style.cursor = `url('/icons/hand_closed.svg'), auto`
     }
 
     pointHand() {
-        document.body.style.cursor = `url('/image/hand_point.svg'), auto`
+        document.body.style.cursor = `url('/icons/hand_point.svg'), auto`
     }
 
     lookEye() {
-        document.body.style.cursor = `url('/image/look_eye.svg'), auto`
+        document.body.style.cursor = `url('/icons/look_eye.svg'), auto`
     }
 
     setCottageObjects() {

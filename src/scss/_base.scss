@@ -3,7 +3,7 @@
 /* BASE STYLES */
 body {
     font-family: $family-serif;
-    cursor: url('/image/hand_open.svg'), auto;
+    cursor: url('/icons/hand_open.svg'), auto;
 }
 
 h1,
@@ -28,12 +28,12 @@ button {
     border: none;
 
     background: transparent;
-    cursor: url('/image/hand_point.svg'), auto;
+    cursor: url('/icons/hand_point.svg'), auto;
     font: inherit;
     color: inherit;
 }
 
 a {
     color: inherit;
-    cursor: url('/image/hand_point.svg'), auto;
+    cursor: url('/icons/hand_point.svg'), auto;
 }

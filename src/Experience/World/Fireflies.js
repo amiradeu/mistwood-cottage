@@ -169,6 +169,7 @@ export default class Fireflies {
             this.options.positions.y,
             this.options.positions.z
         )
+        this.fireflies.layers.set(2)
         this.sceneGroup.add(this.fireflies)
     }
 

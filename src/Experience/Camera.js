@@ -25,6 +25,10 @@ export default class Camera {
         )
         this.instance.position.set(-10, 4, 20)
 
+        // Add camera on layer 2 as well
+        // used to fix shader points black squares effect
+        // reflected on Three.js Reflector, Refractor
+        this.instance.layers.enable(2)
         this.scene.add(this.instance)
     }
 

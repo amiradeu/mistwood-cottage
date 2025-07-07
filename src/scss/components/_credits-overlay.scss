@@ -2,59 +2,59 @@
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 1;
-
-    height: 100%;
-    width: 500px;
-
+    z-index: 2;
     isolation: isolate;
 
     padding-block-start: 16px;
     padding-inline-end: 12px;
 
     .wrapper {
-        height: 100%;
-        width: 100%;
-
         display: flex;
         flex-direction: column;
+
+        color: white;
     }
 
     .credits-button {
         align-self: flex-end;
         width: 112px;
 
-        padding-block-start: 8px;
-        padding-block-end: 2px;
-
-        color: white;
-
         border-radius: 1em 1em 0 0;
-        &.open {
-            background-color: #566095;
-            border-color: #566095;
-        }
+        padding-block-start: 8px;
+        padding-block-end: 8px;
 
         &:hover {
             text-decoration: underline;
         }
+
+        &.open {
+            background-color: #566095;
+            border-color: inherit;
+        }
+
+        &.open:hover {
+            background-color: #343a5f;
+        }
     }
 
     .content {
-        height: 70%;
+        height: 70vh;
+        width: 500px;
+
         padding-block-start: 16px;
         padding-block-end: 32px;
         padding-inline: 24px;
 
-        border-radius: 1em;
+        border-radius: 1em 0 1em 1em;
 
         background-color: #566095;
-        color: white;
         font-size: 12px;
 
-        overflow-y: scroll;
-
         display: none;
+
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #d7dcef #566095;
 
         &.open {
             display: block;

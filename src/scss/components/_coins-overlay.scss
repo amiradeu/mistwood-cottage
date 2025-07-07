@@ -1,3 +1,5 @@
+@use '../abstract/mixin' as *;
+
 .coins-overlay {
     position: absolute;
     top: calc(50% - 50px);
@@ -5,7 +7,6 @@
 
     z-index: 1;
     padding-inline-start: 16px;
-    padding-block-start: 16px;
 
     .wrapper {
         display: flex;
@@ -25,6 +26,20 @@
             width: 100%;
             height: 4px;
             border-bottom: 1px solid white;
+        }
+    }
+}
+
+@include phoneAndSmaller {
+    .coins-overlay {
+        top: 100px;
+
+        padding-inline-start: 8px;
+        padding-block-start: 8px;
+
+        .wrapper {
+            height: 84px;
+            border-radius: 1.4em;
         }
     }
 }

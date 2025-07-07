@@ -5,3 +5,9 @@
         @content;
     }
 }
+
+@mixin touchscreen {
+    @media (pointer: coarse) {
+        @content;
+    }
+}

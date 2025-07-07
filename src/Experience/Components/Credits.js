@@ -15,6 +15,7 @@ export default class Credits {
 
     toggleContent() {
         this.content.classList.toggle('open')
+        this.content.scrollTo(0, 0)
         this.button.classList.toggle('open')
     }
 }

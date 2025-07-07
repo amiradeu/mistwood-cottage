@@ -1,3 +1,5 @@
+@use '../abstract/mixin' as *;
+
 .credits-overlay {
     position: absolute;
     top: 0;
@@ -17,7 +19,8 @@
 
     .credits-button {
         align-self: flex-end;
-        width: 112px;
+        width: 88px;
+        font-size: 12px;
 
         border-radius: 1em 1em 0 0;
         padding-block-start: 8px;
@@ -28,12 +31,13 @@
         }
 
         &.open {
-            background-color: #566095;
+            background-color: hsl(230, 27%, 46%);
             border-color: inherit;
         }
 
         &.open:hover {
-            background-color: #343a5f;
+            // background-color: #474d75;
+            background-color: hsl(232, 24%, 40%);
         }
     }
 
@@ -66,6 +70,38 @@
 
         ul > li {
             margin-inline-start: 8px;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: flex-end;
+
+            ul {
+                display: flex;
+                gap: 12px;
+                list-style: none;
+
+                li {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+@include phoneAndSmaller {
+    .credits-overlay {
+        padding-block: 8px;
+        padding-inline: 8px;
+
+        .credits-button {
+            padding-block-start: 4px;
+            padding-block-end: 4px;
+        }
+
+        .content {
+            width: 100%;
+            height: 80vh;
         }
     }
 }

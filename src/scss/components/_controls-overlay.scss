@@ -141,20 +141,7 @@ $slider-thumb-border-radius: 4px;
     }
 }
 
-// Prevent select text from disturbing scene
-// especially on mobile
-.controls-overlay {
-    .keys,
-    .action,
-    .slider-value,
-    .slider-info {
-        -webkit-user-select: none; /* Safari */
-        -ms-user-select: none; /* IE 10 and IE 11 */
-        user-select: none; /* Standard syntax */
-    }
-}
-
-@include phoneAndSmaller {
+@include touchscreen {
     .controls-overlay {
         .wrapper {
             flex-direction: column;

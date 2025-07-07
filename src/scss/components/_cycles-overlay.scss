@@ -64,20 +64,21 @@
     }
 }
 
-// Prevent select text from disturbing scene
-// especially on mobile
-.cycles-overlay {
-    .cycles-item-button {
-        -webkit-user-select: none; /* Safari */
-        -ms-user-select: none; /* IE 10 and IE 11 */
-        user-select: none; /* Standard syntax */
-    }
-}
-
 @include phoneAndSmaller {
-    .cycles-overlay .container {
-        .cycles-item-button {
-            padding: 12px 2px;
+    .cycles-overlay {
+        justify-content: flex-start;
+
+        padding: 0;
+        padding-block-start: 8px;
+        padding-inline-start: 8px;
+
+        .container {
+            flex-direction: column;
+            align-items: flex-start;
+
+            .cycles-item-button {
+                padding: 0px;
+            }
         }
     }
 }

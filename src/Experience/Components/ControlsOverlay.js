@@ -39,16 +39,33 @@ export default class ControlsOverlay {
     }
 
     setEventListeners() {
+        // Control with cursor
         this.map.forEach((item) => {
             item.ui.addEventListener('pointerdown', () => {
-                console.log(item.name)
+                // console.log(item.name)
                 this.controls.keys.down[item.name] = true
             })
         })
         this.map.forEach((item) => {
             item.ui.addEventListener('pointerup', () => {
-                console.log(item.name)
+                // console.log(item.name)
                 this.controls.keys.down[item.name] = false
+            })
+        })
+
+        // Accessibility - control with keyboard enter key
+        this.map.forEach((item) => {
+            item.ui.addEventListener('keydown', (event) => {
+                // console.log(item.name)
+                if (event.key === 'Enter')
+                    this.controls.keys.down[item.name] = true
+            })
+        })
+        this.map.forEach((item) => {
+            item.ui.addEventListener('keyup', (event) => {
+                // console.log(item.name)
+                if (event.key === 'Enter')
+                    this.controls.keys.down[item.name] = false
             })
         })
     }

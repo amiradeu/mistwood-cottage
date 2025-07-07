@@ -32,14 +32,30 @@
 
 @include phoneAndSmaller {
     .coins-overlay {
-        top: 100px;
+        top: 0;
+        left: calc(50% - 40px);
 
         padding-inline-start: 8px;
         padding-block-start: 8px;
 
         .wrapper {
-            height: 84px;
+            flex-direction: row;
+            height: 32px;
             border-radius: 1.4em;
+
+            .divider {
+                width: 12px;
+                border: none;
+                position: relative;
+
+                &::before {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    content: '/';
+                    transform: translateY(-46%);
+                }
+            }
         }
     }
 }

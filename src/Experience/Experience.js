@@ -19,6 +19,7 @@ import Controls from './Utils/Controls.js'
 import CyclesUI from './Components/CyclesUI.js'
 import SoundEffects from './Utils/SoundEffects.js'
 import ControlsOverlay from './Components/ControlsOverlay.js'
+import Credits from './Components/Credits.js'
 
 // Singleton
 let instance = null
@@ -45,10 +46,11 @@ export default class Experience {
         this.resources = new Resources(sources)
         this.controls = new Controls()
 
-        // UI
+        // UI Components
         this.cyclesUI = new CyclesUI()
         this.overlay = new Overlay()
         this.controlsOverlay = new ControlsOverlay()
+        this.credits = new Credits()
 
         this.scene = new Scene()
         this.sceneGroup = new SceneGroup()

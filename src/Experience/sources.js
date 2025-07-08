@@ -50,27 +50,27 @@ export default [
     {
         name: 'cottageModel',
         type: 'gltfModel',
-        path: 'models/Cottage/MoonlitCottage.glb',
+        path: 'models/Cottage/Cottage.glb',
     },
     {
         name: 'cottageTextureSunrise',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottage-sunrise.webp',
+        path: 'models/Cottage/Cottage-sunrise.webp',
     },
     {
         name: 'cottageTextureDaylight',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottage-daylight.webp',
+        path: 'models/Cottage/Cottage-daylight.webp',
     },
     {
         name: 'cottageTextureSunset',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottage-sunset.webp',
+        path: 'models/Cottage/Cottage-sunset.webp',
     },
     {
         name: 'cottageTextureNight',
         type: 'texture',
-        path: 'models/Cottage/MoonlitCottage-night.webp',
+        path: 'models/Cottage/Cottage-night.webp',
     },
 
     // Environment

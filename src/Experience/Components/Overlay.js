@@ -23,6 +23,7 @@ export default class Overlay extends EventEmitter {
     setInstance() {
         // HTML Elements
         this.overlay = document.querySelector('.intro-overlay')
+        this.wrapper = this.overlay.querySelector('.wrapper')
 
         this.headings = this.overlay.querySelectorAll('.headings > *')
 
@@ -43,6 +44,10 @@ export default class Overlay extends EventEmitter {
 
     animateStart() {
         const tween = gsap.timeline()
+
+        tween.set(this.wrapper, {
+            opacity: 1,
+        })
 
         // loaders
         tween.from(this.loadings, {

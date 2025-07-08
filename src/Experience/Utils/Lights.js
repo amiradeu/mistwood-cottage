@@ -8,7 +8,6 @@ export default class Lights {
         this.scene = this.experience.scene
 
         this.setLights()
-        this.setLightsHelper()
         this.setDebug()
     }
 
@@ -30,6 +29,8 @@ export default class Lights {
 
     setDebug() {
         if (!this.debug.active) return
+
+        this.setLightsHelper()
 
         this.debugFolder = this.debug.ui.addFolder('🌞 Lights')
     }

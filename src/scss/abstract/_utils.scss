@@ -1,0 +1,30 @@
+@use './mixin' as *;
+
+.max-width-wrapper {
+    position: relative;
+    max-width: min(100%, calc(1200px + 32px * 2));
+    margin-inline: auto;
+    padding-inline: 32px;
+
+    @include phoneAndSmaller {
+        padding-inline: 16px;
+    }
+}
+
+.visually-hidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+}
+
+.sr-only {
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+}

@@ -1,8 +1,7 @@
 @use '../abstract/variables' as *;
 @use '../abstract/mixin' as *;
 
-/* OVERLAY */
-.overlay {
+.intro-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -14,7 +13,7 @@
 
     background-image: url('/textures/noise.png');
 
-    .overlay-wrapper {
+    .wrapper {
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -22,56 +21,28 @@
         justify-content: center;
     }
 
-    .max-width-wrapper {
-        position: relative;
-        max-width: min(100%, calc(1200px + 32px * 2));
-        margin-inline: auto;
-        padding-inline: 32px;
-
-        @include phoneAndSmaller {
-            padding-inline: 16px;
+    .headings {
+        .title,
+        .subtitle {
+            text-align: center;
         }
-    }
 
-    .title {
-        font-size: clamp(3.5rem, 6vw + 1rem, 8rem);
-    }
+        .title {
+            font-size: clamp(3.5rem, 6vw + 1rem, 8rem);
+        }
 
-    .subtitle {
-        font-size: clamp(2.5rem, 4vw + 1rem, 4rem);
-    }
-
-    h1,
-    h2 {
-        text-align: center;
+        .subtitle {
+            font-size: clamp(2.5rem, 4vw + 1rem, 4rem);
+        }
     }
 
     .intro-wrapper {
         margin-block: 24px;
         position: relative;
 
-        .line {
-            pointer-events: none;
-            user-select: none;
+        .introduction {
+            margin-block-end: 16px;
         }
-    }
-
-    .visually-hidden {
-        position: absolute;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        width: 1px;
-        margin: -1px;
-        padding: 0;
-        border: 0;
-    }
-
-    .sr-only {
-        position: absolute;
-        left: 0;
-        top: 0;
-        visibility: hidden;
     }
 
     .loader {
@@ -82,13 +53,10 @@
         justify-content: center;
 
         .loading {
-            // border: 1px solid white;
-            // overflow: hidden;
             display: flex;
         }
 
         .loading-text {
-            font-family: $family-sans-serif;
             text-transform: uppercase;
             position: relative;
             display: flex;
@@ -103,8 +71,10 @@
             }
         }
 
+        .loading-text,
         .loading-progress {
             font-family: $family-sans-serif;
+            font-size: 1.6rem;
         }
 
         .enter-button {
@@ -126,6 +96,15 @@
             &:hover {
                 background-color: $color-strong;
             }
+        }
+    }
+
+    .mobile-warnings {
+        display: none;
+        font-size: 0.9rem;
+
+        @include touchscreen {
+            display: block;
         }
     }
 }

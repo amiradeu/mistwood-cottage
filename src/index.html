@@ -3,34 +3,37 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Moonlit Hollow</title>
+        <title>Mistwood Cottage</title>
         <link rel="stylesheet" href="./scss/style.scss" />
 
-        <meta itemprop="name" content="Moonlit Hollow — Creative WebGL" />
+        <meta itemprop="name" content="Mistwood Cottage — Creative WebGL" />
         <meta
             itemprop="description"
-            content="An intricate 3D cottage scenery by Amira Deuraseh"
+            content="A cottage in the hills 3D scene by Amira Deuraseh"
         />
         <meta itemprop="image" content="" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Moonlit Hollow — Creative WebGL" />
+        <meta
+            name="twitter:title"
+            content="Mistwood Cottage — Creative WebGL"
+        />
         <meta
             name="twitter:description"
-            content="An intricate 3D cottage scenery by Amira Deuraseh"
+            content="A cottage in the hills 3D scene by Amira Deuraseh"
         />
         <meta name="twitter:image" content="" />
 
         <meta
             property="og:site_name"
-            content="Moonlit Hollow — Creative WebGL"
+            content="Mistwood Cottage — Creative WebGL"
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://stylized-cottage.vercel.app" />
-        <meta property="og:title" content="Moonlit Hollow — Experiment" />
+        <meta property="og:title" content="Mistwood Cottage — Experiment" />
         <meta
             property="og:description"
-            content="An intricate 3D cottage scenery by Amira Deuraseh"
+            content="A cottage in the hills 3D scene by Amira Deuraseh"
         />
         <meta property="og:image" content="" />
     </head>
@@ -452,34 +455,25 @@
             </div>
         </div>
 
-        <div class="social-overlay">
-            <ul>
-                <li>github</li>
-                <li>twitter</li>
-            </ul>
-        </div>
-
-        <div class="overlay">
-            <div class="overlay-wrapper">
+        <div class="intro-overlay">
+            <div class="wrapper">
                 <div class="max-width-wrapper">
                     <div class="headings">
-                        <h1 class="title">Moonlit Hallow</h1>
+                        <h1 class="title">Mistwood Cottage</h1>
                         <h2 class="subtitle">A Story in the Hills</h2>
                     </div>
                     <div class="intro-wrapper">
-                        <p class="intro-split">
-                            Beneath the moon's quiet glow, a cottage stands —
-                            weathered, waiting, alive with stories untold. The
-                            hills cradle it in silence, the lantern flickering
-                            as if whispering secrets to the night. Step closer.
-                            The hollow remembers. Will you listen?
+                        <p class="introduction">
+                            Fog drapes over the hillside like a memory — soft,
+                            shifting, never fully still. In the heart of it all
+                            stands a solitary cottage, hiding a simple life of
+                            comfort.
                         </p>
-                        <p class="visually-hidden">
-                            Beneath the moon's quiet glow, a cottage stands —
-                            weathered, waiting, alive with stories untold. The
-                            hills cradle it in silence, the lantern flickering
-                            as if whispering secrets to the night. Step closer.
-                            The hollow remembers. Will you listen?
+                        <p class="introduction">
+                            The mountain looms quietly behind it all, watching
+                            the golden sun rises and deepens into night. This is
+                            not just a place, it's a pause. A still breath. A
+                            story written in lantern light and laced with fog.
                         </p>
                     </div>
                 </div>
@@ -490,14 +484,14 @@
                     </div>
                     <div><button class="enter-button">Enter</button></div>
                 </div>
+                <div class="mobile-warnings">
+                    <p>(⚠️ experience optimise for desktop)</p>
+                </div>
             </div>
         </div>
 
-        <div class="cursor">
-            <div class="open">open</div>
-            <div class="close">close</div>
-        </div>
         <canvas class="webgl"></canvas>
+
         <script type="module" src="./script.js"></script>
     </body>
 </html>

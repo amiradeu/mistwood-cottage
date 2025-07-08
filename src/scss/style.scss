@@ -3,6 +3,8 @@
 @use 'base';
 @use 'webgl';
 
+@use 'abstract/utils';
+
 @use 'components/intro-overlay';
 @use 'components/cycles-overlay';
 @use 'components/credits-overlay';

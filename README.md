@@ -19,6 +19,9 @@ The mountain looms quietly behind it all, watching the golden sun rises and deep
 ⛰️ Player collecting coins while exploring the land.
 <img src="docs/CollectingtheCoins.jpg" >
 
+🌞 Sunrise from the mountain summit overseeing home.
+<img src="docs/SunrisefromtheMountain.jpg">
+
 ## Features
 
 -   🛋️ Room interior : bedroom, desk area, kitchen area
@@ -30,7 +33,6 @@ The mountain looms quietly behind it all, watching the golden sun rises and deep
 -   🕴🏻 Physics : character movement around terrain
 -   🎶 Sounds : walking on grass/wood, swim, insects ambience, underwater, jazz, jump bounce, coin
 -   🪙 Coin Game : collect coins while exploring the land
--
 
 ## Web Technologies
 

@@ -1,32 +1,23 @@
 # Mistwood Cottage : A Cottage in the Hills
 
-Built and designed with Blender, Three.js, Rapier 3D physics engine & GLSL shaders.
+Fog drapes over the hillside like a memory — soft, shifting, never fully still. In the heart of it all stands a solitary cottage, hiding a simple life of comfort.
 
-[Live](https://mistwood-cottage.vercel.app) |
-[Github (source)](https://github.com/amiradeu/3d-stylized-cottage) |
-[Twitter (X)](https://x.com/amiradeuraseh)
+The mountain looms quietly behind it all, watching the golden sun rises and deepens into night. This is not just a place, it's a pause. A still breath. A story written in lantern light and laced with fog.
 
 <img src="docs/CottageintheHills.jpg" >
 
-A cozy small room.
+[Live 🌐](https://mistwood-cottage.vercel.app) |
+[Github (source)](https://github.com/amiradeu/3d-stylized-cottage) |
+[Twitter (X)](https://x.com/amiradeuraseh)
+
+🛌 A cozy small room in different day cycle textures.
 <img src="docs/ACozySmallRoom.jpg" >
 
-Mysterious well on top of a small hill.
+🔮 A mysterious well on top of a small hill.
 <img src="docs/MysteriousWell.jpg" >
 
-Collecing coins while exploring the land.
+⛰️ Player collecting coins while exploring the land.
 <img src="docs/CollectingtheCoins.jpg" >
-
-## Web Technologies
-
--   [Three.js](https://threejs.org/) : webgl experience
--   [Rapier3D](https://rapier.rs/docs/user_guides/javascript/getting_started_js) : physics engine
--   [lil-gui](https://lil-gui.georgealways.com) : debugging tool
--   [stats-gl](https://github.com/RenaudRohlinger/stats-gl) : monitoring fps, cpu and gpu performance
--   [GSAP](https://gsap.com) : animation
--   [Vercel](https://vercel.com) : deployment
--   [Vite](https://vite.dev) : frontend build tool
--   [Sass](https://sass-lang.com) : styling
 
 ## Features
 
@@ -39,6 +30,18 @@ Collecing coins while exploring the land.
 -   🕴🏻 Physics : character movement around terrain
 -   🎶 Sounds : walking on grass/wood, swim, insects ambience, underwater, jazz, jump bounce, coin
 -   🪙 Coin Game : collect coins while exploring the land
+-
+
+## Web Technologies
+
+-   [Three.js](https://threejs.org/) : webgl experience
+-   [Rapier3D](https://rapier.rs/docs/user_guides/javascript/getting_started_js) : physics engine
+-   [lil-gui](https://lil-gui.georgealways.com) : debugging tool
+-   [stats-gl](https://github.com/RenaudRohlinger/stats-gl) : monitoring fps, cpu and gpu performance
+-   [GSAP](https://gsap.com) : animation
+-   [Vercel](https://vercel.com) : deployment
+-   [Vite](https://vite.dev) : frontend build tool
+-   [Sass](https://sass-lang.com) : styling
 
 ## Credits
 

@@ -1,0 +1,13 @@
+@use './variables' as *;
+
+@mixin phoneAndSmaller {
+    @media (max-width: 600px) {
+        @content;
+    }
+}
+
+@mixin touchscreen {
+    @media (pointer: coarse) {
+        @content;
+    }
+}

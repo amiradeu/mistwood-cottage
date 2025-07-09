@@ -1,0 +1,107 @@
+@use '../abstract/mixin' as *;
+
+.credits-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    isolation: isolate;
+
+    padding-block-start: 16px;
+    padding-inline-end: 12px;
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+
+        color: white;
+    }
+
+    .credits-button {
+        align-self: flex-end;
+        width: 88px;
+        font-size: 12px;
+
+        border-radius: 1em 1em 0 0;
+        padding-block-start: 8px;
+        padding-block-end: 8px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &.open {
+            background-color: hsl(230, 27%, 46%);
+            border-color: inherit;
+        }
+
+        &.open:hover {
+            // background-color: #474d75;
+            background-color: hsl(232, 24%, 40%);
+        }
+    }
+
+    .content {
+        height: 70vh;
+        width: 500px;
+
+        padding-block-start: 16px;
+        padding-block-end: 32px;
+        padding-inline: 24px;
+
+        border-radius: 1em 0 1em 1em;
+
+        background-color: #566095;
+        font-size: 12px;
+
+        display: none;
+
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #d7dcef #566095;
+
+        &.open {
+            display: block;
+        }
+
+        .section {
+            padding-block-end: 8px;
+        }
+
+        ul > li {
+            margin-inline-start: 8px;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: flex-end;
+
+            ul {
+                display: flex;
+                gap: 12px;
+                list-style: none;
+
+                li {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+@include phoneAndSmaller {
+    .credits-overlay {
+        padding-block: 8px;
+        padding-inline: 8px;
+
+        .credits-button {
+            padding-block-start: 4px;
+            padding-block-end: 4px;
+        }
+
+        .content {
+            width: 100%;
+            height: 80vh;
+        }
+    }
+}

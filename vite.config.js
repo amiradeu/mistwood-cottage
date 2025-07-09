@@ -1,5 +1,7 @@
 import restart from 'vite-plugin-restart'
 import glsl from 'vite-plugin-glsl'
+import wasm from 'vite-plugin-wasm'
+import topLevelAwait from 'vite-plugin-top-level-await'
 
 export default {
     root: 'src/',
@@ -19,5 +21,14 @@ export default {
     plugins: [
         restart({ restart: ['../static/**'] }), // Restart server on static file change
         glsl(), // Handle shader files
+        wasm(), // Rapier uses WASM files
+        topLevelAwait(), // WASM requirements
     ],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler',
+            },
+        },
+    },
 }

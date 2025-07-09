@@ -1,0 +1,39 @@
+@use './abstract/variables' as *;
+
+/* BASE STYLES */
+body {
+    font-family: $family-serif;
+    cursor: url('/icons/hand_open.svg'), auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7 {
+    font-family: $family-sans-serif;
+    line-height: 1;
+}
+
+p {
+    max-width: 60ch;
+}
+
+button {
+    display: block;
+    margin: 0;
+    padding: 0px;
+    border: none;
+
+    background: transparent;
+    cursor: url('/icons/hand_point.svg'), auto;
+    font: inherit;
+    color: inherit;
+}
+
+a {
+    color: inherit;
+    cursor: url('/icons/hand_point.svg'), auto;
+}

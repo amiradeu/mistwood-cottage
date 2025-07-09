@@ -1,0 +1,18 @@
+@use 'abstract/mixin' as *;
+
+/* WEBGL */
+.webgl {
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+@include touchscreen {
+    body {
+        touch-action: none;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+    }
+}

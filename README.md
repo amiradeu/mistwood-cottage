@@ -1,14 +1,40 @@
-# Mistwood Cottage : A Cottage in the Hills
+# Mistwood Cottage : A Story in the Hills
 
-Fog drapes over the hillside like a memory — soft, shifting, never fully still. In the heart of it all stands a solitary cottage, hiding a simple life of comfort.
+> _Fog drapes over the hillside like a memory — soft, shifting, never fully still. In the heart of it all stands a solitary cottage, hiding a simple life of comfort._
 
-The mountain looms quietly behind it all, watching the golden sun rises and deepens into night. This is not just a place, it's a pause. A still breath. A story written in lantern light and laced with fog.
+Mistwood Cottage is a cozy, interactive 3D experience built with WebGL and Three.js, where players can wander through a hand-crafted stylized world of hills, fog, and simple pleasures. With dynamic day-night cycles, atmospheric shaders, peaceful interiors, and playful exploration mechanics, it’s a space designed for calm immersion and quiet storytelling.
 
-<img src="docs/CottageintheHills.jpg" >
+> [ 🌐 Live Demo](https://mistwood-cottage.vercel.app) | [🐦 Twitter (X)](https://x.com/amiradeuraseh)
 
-[Live 🌐](https://mistwood-cottage.vercel.app) |
-[Github (source)](https://github.com/amiradeu/3d-stylized-cottage) |
-[Twitter (X)](https://x.com/amiradeuraseh)
+<img src="docs/CottageintheHills.jpg" alt="Mistwood Cottage cover photo">
+
+## Features
+
+-   🏡 Cottage Life:
+    -   Explore a lovingly detailed interior complete with a cozy bedroom, work desk, and kitchen nook.
+    -   Redesigned cottage architecture with larger windows to invite more natural lights and scenic views.
+-   🌅 Dynamic Day-Night Cycle:
+    -   Smooth transitions between sunrise, daylight, sunset, and night scenes.
+    -   Each texture comes with its own unique mood and atmosphere.
+-   🌳 Natural Environment:
+    -   Scenic terrain with hills, mountains and ponds.
+    -   Environmental elements like trees, a mysterious well, cobblestone paths, and outdoor seatings.
+-   💫 Rich Visual Effects:
+    -   Custom shaders to bring the world to life: fog, glowing fireflies, realistic water and acoustics and tea steam.
+    -   Reflective mirror, dusty windows and refractive roof glass details add depth and realism.
+-   🕹️ Player Exploration:
+    -   Third-person character movement with responsive physics around terrain.
+    -   Adjustable camera distance with a UI slider for the perfect view.
+-   🎵 Immersive Sound Design:
+    -   Dynamic ambient sounds that changes with your surroundings: summer insects outdoors, cozy jazz tunes indoors and underwater echoes.
+    -   Player sounds: footsteps on wood, soft grass crunching, splashing water, playful jump effect and joyful coin collection.
+-   🪙 Lighthearted Gameplay:
+    -   A simple coin collection mini-game encourages player to explore the world.
+-   👆 Cursor Interaction:
+    -   Peek inside by toggling the cottage's front and left walls.
+    -   Pan the camera with hold-and-drag controls that changes player's moving direction.
+
+## 🖼️ Gallery
 
 🛌 A cozy small room in different day cycle textures.
 <img src="docs/ACozySmallRoom.jpg" >
@@ -22,30 +48,27 @@ The mountain looms quietly behind it all, watching the golden sun rises and deep
 🌞 Sunrise from the mountain summit overseeing home.
 <img src="docs/SunrisefromtheMountain.jpg">
 
-## Features
+## 🚧 Roadmap / Todo
 
--   🛋️ Room interior : bedroom, desk area, kitchen area
--   🎨 Day cycles textures : sunrise, daylight, sunset, night
--   🏡 Cottage : redesign with more and bigger windows
--   ⛰️ Terrain : a small hill, mountain, pond
--   🌳 Environment : trees, outdoor sittings, well, cobblestone path
--   ✨ Shaders : fog, fireflies, emissions, mirror, refraction, dusty window, water, smoke
--   🕴🏻 Physics : character movement around terrain
--   🎶 Sounds : walking on grass/wood, swim, insects ambience, underwater, jazz, jump bounce, coin
--   🪙 Coin Game : collect coins while exploring the land
+-   [ ] Fix physics inconsistency causing uneven player movement and jump behavior across browsers and devices.
+-   [ ] Introduce subtle story moments and narrative touchpoints across the terrain.
+-   [ ] Add more interactive elements and relaxing mini games to encourage deeper exploration.
+-   [ ] In-game photo mode to capture scenic views.
+-   [ ] Redesign the water shader from a realistic to a stylized look that better complements the world.
+-   [ ] Improve visual cues to indicate that the cottage walls can be toggled.
 
-## Web Technologies
+## 🧩 Tech Stack
 
--   [Three.js](https://threejs.org/) : webgl experience
--   [Rapier3D](https://rapier.rs/docs/user_guides/javascript/getting_started_js) : physics engine
--   [lil-gui](https://lil-gui.georgealways.com) : debugging tool
--   [stats-gl](https://github.com/RenaudRohlinger/stats-gl) : monitoring fps, cpu and gpu performance
--   [GSAP](https://gsap.com) : animation
--   [Vercel](https://vercel.com) : deployment
--   [Vite](https://vite.dev) : frontend build tool
--   [Sass](https://sass-lang.com) : styling
+-   [Three.js](https://threejs.org/) : 3D rendering
+-   [Rapier3D](https://rapier.rs/docs/user_guides/javascript/getting_started_js) : Physics engine
+-   [lil-gui](https://lil-gui.georgealways.com) : Debugging tool
+-   [stats-gl](https://github.com/RenaudRohlinger/stats-gl) : Monitoring FPS, CPU and GPU performance
+-   [Vite](https://vite.dev) : Frontend build tooling
+-   [GSAP](https://gsap.com) : Animation library
+-   [Vercel](https://vercel.com) : Deployment
+-   [Sass](https://sass-lang.com) : Styling
 
-## Credits
+## 🏆 Credits
 
 This project would not be possible without the teachings, resources and inspirations from many amazing developers and designers.
 
@@ -84,7 +107,7 @@ This project would not be possible without the teachings, resources and inspirat
     -   [Cartoon jump](https://pixabay.com/sound-effects/cartoon-jump-6462/) by [freesound_community](https://pixabay.com/users/freesound_community-46691455/)
     -   [Coin](https://pixabay.com/sound-effects/coin-257878/) by [chieuk](https://pixabay.com/users/chieuk-46505609/)
 
-### Old Version (v1.0.0)
+## 🕰️ Previous Version (v1.0.0)
 
 <img src="docs/cottage.gif" >
 <img src="docs/how-it-started.png">

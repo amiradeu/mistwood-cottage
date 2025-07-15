@@ -1,5 +1,12 @@
 # Mistwood Cottage : A Story in the Hills
 
+![Three.js](https://img.shields.io/badge/Three.js-000000?logo=three.js&logoColor=white)
+![Rapier3D](https://img.shields.io/badge/Rapier3D-0099ff?logo=rust&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)
+![GSAP](https://img.shields.io/badge/GSAP-88CE02?logo=greensock&logoColor=white)
+![Sass](https://img.shields.io/badge/Sass-CC6699?logo=sass&logoColor=white)
+
 > _Fog drapes over the hillside like a memory — soft, shifting, never fully still. In the heart of it all stands a solitary cottage, hiding a simple life of comfort._
 
 Mistwood Cottage is a cozy, interactive 3D experience built with WebGL and Three.js, where players can wander through a hand-crafted stylized world of hills, fog, and simple pleasures. With dynamic day-night cycles, atmospheric shaders, peaceful interiors, and playful exploration mechanics, it’s a space designed for calm immersion and quiet storytelling.

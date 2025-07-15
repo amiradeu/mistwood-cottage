@@ -133,11 +133,6 @@ export default [
         type: 'gltfModel',
         path: 'models/Coin/Coin.glb',
     },
-    {
-        name: 'specialCoinModel',
-        type: 'gltfModel',
-        path: 'models/Coin/SpecialCoin.glb',
-    },
 
     // Other Textures
     {

@@ -70,8 +70,8 @@ export default class PlayerController extends EventEmitter {
         // console.log(this.cameraForward)
 
         // Friction - movement decay to a stop slowly
-        this.velocity.x -= this.velocity.x * this.decaySpeed * this.time.delta
-        this.velocity.z -= this.velocity.z * this.decaySpeed * this.time.delta
+        this.velocity.x -= this.velocity.x * this.decaySpeed * 0.01
+        this.velocity.z -= this.velocity.z * this.decaySpeed * 0.01
 
         // Get right vector by rotating forward vector 90° counterclockwise
         this.cameraRight
@@ -95,8 +95,8 @@ export default class PlayerController extends EventEmitter {
             .normalize()
 
         // Apply acceleration
-        this.velocity.x += moveDir.x * this.speed * this.time.delta
-        this.velocity.z += moveDir.z * this.speed * this.time.delta
+        this.velocity.x += moveDir.x * this.speed * 0.01
+        this.velocity.z += moveDir.z * this.speed * 0.01
 
         this.handleSFX()
 
@@ -105,7 +105,7 @@ export default class PlayerController extends EventEmitter {
             if (jump) {
                 // ⛰️ Jump only if player is on the ground
                 this.sfx.playJumpSound()
-                this.velocity.y = this.jumpStrength * this.time.delta
+                this.velocity.y = this.jumpStrength * 0.01
             } else {
                 // Reset vertical velocity when grounded
                 // ⭐️ Prevents controller from getting stuck with small obstacles
@@ -113,7 +113,7 @@ export default class PlayerController extends EventEmitter {
             }
         } else {
             // Apply gravity if in air
-            this.velocity.y -= this.gravity * this.time.delta
+            this.velocity.y -= this.gravity * 0.01
         }
 
         // console.log('velocity', this.velocity)

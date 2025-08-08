@@ -17,34 +17,52 @@ Mistwood Cottage is a cozy, interactive 3D experience built with WebGL and Three
 
 ## Features
 
--   🏡 Cottage Life:
-    -   Explore a lovingly detailed interior complete with a cozy bedroom, work desk, and kitchen nook.
-    -   Redesigned cottage architecture with larger windows to invite more natural lights and scenic views.
--   🌅 Dynamic Day-Night Cycle:
-    -   Smooth transitions between sunrise, daylight, sunset, and night scenes.
-    -   Each texture comes with its own unique mood and atmosphere.
--   🌳 Natural Environment:
-    -   Scenic terrain with hills, mountains and ponds.
-    -   Environmental elements like trees, a mysterious well, cobblestone paths, and outdoor seatings.
--   💫 Rich Visual Effects:
-    -   Custom shaders to bring the world to life: fog, glowing fireflies, realistic water and acoustics and tea steam.
-    -   Reflective mirror, dusty windows and refractive roof glass details add depth and realism.
--   🕹️ Player Exploration:
-    -   Third-person character movement with responsive physics around terrain.
-    -   Adjustable camera distance with a UI slider for the perfect view.
--   🎵 Immersive Sound Design:
-    -   Dynamic ambient sounds that changes with your surroundings: summer insects outdoors, cozy jazz tunes indoors and underwater echoes.
-    -   Player sounds: footsteps on wood, soft grass crunching, splashing water, playful jump effect and joyful coin collection.
--   🪙 Lighthearted Gameplay:
-    -   A simple coin collection mini-game encourages player to explore the world.
--   👆 Cursor Interaction:
-    -   Peek inside by toggling the cottage's front and left walls.
-    -   Pan the camera with hold-and-drag controls that changes player's moving direction.
+#### 🏡 Cottage Life
+
+-   Explore a lovingly detailed interior complete with a cozy bedroom, work desk, and kitchen nook.
+-   Redesigned cottage architecture with larger windows to invite more natural lights and scenic views.
+
+<img src="docs/interior.webp">
+
+#### 🌅 Dynamic Day-Night Cycle
+
+-   Smooth transitions between sunrise, daylight, sunset, and night scenes.
+-   Each texture comes with its own unique mood and atmosphere.
+
+<img alt="🛌 A cozy small room in different day cycle textures." src="docs/ACozySmallRoom.jpg" >
+
+#### 🌳 Natural Environment
+
+-   Scenic terrain with hills, mountains and ponds.
+-   Environmental elements like trees, cobblestone paths, outdoor seatings and a mysterious well.
+
+<img src="docs/environment.webp">
+
+#### 💫 Rich Visual Effects
+
+-   Custom shaders to bring the world to life: fog, glowing fireflies, realistic water and acoustics and tea steam.
+-   Reflective mirror, dusty windows and refractive roof glass details add depth and realism.
+
+#### 🕹️ Player Exploration
+
+-   Third-person character movement with responsive physics around terrain.
+-   Adjustable camera distance with a UI slider for the perfect view.
+
+#### 🎵 Immersive Sound Design
+
+-   Dynamic ambient sounds that changes with your surroundings: summer insects outdoors, cozy jazz tunes indoors and underwater echoes.
+-   Player sounds: footsteps on wood, soft grass crunching, splashing water, playful jump effect and joyful coin collection.
+
+#### 🪙 Lighthearted Gameplay
+
+-   A simple coin collection mini-game encourages player to explore the world.
+
+#### 👆 Cursor Interaction
+
+-   Peek inside by toggling the cottage's front and left walls.
+-   Pan the camera with hold-and-drag controls that changes player's moving direction.
 
 ## 🖼️ Gallery
-
-🛌 A cozy small room in different day cycle textures.
-<img src="docs/ACozySmallRoom.jpg" >
 
 🔮 A mysterious well on top of a small hill.
 <img src="docs/MysteriousWell.jpg" >
@@ -57,12 +75,28 @@ Mistwood Cottage is a cozy, interactive 3D experience built with WebGL and Three
 
 ## 🚧 Roadmap / Todo
 
--   [ ] Fix physics inconsistency causing uneven player movement and jump behavior across browsers and devices.
--   [ ] Introduce subtle story moments and narrative touchpoints across the terrain.
--   [ ] Add more interactive elements and relaxing mini games to encourage deeper exploration.
--   [ ] In-game photo mode to capture scenic views.
--   [ ] Redesign the water shader from a realistic to a stylized look that better complements the world.
+High
+
+-   [x] Fix physics inconsistency causing uneven player movement and jump behavior across browsers and devices.
+-   [ ] Textures cycles changes rapidly after user browser goes idle and return back.
+-   [ ] Toggling left roof causes a jump in front side opacity.
+-   [ ] Improve a 3D character design for player.
+-   [ ] Improve sky and fog colour with different cycles
+-   [ ] Animate zoom into player upon starting experience
+
+Medium
+
+-   [ ] Lazy loading some textures.
+-   [ ] Replace camera zoom with scroll wheel.
 -   [ ] Improve visual cues to indicate that the cottage walls can be toggled.
+-   [ ] Add more interactive elements and relaxing mini games to encourage deeper exploration.
+-   [ ] Introduce subtle story moments and narrative touchpoints across the terrain.
+
+Low
+
+-   [ ] Redesign game balance with cottage interior as the center point.
+-   [ ] Redesign the water shader from a realistic to a stylized look that better complements the world.
+-   [ ] In-game photo mode to capture scenic views.
 
 ## 🧩 Tech Stack
 
@@ -113,6 +147,10 @@ This project would not be possible without the teachings, resources and inspirat
     -   [Underwater while scuba diving](https://pixabay.com/sound-effects/under-water-sounds-while-scuba-diving-14866/) by [freesound_community](https://pixabay.com/users/freesound_community-46691455/)
     -   [Cartoon jump](https://pixabay.com/sound-effects/cartoon-jump-6462/) by [freesound_community](https://pixabay.com/users/freesound_community-46691455/)
     -   [Coin](https://pixabay.com/sound-effects/coin-257878/) by [chieuk](https://pixabay.com/users/chieuk-46505609/)
+
+## License
+
+<a href="https://mistwood-cottage.vercel.app/">Mistwood Cottage</a> © 2025 by <a href="https://www.amiradeuraseh.com">Amira Deuraseh</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 
 ## 🕰️ Previous Version (v1.0.0)
 
